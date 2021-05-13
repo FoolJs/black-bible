@@ -5,7 +5,8 @@ const quickSort = require('./src/quickSort'),
     isInContainer = require('./src/isInContainer'),
     debounce = require('./src/debounce'),
     throttle = require('./src/throttle'),
-    random = require('./src/random');
+    random = require('./src/random'),
+    forEach = require('./src/forEach');
 
 
 
@@ -19,5 +20,6 @@ module.exports = {
     isInContainer,
     debounce,
     throttle,
-    random
+    random,
+    forEach
 };
