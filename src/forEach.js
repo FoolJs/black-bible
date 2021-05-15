@@ -1,16 +1,16 @@
-const arrayForEach = require('./arrayforEach'),
-        objectForEach = require('./objectForEach'),
-        mapForEach = require('./mapForEach'),
-        setForEach = require('./setForEach'),
-        stringForEach = require('./stringForEach'),
-        numberForEach = require('./numberForEach'),
+const arrayForEach = require('./_arrayforEach'),
+        objectForEach = require('./_objectForEach'),
+        mapForEach = require('./_mapForEach'),
+        setForEach = require('./_setForEach'),
+        stringForEach = require('./_stringForEach'),
+        numberForEach = require('./_numberForEach'),
         checkedType = require('./checkedType');
 
 
 
 /**
  * @description 适用于各种类型的forEach
- * @param {Object} target 对象
+ * @param {Array | Map | Set | String | Number} target 对象
  * @param {Function} cb 对对象的元素调用的函数
  * @returns 对象本身
  */
@@ -39,7 +39,7 @@ function forEach (target, cb) {
             break;
     }
 
-    return func(target, cb, arguments[2]);
+    return func(target, cb);
 }
 
 

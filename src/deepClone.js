@@ -1,61 +1,92 @@
-const checkedType = require('./checkedType.js');
+const checkedType = require('./checkedType.js'),
+        forEach = require('./forEach');
+
 
 
 /**
  * @description 深拷贝函数
- * @param {*} target 想要深拷贝的对象
- * @param {WeakMap} weakMap 用来保存出现过的对象的WeakMap
- * @returns 深拷贝后的对象
+ * @param {any} target 想要进行深拷贝的对象
+ * @param {Boolean} cloneProto 是否拷贝对象的原型
+ * @returns {any} 深拷贝后的对象
  */
-function deepClone(target, weakMap = new WeakMap()) {
+function deepClone(target, cloneProto=false, cache=new WeakMap()) {
     let result = null,
-        targetType = checkedType(target);
+        type = checkedType(target);
 
-    if (typeof target !== 'object') {
+    if ( typeof target !== 'object' ) {
         return target;
     }
-    if (target === 'null') {
-        return target;
-    }
-    if (targetType === 'Date') {
+    if (type === 'Date') {
         return new Date(target);
     }
-    if (targetType === 'RegExp') {
+    if (type === 'RegExp') {
         return new RegExp(target);
     }
-    if (weakMap.has(target)) {
-        return weakMap.get(target);
+    if ( cache.has(target) ) {
+        return cache.get(target);
     }
-    if (targetType === 'Array') {
+    if (type === 'Array') {
         result = [];
 
-        weakMap.set(target, result);
+        cache.set(target, result);
 
-        target.forEach((element) => {
-            result.push(deepClone(element, weakMap));
+        forEach(target, element => {
+            result.push( deepClone(element, cloneProto, cache) );
         });
 
         return result;
     }
-    if (targetType === 'Object') {
+    if (type === 'Map') {
+        result = new Map();
+
+        cache.set(target, result);
+
+        forEach(target, (value, key) => {
+            result.set(
+                deepClone(key, cloneProto, cache),
+                deepClone(value, cloneProto, cache)
+            );
+        });
+
+        return result;
+    }
+    if (type === 'Set') {
+        result = new Set();
+
+        cache.set(target, result);
+
+        forEach(target, value => {
+            result.add( deepClone(value, cloneProto, cache) );
+        });
+
+        return result;
+    }
+    if (type === 'Object') {
         result = {};
+        cache.set(target, result);
 
-        weakMap.set(target, result);
-
-        if (Object.getPrototypeOf(target) !== Object.prototype) {
-            let prototype = deepClone(Object.getPrototypeOf(target), weakMap);
-            Object.setPrototypeOf(result, prototype);
+        if (cloneProto) {
+            if ( Object.getPrototypeOf(target) !== Object.prototype ) {
+                let prototype = deepClone( Object.getPrototypeOf(target), cloneProto, cache );
+                Object.setPrototypeOf(result, prototype);
+            }
         }
 
-        let propertyNames = Object.getOwnPropertyNames(target);
+        let props = Object.getOwnPropertyNames(target),
+            symbolProps = Object.getOwnPropertySymbols(target);
+        
+        forEach(symbolProps, prop => {
+            props.push(prop);
+        });
 
-        propertyNames.forEach((prop) => {
-            result[prop] = deepClone(target[prop], weakMap);
+        forEach(props, prop => {
+            result[prop] = deepClone( target[prop], cloneProto, cache );
         });
 
         return result;
     }
 }
+
 
 
 module.exports = deepClone;

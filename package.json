@@ -1,14 +1,31 @@
 {
     "name": "black-bible",
-    "version": "1.0.0",
+    "version": "1.0.4",
     "description": "A JavaScript tool library",
-    "main": "index.js",
+    "main": "lib/index.js",
+    "module": "es/index.js",
+    "files": [
+        "/lib",
+        "/es",
+        "/umd"
+    ],
+    "keywords": [
+        "tool",
+        "function"
+    ],
+    "author": "Jack M",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/FoolJs/black-bible"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "keywords": [
-        "tool"
-    ],
-    "author": "Jack M",
-    "license": "ISC"
+    "license": "MIT",
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^19.0.0",
+        "@rollup/plugin-node-resolve": "^13.0.0",
+        "black-bible": "^1.0.3",
+        "rollup": "^2.48.0"
+    }
 }

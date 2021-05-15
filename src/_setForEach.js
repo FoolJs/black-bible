@@ -7,7 +7,7 @@
  */
 function setForEach (target, cb) {
     for (const iter of target) {
-        if ( cb(iter, target) === false ) {
+        if ( cb(iter, iter, target) === false ) {
             break;
         }
     }

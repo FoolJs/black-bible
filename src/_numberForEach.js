@@ -9,7 +9,7 @@ function numberForEach (target, cb) {
     let len = target;
 
     for (let i = 0; i < len; i++) {
-        if ( cb(i, target) === false ) {
+        if ( cb(i, i, target) === false ) {
             break;
         }
     }
