@@ -22,7 +22,7 @@ export default {
     input: 'src/index.js',
     output: esm,
     plugins: [
-        nodeResolve(), 
-        commonjs()
+        nodeResolve(),
+        commonjs(),
     ],
 };

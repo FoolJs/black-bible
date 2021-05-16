@@ -1,9 +1,19 @@
 
 
 /**
+ * 
+ * @module
  * @description 节流函数
  * @param {Function} fn 事件处理函数
  * @param {Numer} time 延时
+ * 
+ * 
+ * function go () {
+        console.log('scroll');
+ * }
+ *
+ * window.addEventListener( 'scroll', _.throttle(go, 1000) );
+ * 
  */
 function throttle (fn, time) {
     let state = true,

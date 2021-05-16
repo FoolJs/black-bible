@@ -4,10 +4,23 @@ const checkedType = require('./checkedType.js'),
 
 
 /**
+ * 一个深拷贝函数，cloneProto参数决定是否拷贝一个对象的原型，不会忽略函数，对象的
+ * Symbol属性，但是对于Symbol属性，仍然传递的是Symbol的引用
+ * 
+ * @module
  * @description 深拷贝函数
  * @param {any} target 想要进行深拷贝的对象
  * @param {Boolean} cloneProto 是否拷贝对象的原型
  * @returns {any} 深拷贝后的对象
+ * 
+ * @example
+ * 
+ * let obj = {
+ *      name: 'Jack',
+ *      age: 30
+ * };
+ * 
+ * let o2 = _.deepClone(obj);
  */
 function deepClone(target, cloneProto=false, cache=new WeakMap()) {
     let result = null,

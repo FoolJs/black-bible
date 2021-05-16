@@ -9,10 +9,18 @@ const arrayForEach = require('./_arrayforEach'),
 
 
 /**
- * @description 适用于各种类型的forEach
+ * 
+ * @module
+ * @description 适用于各种类型的forEach，可以通过返回false来终止循环
  * @param {Array | Map | Set | String | Number} target 对象
  * @param {Function} cb 对对象的元素调用的函数
  * @returns 对象本身
+ * 
+ * @example
+ * 
+ * _.forEach([1, 2, 3], item => console.log(item)); 1, 2, 3
+ * 
+ * _.forEach({name: 'Jack', age: 30}, value => console.log(value)); // 'Jack', 30
  */
 function forEach (target, cb) {
     let type = checkedType(target),

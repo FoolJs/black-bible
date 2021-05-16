@@ -7,10 +7,20 @@ const checkedType = require('./checkedType'),
         numberFilter = require('./_numberFilter');
 
 /**
+ * 
+ * @module
  * @description 适用于各种类型的Filter
  * @param {Array | Map | Set | String | Number} target 对象
  * @param {Function} cb 对对象的元素调用的函数
  * @returns {Array} 函数返回true的项组成的数组
+ * 
+ * @example
+ * 
+ * _.filter([1, 2, 3, 4], item => item % 2 === 0);   // [2, 4]
+ * 
+ * _.filter('Jack', char => true);  // ['J', 'a', 'c', 'k']
+ * 
+ * _.filter(5, n => true);   // [0, 1, 2, 3, 4];
  */
 function filter (target, cb) {
     let type = checkedType(target),

@@ -1,9 +1,17 @@
 /**
+ * @module
  * @description 判断类型的函数
  * @param {any} target 一个需要检查类型的值
  * @returns {String} 返回一个值对应的类型的字符串
+ * @example
+ * 
+ *  _.checkedType({}); //  "Object"
+ *  _.checkedType([]); // "Array"
+ *  _.checkedType(true); // "Boolean"
+ *  _.checkedType(undefined); // "Undefined"
+ *  _.checkedType(null); // "Null"
+ *  _.checkedType('str'); // "String"
  */
-
 function checkedType$5(target) {
     return Object.prototype.toString.call(target).slice(8, -1);
 }
@@ -13,27 +21,6 @@ function checkedType$5(target) {
 
 
 var checkedType_1 = checkedType$5;
-
-/**
- * @description 函数柯里化的辅助函数
- * @param {Function} fn 需要柯里化的函数
- * @returns 柯里化后的函数
- */
-function curry$1 (fn) {
-    return function curried (...args) {
-        if (args.length >= fn.length) {
-            return fn.apply(this, args);
-        } else {
-            return function (...args2) {
-                return curried.apply( this, args.concat(args2) );
-            }
-        }
-    }
-}
-
-
-
-var curry_1 = curry$1;
 
 /**
  * @description 数组版本的forEach，可以通过返回false停止执行
@@ -176,12 +163,20 @@ const arrayForEach = _arrayforEach,
 
 
 /**
- * @description 适用于各种类型的forEach
+ * 
+ * @module
+ * @description 适用于各种类型的forEach，可以通过返回false来终止循环
  * @param {Array | Map | Set | String | Number} target 对象
  * @param {Function} cb 对对象的元素调用的函数
  * @returns 对象本身
+ * 
+ * @example
+ * 
+ * _.forEach([1, 2, 3], item => console.log(item)); 1, 2, 3
+ * 
+ * _.forEach({name: 'Jack', age: 30}, value => console.log(value)); // 'Jack', 30
  */
-function forEach$2 (target, cb) {
+function forEach$3 (target, cb) {
     let type = checkedType$4(target),
         func = null;
 
@@ -210,7 +205,63 @@ function forEach$2 (target, cb) {
 }
 
 
-var forEach_1 = forEach$2;
+var forEach_1 = forEach$3;
+
+const forEach$2 = forEach_1;
+
+/**
+ * 
+ * 接受一个函数fn和可选的用于函数fn的参数，返回柯里化后的函数fn，即使函数fn的参数已经满足
+ * 同样会返回一个函数而不是fn调用的结果
+ *
+ * @module
+ * @description 函数柯里化的辅助函数
+ * @param {Function} fn 想要柯里化的函数
+ * @param  {...any} args 函数fn所需要的参数
+ * @returns {Function} 柯里化后的函数
+ *
+ * @example
+ *  function add (a, b, c, d) {
+ *      console.log(a + b + c + d);
+ *  }
+ *
+ * let curried = _.curry(add, 1, 1, 1, 1);
+ *
+ * curried();  // 4
+ *
+ * let curried2 = _.curry(add);
+ *
+ * curried2(1)(1)(1)(1);  // 4
+ *
+ * curried2(1, 1)(1)(1);  // 4
+ *
+ * curried2(1, 1, 1)(1);  // 4
+ *
+ *
+ */
+function curry$1 (fn, ...args) {
+    if (args.length >= fn.length) {
+        return function () {
+            return fn.apply(this, args);
+        };
+    }
+    let cache = [...args];
+
+    return function curried(...args2) {
+        forEach$2(args2, item => {
+            cache.push(item);
+        });
+
+        if (cache.length >= fn.length) {
+            return fn.apply(this, cache);
+        }
+        return function (...args3) {
+            return curried.apply(this, args3);
+        };
+    };
+}
+
+var curry_1 = curry$1;
 
 const checkedType$3 = checkedType_1,
         forEach$1 = forEach_1;
@@ -218,10 +269,23 @@ const checkedType$3 = checkedType_1,
 
 
 /**
+ * 一个深拷贝函数，cloneProto参数决定是否拷贝一个对象的原型，不会忽略函数，对象的
+ * Symbol属性，但是对于Symbol属性，仍然传递的是Symbol的引用
+ * 
+ * @module
  * @description 深拷贝函数
  * @param {any} target 想要进行深拷贝的对象
  * @param {Boolean} cloneProto 是否拷贝对象的原型
  * @returns {any} 深拷贝后的对象
+ * 
+ * @example
+ * 
+ * let obj = {
+ *      name: 'Jack',
+ *      age: 30
+ * };
+ * 
+ * let o2 = _.deepClone(obj);
  */
 function deepClone$1(target, cloneProto=false, cache=new WeakMap()) {
     let result = null,
@@ -306,6 +370,8 @@ function deepClone$1(target, cloneProto=false, cache=new WeakMap()) {
 var deepClone_1 = deepClone$1;
 
 /**
+ * 
+ * @module
  * @description 判断一个元素是否在对应容器的可视区域内
  * @param {Object} el 判断是否在容器的目标DOM元素
  * @param {Object} container 容器DOM元素，默认为视口
@@ -342,60 +408,97 @@ function isInContainer$1(el, container) {
 
 var isInContainer_1 = isInContainer$1;
 
+const NO_FUNCTION_ERROR = 'cb is not a function';
+
+
 /**
- * @description 防抖函数
- * @param {Function} fn 回调函数
- * @param {Number} time 延时
- * @param {Boolean} triggleNow 第一次触发是否立即执行
- * @returns 
+ * 创建一个防抖函数，根据option选项对象来决定delay延时开始前或结束
+ * 后调用回调函数，其中option.before决定是否在延时开始之前触发回调，若是为false，那么
+ * 无论option.after为true还是false，都会在延时结束后触发回调，option.after决定是否
+ * 在延时结束之后触发回调，函数返回的防抖函数拥有一个cancel方法，用来取消延时调用
+ * 
+ * @module
+ * @description 创建一个防抖函数
+ * @param {Function} cb 回调函数
+ * @param {0} delay 延时
+ * @param {{before: false, after: true}} option 选项对象
+ * @param {Boolean} [option.before] 是否在延时开始之前触发回调
+ * @param {Boolean} [option.after] 是否在延时结束之后触发回调
+ * @returns {Function} debounced 防抖函数
+ * 
+ * @example
+ * 
+ * function go () {
+        console.log('scroll');
+ * }
+ *
+ * window.addEventListener( 'scroll', _.debounce(go, 1000) );
+ * 
+ * window.addEventListener( 'scroll', _.debounce(go, 1000, {before: true, after: true}) );
+ * 
+ * 
  */
-function debounce$1(fn, time, triggleNow) {
+function debounce$1(cb, delay=0, option = { before: false, after: true }) {
     let timerId = null;
 
-    let debounced = function () {
-        let _this = this,
-            args = arguments;
+    if (typeof cb !== 'function') {
+        throw new Error(NO_FUNCTION_ERROR);
+    }
 
-        if (timerId) {
-            clearTimeout(timerId);
-        }
-
-        if (triggleNow) {
-            let exec = !timerId;
-
-            timerId = setTimeout(() => {
-                timerId = null;
-            }, time);
-
-            if (exec) {
-                fn.apply(_this, args);
-            }
-
-        } else {
-            timerId = setTimeout(() => {
-                fn.apply(_this, args);
-            }, time);
-        }
-    };
-
-    debounced.remove = function () {
+    const cancel = () => {
         clearTimeout(timerId);
         timerId = null;
     };
 
+    const debounced = (...args) => {
+        if (timerId) {
+            clearTimeout(timerId);
+        }
+
+        if (option.before) {
+            if (!timerId) {
+                cb(...args);
+            }
+            timerId = setTimeout(() => {
+                cancel();
+                if (option.after) {
+                    cb(...args);
+                }
+            }, delay);
+        } else {
+            timerId = setTimeout(() => {
+                cb(...args);
+                cancel();
+            }, delay);
+        }
+
+    };
+
+    debounced.cancel = cancel;
+
     return debounced;
 }
-
 
 var debounce_1 = debounce$1;
 
 /**
+ * 
+ * @module
  * @description 节流函数
  * @param {Function} fn 事件处理函数
  * @param {Numer} time 延时
+ * 
+ * 
+ * function go () {
+        console.log('scroll');
+ * }
+ *
+ * window.addEventListener( 'scroll', _.throttle(go, 1000) );
+ * 
  */
 function throttle$1 (fn, time) {
-    let state = true;
+    let state = true;
+
 
     let throttled = function () {
         let _this = this,
@@ -419,11 +522,22 @@ function throttle$1 (fn, time) {
 var throttle_1 = throttle$1;
 
 /**
+ * 
+ * @module
  * @description 随机数函数
  * @param {Number} min 最小值
  * @param {Number} max 最大值
  * @param {Boolean} floating 是否包括浮点数
  * @returns {Number} 一个数字
+ * 
+ * @example
+ * 
+ * // 2, 5, 1, 1, 2
+ * _.forEach(5, () => {
+ * console.log( _.random(1, 5) );
+ * });
+ * 
+ * 
  */
 function random$1(min,max, floating=false) {
     if (floating) {
@@ -582,10 +696,20 @@ const checkedType$2 = checkedType_1,
         numberFilter = _numberFilter;
 
 /**
+ * 
+ * @module
  * @description 适用于各种类型的Filter
  * @param {Array | Map | Set | String | Number} target 对象
  * @param {Function} cb 对对象的元素调用的函数
  * @returns {Array} 函数返回true的项组成的数组
+ * 
+ * @example
+ * 
+ * _.filter([1, 2, 3, 4], item => item % 2 === 0);   // [2, 4]
+ * 
+ * _.filter('Jack', char => true);  // ['J', 'a', 'c', 'k']
+ * 
+ * _.filter(5, n => true);   // [0, 1, 2, 3, 4];
  */
 function filter$1 (target, cb) {
     let type = checkedType$2(target),
@@ -670,11 +794,19 @@ const checkedType$1 = checkedType_1,
 
 
 /**
- * @description 交换数组或字符串元素的位置，对于数组，在数组本身修改，对于字符串，会返回新的字符串
+ * 交换数组或字符串元素的位置，对于数组，在数组本身修改，对于字符串，会返回新的字符串
+ * 
+ * @module
  * @param {Array | String} target 数组或字符串
  * @param {Number} i 索引
  * @param {Number} j 索引
  * @returns {Array | String}
+ * 
+ * @example
+ * 
+ * _.swapIndex([1, 2], 0, 1); // [2, 1]
+ * 
+ * _.swapIndex('abcd', 0, 3); // dbca
  */
 function swapIndex$1 (target, i, j) {
     if (
@@ -717,7 +849,7 @@ const checkedType = checkedType_1,
 
 
 
-var src = {
+export {
     checkedType,
     curry,
     deepClone,
@@ -727,7 +859,5 @@ var src = {
     random,
     forEach,
     filter,
-    swapIndex
+    swapIndex,
 };
-
-export default src;
