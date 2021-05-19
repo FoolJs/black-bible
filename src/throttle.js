@@ -2,11 +2,18 @@
 
 /**
  * 
- * @module
+ * @module throttle
+ * 
  * @description 节流函数
+ * 
+ * 
+ * 
  * @param {Function} fn 事件处理函数
  * @param {Numer} time 延时
+ * @returns {Function} 节流后的函数
  * 
+ * 
+ * @example
  * 
  * function go () {
         console.log('scroll');

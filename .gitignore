@@ -1,2 +1,4 @@
 /node_modules
 /develop
+/rollup.config.js
+/jsdoc.js

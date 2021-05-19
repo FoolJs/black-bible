@@ -1,8 +1,12 @@
 
 /**
  * 
- * @module
+ * @module random
+ * 
  * @description 随机数函数
+ * 
+ * 返回min-max之间的随机数，包括min和max，默认返回整数
+ * 
  * @param {Number} min 最小值
  * @param {Number} max 最大值
  * @param {Boolean} floating 是否包括浮点数

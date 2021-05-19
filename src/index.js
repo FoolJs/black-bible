@@ -7,8 +7,21 @@ const checkedType = require('./checkedType'),
     random = require('./random'),
     forEach = require('./forEach'),
     filter = require('./filter'),
-    swapIndex = require('./swapIndex');
-
+    map = require('./map'),
+    find = require('./find'),
+    findRight = require('./findRight'),
+    every = require('./every'),
+    some = require('./some'),
+    reduce = require('./reduce'),
+    reduceRight = require('./reduceRight'),
+    swapIndex = require('./swapIndex'),
+    camelCase = require('./camelCase'),
+    toUpper = require('./toUpper'),
+    pull = require('./pull'),
+    unique = require('./unique'),
+    remove = require('./remove'),
+    toCurrency = require('./toCurrency'),
+    limitExec = require('./limitExec');
 
 
 
@@ -23,5 +36,19 @@ module.exports = {
     random,
     forEach,
     filter,
-    swapIndex
+    swapIndex,
+    reduce,
+    map,
+    camelCase,
+    toUpper,
+    pull,
+    unique,
+    remove,
+    find,
+    findRight,
+    every,
+    some,
+    reduceRight,
+    toCurrency,
+    limitExec,
 };

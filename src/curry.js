@@ -1,12 +1,14 @@
 const forEach = require('./forEach');
 
 /**
+ *
+ * @module
+ * 
+ * @description 函数柯里化的辅助函数
  * 
  * 接受一个函数fn和可选的用于函数fn的参数，返回柯里化后的函数fn，即使函数fn的参数已经满足
  * 同样会返回一个函数而不是fn调用的结果
- *
- * @module
- * @description 函数柯里化的辅助函数
+ * 
  * @param {Function} fn 想要柯里化的函数
  * @param  {...any} args 函数fn所需要的参数
  * @returns {Function} 柯里化后的函数

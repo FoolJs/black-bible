@@ -8,8 +8,13 @@ const checkedType = require('./checkedType'),
 
 /**
  * 
- * @module
- * @description 适用于各种类型的Filter
+ * @module filter
+ * 
+ * @description 适用于各种类型的Filter迭代函数
+ * 
+ * 适用于各种类型的Filter迭代函数，对于集合的每一项调用函数，返回函数返回True的
+ * 项组成的数组
+ * 
  * @param {Array | Map | Set | String | Number} target 对象
  * @param {Function} cb 对对象的元素调用的函数
  * @returns {Array} 函数返回true的项组成的数组
@@ -39,11 +44,11 @@ function filter (target, cb) {
         case 'Set':
             func = setFilter;
             break;
-        case 'String':
-            func = stringFilter;
-            break;
         case 'Number':
             func = numberFilter;
+            break;
+        case 'String':
+            func = stringFilter;
             break;
     }
 

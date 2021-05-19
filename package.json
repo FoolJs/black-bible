@@ -1,6 +1,6 @@
 {
   "name": "black-bible",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A JavaScript tool library",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -20,13 +20,16 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "rollup": "rollup -c"
+    "build": "rollup -c",
+    "md": "node jsdoc.js"
   },
   "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "black-bible": "^1.0.4",
+    "jsdoc": "^3.6.7",
+    "jsdoc-to-markdown": "^7.0.1",
     "rollup": "^2.48.0"
   }
 }

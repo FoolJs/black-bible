@@ -10,8 +10,14 @@ const checkedType = require('./checkedType'),
 
 /**
  * 
- * @module
- * @description 适用于各种类型的map方法
+ * @module map
+ * 
+ * @description map迭代函数
+ * 
+ * 适用于各种类型的map迭代函数，对集合的每一项调用函数fn，返回函数
+ * 的返回值组成的数组
+ * 
+ * 
  * @param {Array | Map | Set | String | Number} target obj
  * @param {Function} fn 迭代函数
  * @returns {Array} 函数的返回值组成的数组

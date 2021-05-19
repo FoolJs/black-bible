@@ -2,19 +2,24 @@ const arrayForEach = require('./_arrayforEach'),
         objectForEach = require('./_objectForEach'),
         mapForEach = require('./_mapForEach'),
         setForEach = require('./_setForEach'),
-        stringForEach = require('./_stringForEach'),
         numberForEach = require('./_numberForEach'),
+        stringForEach = require('./_stringForEach'),
         checkedType = require('./checkedType');
 
 
 
 /**
  * 
- * @module
- * @description 适用于各种类型的forEach，可以通过返回false来终止循环
- * @param {Array | Map | Set | String | Number} target 对象
+ * @module forEach
+ * 
+ * @description forEach迭代函数
+ * 
+ * 适用于各种类型的forEach，对集合的每一项运行函数，最终返回集合本身，
+ * 可以显式的通过返回false来终止循环
+ * 
+ * @param {Array | Map | Set | String | Number | {}} target 对象
  * @param {Function} cb 对对象的元素调用的函数
- * @returns 对象本身
+ * @returns {Array | Map | Set | String | Number | {}} 集合本身
  * 
  * @example
  * 
@@ -39,11 +44,11 @@ function forEach (target, cb) {
         case 'Set':
             func = setForEach;
             break;
-        case 'String':
-            func = stringForEach;
-            break;
         case 'Number':
             func = numberForEach;
+            break;
+        case 'String':
+            func = stringForEach;
             break;
     }
 
