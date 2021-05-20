@@ -1,52 +1,54 @@
 const checkedType = require('./checkedType'),
-    toUpperFirst = require('./_toUpperFirst'),
-    toUpperAll = require('./_toUpperAll'),
+    upperAll = require('./_toUpperAll'),
     forEach = require('./forEach');
 
+
+
 /**
- *
+ * 
  * @module toUpper
  * 
- * @description 大写转换函数
- *
- * 将一个字符串或一个数组中的所有字符串或一个对象的所有属性的值是字符串的转化为大写或首字母大写
+ * @description 将字符串或一个集合中的字符串大写，
  * 
- * @param {String | Array | {} } str 想要转化为大写的字符串或数组或对象
- * @param {Boolean} isAll 是否全字母大写，默认为True，false为首字母大写
+ * 该方法会递归一个集合的所有深度，将集合的所有字符串转化为大写形式
  * 
- * @example
  * 
- * let str = 'asdw';
+ * @param {String | Array | Object | Map} target 想要大写的字符串或集合
+ * @returns {String | Array | Object | Map} 转化完成的字符串或集合
  * 
- * _.toUpper(str);  // 'ASDW'
+ * @example 
  * 
- * let arr = [1, 'a', 'bc', 2];
+ * let arr = ['aaa', {name: 'davi'}, 20];
  * 
- * _.toUpper(arr);  // [1, 'A', 'BC', 2];
- * 
- * let obj = {name: 'davi', age: 30, color: 'red'};
- * 
- * _.toUpper(obj, false);  //  {name: "Davi", age: 30, color: "Red"} 
+ * // ['AAA', {name: 'DAVI'}, 20]
+ * console.log(_.toUpper(['aaa', { name: 'davi' }, 20]));  
  * 
  */
-function toUpper(strs, isAll = true) {
-    let func =  isAll ? toUpperAll : toUpperFirst,
+function toUpper(target) {
+    let type = checkedType(target),
         result = null;
 
-    switch ( checkedType(strs) ) {
+    switch (type) {
         case 'String':
-            result = func(strs);
+            result = upperAll(target);
             break;
         case 'Array':
+            result = forEach( target, (item, index) => {
+                target[index] = toUpper(item);
+            } );
+            break;
         case 'Object':
-            result = forEach(strs, (item, index) => {
-                if ( checkedType(item) === 'String' ) {
-                    strs[index] = func(item);
-                }
-            });
+            result = forEach( target, (value, key) => {
+                target[key] = toUpper(value);
+            } );
+            break;
+        case 'Map':
+            result = forEach( target, (value, key) => {
+                target.set( key, toUpper(value) );
+            } );
             break;
         default:
-            result = strs;
+            result = target;
             break;
     }
 

@@ -51,6 +51,7 @@ _.curry(f, 1)(2)(3); // 6
 </script>
 ```
 
+
 ## Modules
 
 <dl>
@@ -107,6 +108,11 @@ fromIndex为迭代的起点，对于数组来说，是其索引，对于对象Ma
 <p>适用于各种类型的forEach，对集合的每一项运行函数，最终返回集合本身，
 可以显式的通过返回false来终止循环</p>
 </dd>
+<dt><a href="#module_forEachRight">forEachRight</a> ⇒ <code>Array</code> | <code>Object</code> | <code>Map</code> | <code>Set</code></dt>
+<dd><p>forEachRight迭代函数</p>
+<p>forEach函数的反向函数，从结尾开始迭代，可以通过返回false显式的
+结束迭代，返回集合本身</p>
+</dd>
 <dt><a href="#module_isInContainer">isInContainer</a> ⇒ <code>Boolean</code></dt>
 <dd><p>判断一个元素是否在对应容器的可视区域内</p>
 </dd>
@@ -162,13 +168,21 @@ fromIndex为迭代的起点，对于数组来说，是其索引，对于对象Ma
 <dt><a href="#module_toCurrency">toCurrency</a> ⇒ <code>String</code></dt>
 <dd><p>将一个数字转化为以逗号分隔的货币形式的字符串</p>
 </dd>
-<dt><a href="#module_toUpper">toUpper</a></dt>
-<dd><p>大写转换函数</p>
-<p>将一个字符串或一个数组中的所有字符串或一个对象的所有属性的值是字符串的转化为大写或首字母大写</p>
+<dt><a href="#module_toLower">toLower</a> ⇒ <code>any</code></dt>
+<dd><p>将一个字符串或集合中的字符串转化为小写形式</p>
+<p>会递归一个集合所有的深度，将它们的字符串值全部转化</p>
+</dd>
+<dt><a href="#module_toUpper">toUpper</a> ⇒ <code>String</code> | <code>Array</code> | <code>Object</code> | <code>Map</code></dt>
+<dd><p>将字符串或一个集合中的字符串大写，</p>
+<p>该方法会递归一个集合的所有深度，将集合的所有字符串转化为大写形式</p>
 </dd>
 <dt><a href="#module_unique">unique</a> ⇒ <code>Array</code></dt>
 <dd><p>去重函数</p>
 <p>数组去重，不改变原数组，返回去重后的新数组</p>
+</dd>
+<dt><a href="#module_upperFirst">upperFirst</a> ⇒ <code>String</code> | <code>Array</code> | <code>Object</code> | <code>Map</code></dt>
+<dd><p>将字符串或一个集合中的字符串首字母大写，</p>
+<p>该方法会递归一个集合的所有深度，将集合的所有字符串转化为首字母大写形式</p>
 </dd>
 </dl>
 
@@ -335,6 +349,21 @@ forEach迭代函数适用于各种类型的forEach，对集合的每一项运�
 **Example**  
 ```js
 _.forEach([1, 2, 3], item => console.log(item)); 1, 2, 3_.forEach({name: 'Jack', age: 30}, value => console.log(value)); // 'Jack', 30
+```
+<a name="module_forEachRight"></a>
+
+## forEachRight ⇒ <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code>
+forEachRight迭代函数forEach函数的反向函数，从结尾开始迭代，可以通过返回false显式的结束迭代，返回集合本身
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| target | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 想要迭代的集合 |
+| fn | <code>function</code> | 对每个元素调用的迭代函数 |
+
+**Example**  
+```js
+let arr = [1, 2, 3, 4]; _.forEachRight(arr, item => console.log(item));   // 4, 3, 2, 1
 ```
 <a name="module_isInContainer"></a>
 
@@ -528,20 +557,34 @@ function go () {
 ```js
 //  123,456,789.123456console.log( toCurrency(123456789.123456) );
 ```
-<a name="module_toUpper"></a>
+<a name="module_toLower"></a>
 
-## toUpper
-大写转换函数将一个字符串或一个数组中的所有字符串或一个对象的所有属性的值是字符串的转化为大写或首字母大写
+## toLower ⇒ <code>any</code>
+将一个字符串或集合中的字符串转化为小写形式会递归一个集合所有的深度，将它们的字符串值全部转化
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| str | <code>String</code> \| <code>Array</code> \| <code>Object</code> | 想要转化为大写的字符串或数组或对象 |
-| isAll | <code>Boolean</code> | 是否全字母大写，默认为True，false为首字母大写 |
+| target | <code>String</code> \| <code>Object</code> \| <code>Map</code> \| <code>Array</code> | 想要小写的字符串或集合 |
 
 **Example**  
 ```js
-let str = 'asdw';_.toUpper(str);  // 'ASDW'let arr = [1, 'a', 'bc', 2];_.toUpper(arr);  // [1, 'A', 'BC', 2];let obj = {name: 'davi', age: 30, color: 'red'};_.toUpper(obj, false);  //  {name: "Davi", age: 30, color: "Red"} 
+let arr = ['AAA', ['BBB', ['CCC']]];//  ['aaa', ['bbb', ['ccc']]];console.log(_.toLower(arr));
+```
+<a name="module_toUpper"></a>
+
+## toUpper ⇒ <code>String</code> \| <code>Array</code> \| <code>Object</code> \| <code>Map</code>
+将字符串或一个集合中的字符串大写，该方法会递归一个集合的所有深度，将集合的所有字符串转化为大写形式
+
+**Returns**: <code>String</code> \| <code>Array</code> \| <code>Object</code> \| <code>Map</code> - 转化完成的字符串或集合  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| target | <code>String</code> \| <code>Array</code> \| <code>Object</code> \| <code>Map</code> | 想要大写的字符串或集合 |
+
+**Example**  
+```js
+let arr = ['aaa', {name: 'davi'}, 20];// ['AAA', {name: 'DAVI'}, 20]console.log(_.toUpper(['aaa', { name: 'davi' }, 20]));  
 ```
 <a name="module_unique"></a>
 
@@ -557,4 +600,19 @@ let str = 'asdw';_.toUpper(str);  // 'ASDW'let arr = [1, 'a', 'bc', 2];_.t
 **Example**  
 ```js
 let arr = [1, 2, 3, 4, 1, 2, 3, 5];_.unique(arr);  // [1, 2, 3, 4, 5]
+```
+<a name="module_upperFirst"></a>
+
+## upperFirst ⇒ <code>String</code> \| <code>Array</code> \| <code>Object</code> \| <code>Map</code>
+将字符串或一个集合中的字符串首字母大写，该方法会递归一个集合的所有深度，将集合的所有字符串转化为首字母大写形式
+
+**Returns**: <code>String</code> \| <code>Array</code> \| <code>Object</code> \| <code>Map</code> - 转化完成的字符串或集合  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| target | <code>String</code> \| <code>Array</code> \| <code>Object</code> \| <code>Map</code> | 想要首字母大写的字符串或集合 |
+
+**Example**  
+```js
+let arr = ['aaa', {name: 'davi'}, 20];// ['Aaa', {name: 'Davi'}, 20];console.log(_.upperFirst(arr));
 ```

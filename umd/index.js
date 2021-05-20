@@ -22,7 +22,7 @@
      *  _.checkedType(null); // "Null"
      *  _.checkedType('str'); // "String"
      */
-    function checkedType$d(target) {
+    function checkedType$g(target) {
         return Object.prototype.toString.call(target).slice(8, -1);
     }
 
@@ -30,7 +30,7 @@
 
 
 
-    var checkedType_1 = checkedType$d;
+    var checkedType_1 = checkedType$g;
 
     /**
      * @description 数组版本的forEach，可以通过返回false停止执行
@@ -168,7 +168,7 @@
             setForEach = _setForEach,
             numberForEach = _numberForEach,
             stringForEach = _stringForEach,
-            checkedType$c = checkedType_1;
+            checkedType$f = checkedType_1;
 
 
 
@@ -191,8 +191,8 @@
      * 
      * _.forEach({name: 'Jack', age: 30}, value => console.log(value)); // 'Jack', 30
      */
-    function forEach$5 (target, cb) {
-        let type = checkedType$c(target),
+    function forEach$7 (target, cb) {
+        let type = checkedType$f(target),
             func = null;
 
         switch (type) {
@@ -220,9 +220,9 @@
     }
 
 
-    var forEach_1 = forEach$5;
+    var forEach_1 = forEach$7;
 
-    const forEach$4 = forEach_1;
+    const forEach$6 = forEach_1;
 
     /**
      *
@@ -265,7 +265,7 @@
         let cache = [...args];
 
         return function curried(...args2) {
-            forEach$4(args2, item => {
+            forEach$6(args2, item => {
                 cache.push(item);
             });
 
@@ -280,8 +280,8 @@
 
     var curry_1 = curry$1;
 
-    const checkedType$b = checkedType_1,
-            forEach$3 = forEach_1;
+    const checkedType$e = checkedType_1,
+            forEach$5 = forEach_1;
 
 
 
@@ -309,7 +309,7 @@
      */
     function deepClone$1(target, cloneProto=false, cache=new WeakMap()) {
         let result = null,
-            type = checkedType$b(target);
+            type = checkedType$e(target);
 
         if ( typeof target !== 'object' ) {
             return target;
@@ -328,7 +328,7 @@
 
             cache.set(target, result);
 
-            forEach$3(target, element => {
+            forEach$5(target, element => {
                 result.push( deepClone$1(element, cloneProto, cache) );
             });
 
@@ -339,7 +339,7 @@
 
             cache.set(target, result);
 
-            forEach$3(target, (value, key) => {
+            forEach$5(target, (value, key) => {
                 result.set(
                     deepClone$1(key, cloneProto, cache),
                     deepClone$1(value, cloneProto, cache)
@@ -353,7 +353,7 @@
 
             cache.set(target, result);
 
-            forEach$3(target, value => {
+            forEach$5(target, value => {
                 result.add( deepClone$1(value, cloneProto, cache) );
             });
 
@@ -373,11 +373,11 @@
             let props = Object.getOwnPropertyNames(target),
                 symbolProps = Object.getOwnPropertySymbols(target);
             
-            forEach$3(symbolProps, prop => {
+            forEach$5(symbolProps, prop => {
                 props.push(prop);
             });
 
-            forEach$3(props, prop => {
+            forEach$5(props, prop => {
                 result[prop] = deepClone$1( target[prop], cloneProto, cache );
             });
 
@@ -593,6 +593,159 @@
     var random_1 = random$1;
 
     /**
+     * 
+     * @param {Array} arr array
+     * @param {Function} fn func
+     * @returns {Array}
+     */
+    function arrayForEachRight$1 (arr, fn) {
+        let len = arr.length;
+
+        for (let i = len - 1; i >= 0; i-- ) {
+            if ( fn(arr[i], i, arr) === false ) {
+                break;
+            }
+        }
+
+        return arr;
+    }
+
+
+
+    var _arrayForEachRight = arrayForEachRight$1;
+
+    /**
+     * 
+     * @param {Object} obj obj
+     * @param {Function} fn func
+     * @returns {Object}
+     */
+    function objectForEachRight$1 (obj, fn) {
+        let keys = Object.keys(obj),
+            len = keys.length;
+
+        for (let i = len - 1; i >= 0; i--) {
+            let key = keys[i],
+                value = obj[key];
+
+            if ( fn(value, key, obj) === false ) {
+                break;
+            }
+        }
+
+        return obj;
+    }
+
+
+    var _objectForEachRight = objectForEachRight$1;
+
+    /**
+     * 
+     * @param {Map} map map
+     * @param {Function} fn func
+     * @returns {Map}
+     */
+    function mapForEachRight$1 (map, fn) {
+        let keys = Array.from( map.keys() ),
+            len = keys.length;
+
+        for (let i = len - 1; i >= 0 ; i--) {
+            let key = keys[i],
+                value = map.get(key);
+
+            if ( fn(value, key, map) === false ) {
+                break;
+            }
+        }
+
+        return map;
+    }
+
+
+    var _mapForEachRight = mapForEachRight$1;
+
+    /**
+     * 
+     * @param {Set} set set
+     * @param {Function} fn func
+     * @returns {Set}
+     */
+    function setForEachRight$1 (set, fn) {
+        let keys = Array.from( set.keys() ),
+            len = keys.length;
+
+        for (let i = len - 1; i >= 0; i--) {
+            let value = keys[i];
+
+            if ( fn(value, value, set) === false ) {
+                break;
+            }
+        }
+
+        return set;
+    }
+
+
+    var _setForEachRight = setForEachRight$1;
+
+    const checkedType$d = checkedType_1,
+            arrayForEachRight = _arrayForEachRight,
+            objectForEachRight = _objectForEachRight,
+            mapForEachRight = _mapForEachRight,
+            setForEachRight = _setForEachRight;
+
+
+    /**
+     * 
+     * @module forEachRight
+     * 
+     * @description forEachRight迭代函数
+     * 
+     * forEach函数的反向函数，从结尾开始迭代，可以通过返回false显式的
+     * 结束迭代，返回集合本身
+     * 
+     * @param {Array | {} | Map | Set} target 想要迭代的集合
+     * @param {Function} fn 对每个元素调用的迭代函数
+     * @returns {Array | {} | Map | Set}
+     * 
+     * 
+     * @example
+     * 
+     * let arr = [1, 2, 3, 4];
+     * 
+     *  _.forEachRight(arr, item => console.log(item));   // 4, 3, 2, 1
+     * 
+     * 
+     */
+    function forEachRight$1 (target, fn,) {
+        let type = checkedType$d(target),
+            func = null;
+
+        switch (type) {
+            case 'Array':
+                func = arrayForEachRight;
+                break;
+            case 'Object':
+                func = objectForEachRight;
+                break;
+            case 'Map':
+                func = mapForEachRight;
+                break;
+            case 'Set':
+                func = setForEachRight;
+                break;
+        
+            default:
+                return target;
+        }
+
+        return func(target, fn);
+    }
+
+
+    var forEachRight_1 = forEachRight$1;
+
+    /**
      * @description 数组版filter
      * @param {Array} arr array
      * @param {Function} cb 对每个元素调用的函数
@@ -727,7 +880,7 @@
 
     var _numberFilter = numberFilter$1;
 
-    const checkedType$a = checkedType_1,
+    const checkedType$c = checkedType_1,
             arrayFilter = _arrayFilter,
             objectFilter = _objectFilter,
             mapFilter = _mapFilter,
@@ -757,7 +910,7 @@
      * _.filter(5, n => true);   // [0, 1, 2, 3, 4];
      */
     function filter$2 (target, cb) {
-        let type = checkedType$a(target),
+        let type = checkedType$c(target),
             func = null;
 
         switch (type) {
@@ -909,7 +1062,7 @@
 
     var _numberMap = numberMap$1;
 
-    const checkedType$9 = checkedType_1,
+    const checkedType$b = checkedType_1,
             arrayMap = _arrayMap,
             objectMap = _objectMap,
             mapMap = _mapMap,
@@ -939,8 +1092,8 @@
      * 
      * _.map([1, 2, 3, 4, 5], (item, index) => index + '号'); // [ '0号', '1号', '2号', '3号', '4号' ]
      */
-    function map$4 (target, fn) {
-        let type = checkedType$9(target),
+    function map$5 (target, fn) {
+        let type = checkedType$b(target),
             func = null;
 
         switch (type) {
@@ -971,7 +1124,7 @@
 
 
 
-    var map_1 = map$4;
+    var map_1 = map$5;
 
     /**
      * 
@@ -1065,7 +1218,7 @@
 
     var _setFind = setFind$1;
 
-    const checkedType$8 = checkedType_1,
+    const checkedType$a = checkedType_1,
             arrayFind = _arrayFind,
             objectFind = _objectFind,
             mapFind = _mapFind,
@@ -1102,7 +1255,7 @@
      * 
      */
     function find$1(target, predicate, fromIndex=0) {
-        let type = checkedType$8(target),
+        let type = checkedType$a(target),
             func = null;
 
         switch (type) {
@@ -1221,7 +1374,7 @@
 
     var _setFindRight = setFindRight$1;
 
-    const checkedType$7 = checkedType_1,
+    const checkedType$9 = checkedType_1,
             arrayFindRight = _arrayFindRight,
             objectFindRight = _objectFindRight,
             mapFindRight = _mapFindRight,
@@ -1252,7 +1405,7 @@
      */
     function findRight$1(target, fn, fromIndex) {
         let func = null,
-            type = checkedType$7(target);
+            type = checkedType$9(target);
 
         switch (type) {
             case 'Array':
@@ -1368,7 +1521,7 @@
 
     var _setEvery = setEvery$1;
 
-    const checkedType$6 = checkedType_1,
+    const checkedType$8 = checkedType_1,
             arrayEvery = _arrayEvery,
             objectEvery = _objectEvery,
             mapEvery = _mapEvery,
@@ -1397,7 +1550,7 @@
      */
     function every$1 (target, predicate) {
         let func = null,
-            type = checkedType$6(target);
+            type = checkedType$8(target);
 
         switch (type) {
             case 'Array':
@@ -1508,7 +1661,7 @@
 
     var _setSome = setSome$1;
 
-    const checkedType$5 = checkedType_1,
+    const checkedType$7 = checkedType_1,
             arraySome = _arraySome,
             objectSome = _objectSome,
             mapSome = _mapSome,
@@ -1540,7 +1693,7 @@
      * 
      */
     function some$1 (target, predicate) {
-        let type = checkedType$5(target),
+        let type = checkedType$7(target),
             func = null;
 
         switch (type) {
@@ -1720,7 +1873,7 @@
 
     var _setReduce = setReduce$1;
 
-    const checkedType$4 = checkedType_1,
+    const checkedType$6 = checkedType_1,
             arrayReduce = _arrayReduce,
             objectReduce = _objectReduce,
             stringReduce = _stringReduce,
@@ -1753,7 +1906,7 @@
      * 
      */
     function reduce$2(target, fn, accumulator) {
-        let type = checkedType$4(target),
+        let type = checkedType$6(target),
             func = null;
 
         switch (type) {
@@ -1903,7 +2056,7 @@
 
     var _setReduceRight = setReduceRight$1;
 
-    const checkedType$3 = checkedType_1,
+    const checkedType$5 = checkedType_1,
             arrayReduceRight = _arrayReduceRight,
             mapReduceRight = _mapReduceRight,
             objectReduceRight = _objectReduceRight,
@@ -1938,7 +2091,7 @@
      * 
      */
     function reduceRight$1(target, fn, accumulator) {
-        let type = checkedType$3(target),
+        let type = checkedType$5(target),
             func = null;
 
         switch (type) {
@@ -2009,7 +2162,7 @@
 
     var _swapChar = swapChar$1;
 
-    const checkedType$2 = checkedType_1,
+    const checkedType$4 = checkedType_1,
             swapElem = _swapElem,
             swapChar = _swapChar;
 
@@ -2041,7 +2194,7 @@
         ) {
             return target;
         }
-        let type = checkedType$2(target),
+        let type = checkedType$4(target),
             func = null;
 
         switch (type) {
@@ -2062,7 +2215,7 @@
 
     const reduce$1 = reduce_1,
             filter$1 = filter_1,
-            map$3 = map_1;
+            map$4 = map_1;
 
     const NO_STRING_ERROR = 'str not is a string';
 
@@ -2099,7 +2252,7 @@
 
         let arr = filter$1( str.split(isSpecialChar), item => item !== '' );
 
-        arr = map$3(arr, (item, index) =>
+        arr = map$4(arr, (item, index) =>
             index === 0 ? item : item[0].toUpperCase() + item.slice(1)
         ).join('').split('');
 
@@ -2118,78 +2271,67 @@
 
     var camelCase_1 = camelCase$1;
 
-    /**
-     * @description 字符串首字母大写
-     * @param {String} str string
-     * @returns {String}
-     */
-    function toUpperFirst$1 (str) {
-        return str[0].toUpperCase() + str.slice(1);
+    const map$3 = map_1;
+
+    function toUpperAll (str) {
+        return map$3(str, char => char.toUpperCase()).join('');
     }
 
 
 
-    var _toUpperFirst = toUpperFirst$1;
+    var _toUpperAll = toUpperAll;
 
-    const map$2 = map_1;
-
-    function toUpperAll$1 (str) {
-        return map$2(str, char => char.toUpperCase()).join('');
-    }
+    const checkedType$3 = checkedType_1,
+        upperAll = _toUpperAll,
+        forEach$4 = forEach_1;
 
 
-
-    var _toUpperAll = toUpperAll$1;
-
-    const checkedType$1 = checkedType_1,
-        toUpperFirst = _toUpperFirst,
-        toUpperAll = _toUpperAll,
-        forEach$2 = forEach_1;
 
     /**
-     *
+     * 
      * @module toUpper
      * 
-     * @description 大写转换函数
-     *
-     * 将一个字符串或一个数组中的所有字符串或一个对象的所有属性的值是字符串的转化为大写或首字母大写
+     * @description 将字符串或一个集合中的字符串大写，
      * 
-     * @param {String | Array | {} } str 想要转化为大写的字符串或数组或对象
-     * @param {Boolean} isAll 是否全字母大写，默认为True，false为首字母大写
+     * 该方法会递归一个集合的所有深度，将集合的所有字符串转化为大写形式
      * 
-     * @example
      * 
-     * let str = 'asdw';
+     * @param {String | Array | Object | Map} target 想要大写的字符串或集合
+     * @returns {String | Array | Object | Map} 转化完成的字符串或集合
      * 
-     * _.toUpper(str);  // 'ASDW'
+     * @example 
      * 
-     * let arr = [1, 'a', 'bc', 2];
+     * let arr = ['aaa', {name: 'davi'}, 20];
      * 
-     * _.toUpper(arr);  // [1, 'A', 'BC', 2];
-     * 
-     * let obj = {name: 'davi', age: 30, color: 'red'};
-     * 
-     * _.toUpper(obj, false);  //  {name: "Davi", age: 30, color: "Red"} 
+     * // ['AAA', {name: 'DAVI'}, 20]
+     * console.log(_.toUpper(['aaa', { name: 'davi' }, 20]));  
      * 
      */
-    function toUpper$1(strs, isAll = true) {
-        let func =  isAll ? toUpperAll : toUpperFirst,
+    function toUpper$1(target) {
+        let type = checkedType$3(target),
             result = null;
 
-        switch ( checkedType$1(strs) ) {
+        switch (type) {
             case 'String':
-                result = func(strs);
+                result = upperAll(target);
                 break;
             case 'Array':
+                result = forEach$4( target, (item, index) => {
+                    target[index] = toUpper$1(item);
+                } );
+                break;
             case 'Object':
-                result = forEach$2(strs, (item, index) => {
-                    if ( checkedType$1(item) === 'String' ) {
-                        strs[index] = func(item);
-                    }
-                });
+                result = forEach$4( target, (value, key) => {
+                    target[key] = toUpper$1(value);
+                } );
+                break;
+            case 'Map':
+                result = forEach$4( target, (value, key) => {
+                    target.set( key, toUpper$1(value) );
+                } );
                 break;
             default:
-                result = strs;
+                result = target;
                 break;
         }
 
@@ -2197,6 +2339,152 @@
     }
 
     var toUpper_1 = toUpper$1;
+
+    /**
+     * @description 字符串首字母大写
+     * @param {String} str string
+     * @returns {String}
+     */
+    function toUpperFirst (str) {
+        return str[0].toUpperCase() + str.slice(1);
+    }
+
+
+
+    var _toUpperFirst = toUpperFirst;
+
+    const checkedType$2 = checkedType_1,
+        first = _toUpperFirst,
+        forEach$3 = forEach_1;
+
+    /**
+     *
+     * @module upperFirst
+     *
+     * @description 将字符串或一个集合中的字符串首字母大写，
+     *
+     * 该方法会递归一个集合的所有深度，将集合的所有字符串转化为首字母大写形式
+     *
+     *
+     * @param {String | Array | Object | Map} target 想要首字母大写的字符串或集合
+     * @returns {String | Array | Object | Map} 转化完成的字符串或集合
+     *
+     * @example
+     *
+     * let arr = ['aaa', {name: 'davi'}, 20];
+     *
+     * // ['Aaa', {name: 'Davi'}, 20];
+     *console.log(_.upperFirst(arr));
+     * 
+     */
+    function upperFirst$1(target) {
+        let type = checkedType$2(target),
+            result = null;
+
+        switch (type) {
+            case 'String':
+                result = first(target);
+                break;
+            case 'Array':
+                result = forEach$3(target, (item, index) => {
+                    target[index] = upperFirst$1(item);
+                });
+                break;
+            case 'Object':
+                result = forEach$3(target, (value, key) => {
+                    target[key] = upperFirst$1(value);
+                });
+                break;
+            case 'Map':
+                result = forEach$3(target, (value, key) => {
+                    target.set(key, upperFirst$1(value));
+                });
+                break;
+            default:
+                result = target;
+                break;
+        }
+
+        return result;
+    }
+
+    var upperFirst_1 = upperFirst$1;
+
+    const map$2 = map_1;
+
+    /**
+     * 
+     * @description 将字符串的怎么转为小写
+     * 
+     * @param {String} str str
+     * @returns {String}
+     */
+    function _toLower$1 (str) {
+        return map$2(str, char => char.toLowerCase()).join('');
+    }
+
+
+    var _toLower_1 = _toLower$1;
+
+    const checkedType$1 = checkedType_1,
+        _toLower = _toLower_1,
+        forEach$2 = forEach_1;
+
+
+
+    /**
+     * 
+     * @module toLower
+     * 
+     * @description 将一个字符串或集合中的字符串转化为小写形式
+     * 
+     * 会递归一个集合所有的深度，将它们的字符串值全部转化
+     * 
+     * 
+     * @param {String | Object | Map | Array} target 想要小写的字符串或集合
+     * @returns {any}
+     * 
+     * @example
+     * 
+     * let arr = ['AAA', ['BBB', ['CCC']]];
+     * 
+     * //  ['aaa', ['bbb', ['ccc']]];
+     * console.log(_.toLower(arr));
+     * 
+     */
+    function toLower$1(target) {
+        let type = checkedType$1(target),
+            result = null;
+
+        switch (type) {
+            case 'String':
+                result = _toLower(target);
+                break;
+            case 'Array':
+                result = forEach$2(target, (item, index) => {
+                    target[index] = toLower$1(item);
+                });
+                break;
+            case 'Object':
+                result = forEach$2(target, (value, key) => {
+                    target[key] = toLower$1(value);
+                });
+                break;
+            case 'Map':
+                result = forEach$2(target, (value, key) => {
+                    target.set(key, toLower$1(value));
+                });
+                break;
+            default:
+                result = target;
+                break;
+        }
+
+        return result;
+    }
+
+
+    var toLower_1 = toLower$1;
 
     /**
      * 删除数组中所有等于item的元素，该方法在原数组修改
@@ -2506,6 +2794,7 @@
         throttle = throttle_1,
         random = random_1,
         forEach = forEach_1,
+        forEachRight = forEachRight_1,
         filter = filter_1,
         map = map_1,
         find = find_1,
@@ -2517,6 +2806,8 @@
         swapIndex = swapIndex_1,
         camelCase = camelCase_1,
         toUpper = toUpper_1,
+        upperFirst = upperFirst_1,
+        toLower = toLower_1,
         pull = pull_1,
         unique = unique_1,
         remove = remove_1,
@@ -2551,6 +2842,9 @@
         reduceRight,
         toCurrency,
         limitExec,
+        forEachRight,
+        upperFirst,
+        toLower
     };
 
     return src;

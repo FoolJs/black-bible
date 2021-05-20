@@ -4,12 +4,13 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 const esm = {
     dir: 'es',
-    format: 'esm'
+    format: 'esm',
 };
 
 const cjs = {
     dir: 'lib',
-    format: 'cjs'
+    format: 'cjs',
+    exports: 'default',
 };
 
 const umd = {
@@ -20,7 +21,7 @@ const umd = {
 
 export default {
     input: 'src/index.js',
-    output: esm,
+    output: umd,
     plugins: [
         nodeResolve(),
         commonjs(),
