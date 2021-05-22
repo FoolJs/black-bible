@@ -2,7 +2,7 @@ const forEach = require('./forEach');
 
 /**
  *
- * @module
+ * @module curry
  * 
  * @description 函数柯里化的辅助函数
  * 

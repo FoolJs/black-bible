@@ -22,7 +22,7 @@
      *  _.checkedType(null); // "Null"
      *  _.checkedType('str'); // "String"
      */
-    function checkedType$g(target) {
+    function checkedType$k(target) {
         return Object.prototype.toString.call(target).slice(8, -1);
     }
 
@@ -30,7 +30,7 @@
 
 
 
-    var checkedType_1 = checkedType$g;
+    var checkedType_1 = checkedType$k;
 
     /**
      * @description 数组版本的forEach，可以通过返回false停止执行
@@ -168,7 +168,7 @@
             setForEach = _setForEach,
             numberForEach = _numberForEach,
             stringForEach = _stringForEach,
-            checkedType$f = checkedType_1;
+            checkedType$j = checkedType_1;
 
 
 
@@ -181,6 +181,7 @@
      * 适用于各种类型的forEach，对集合的每一项运行函数，最终返回集合本身，
      * 可以显式的通过返回false来终止循环
      * 
+     * 
      * @param {Array | Map | Set | String | Number | {}} target 对象
      * @param {Function} cb 对对象的元素调用的函数
      * @returns {Array | Map | Set | String | Number | {}} 集合本身
@@ -191,8 +192,8 @@
      * 
      * _.forEach({name: 'Jack', age: 30}, value => console.log(value)); // 'Jack', 30
      */
-    function forEach$7 (target, cb) {
-        let type = checkedType$f(target),
+    function forEach$8 (target, cb) {
+        let type = checkedType$j(target),
             func = null;
 
         switch (type) {
@@ -220,13 +221,13 @@
     }
 
 
-    var forEach_1 = forEach$7;
+    var forEach_1 = forEach$8;
 
-    const forEach$6 = forEach_1;
+    const forEach$7 = forEach_1;
 
     /**
      *
-     * @module
+     * @module curry
      * 
      * @description 函数柯里化的辅助函数
      * 
@@ -265,7 +266,7 @@
         let cache = [...args];
 
         return function curried(...args2) {
-            forEach$6(args2, item => {
+            forEach$7(args2, item => {
                 cache.push(item);
             });
 
@@ -280,8 +281,8 @@
 
     var curry_1 = curry$1;
 
-    const checkedType$e = checkedType_1,
-            forEach$5 = forEach_1;
+    const checkedType$i = checkedType_1,
+            forEach$6 = forEach_1;
 
 
 
@@ -309,7 +310,7 @@
      */
     function deepClone$1(target, cloneProto=false, cache=new WeakMap()) {
         let result = null,
-            type = checkedType$e(target);
+            type = checkedType$i(target);
 
         if ( typeof target !== 'object' ) {
             return target;
@@ -328,7 +329,7 @@
 
             cache.set(target, result);
 
-            forEach$5(target, element => {
+            forEach$6(target, element => {
                 result.push( deepClone$1(element, cloneProto, cache) );
             });
 
@@ -339,7 +340,7 @@
 
             cache.set(target, result);
 
-            forEach$5(target, (value, key) => {
+            forEach$6(target, (value, key) => {
                 result.set(
                     deepClone$1(key, cloneProto, cache),
                     deepClone$1(value, cloneProto, cache)
@@ -353,7 +354,7 @@
 
             cache.set(target, result);
 
-            forEach$5(target, value => {
+            forEach$6(target, value => {
                 result.add( deepClone$1(value, cloneProto, cache) );
             });
 
@@ -373,11 +374,11 @@
             let props = Object.getOwnPropertyNames(target),
                 symbolProps = Object.getOwnPropertySymbols(target);
             
-            forEach$5(symbolProps, prop => {
+            forEach$6(symbolProps, prop => {
                 props.push(prop);
             });
 
-            forEach$5(props, prop => {
+            forEach$6(props, prop => {
                 result[prop] = deepClone$1( target[prop], cloneProto, cache );
             });
 
@@ -579,7 +580,7 @@
      * 
      * 
      */
-    function random$1(min,max, floating=false) {
+    function random$4(min,max, floating=false) {
         if (floating) {
             return min + Math.random() * (max - min);
         }
@@ -590,7 +591,7 @@
 
 
 
-    var random_1 = random$1;
+    var random_1 = random$4;
 
     /**
      * 
@@ -688,7 +689,7 @@
 
     var _setForEachRight = setForEachRight$1;
 
-    const checkedType$d = checkedType_1,
+    const checkedType$h = checkedType_1,
             arrayForEachRight = _arrayForEachRight,
             objectForEachRight = _objectForEachRight,
             mapForEachRight = _mapForEachRight,
@@ -718,7 +719,7 @@
      * 
      */
     function forEachRight$1 (target, fn,) {
-        let type = checkedType$d(target),
+        let type = checkedType$h(target),
             func = null;
 
         switch (type) {
@@ -880,7 +881,7 @@
 
     var _numberFilter = numberFilter$1;
 
-    const checkedType$c = checkedType_1,
+    const checkedType$g = checkedType_1,
             arrayFilter = _arrayFilter,
             objectFilter = _objectFilter,
             mapFilter = _mapFilter,
@@ -909,8 +910,8 @@
      * 
      * _.filter(5, n => true);   // [0, 1, 2, 3, 4];
      */
-    function filter$2 (target, cb) {
-        let type = checkedType$c(target),
+    function filter$3 (target, cb) {
+        let type = checkedType$g(target),
             func = null;
 
         switch (type) {
@@ -940,7 +941,7 @@
 
 
 
-    var filter_1 = filter$2;
+    var filter_1 = filter$3;
 
     /**
      * @description 数组版map迭代方法
@@ -1062,7 +1063,7 @@
 
     var _numberMap = numberMap$1;
 
-    const checkedType$b = checkedType_1,
+    const checkedType$f = checkedType_1,
             arrayMap = _arrayMap,
             objectMap = _objectMap,
             mapMap = _mapMap,
@@ -1093,7 +1094,7 @@
      * _.map([1, 2, 3, 4, 5], (item, index) => index + '号'); // [ '0号', '1号', '2号', '3号', '4号' ]
      */
     function map$5 (target, fn) {
-        let type = checkedType$b(target),
+        let type = checkedType$f(target),
             func = null;
 
         switch (type) {
@@ -1218,7 +1219,7 @@
 
     var _setFind = setFind$1;
 
-    const checkedType$a = checkedType_1,
+    const checkedType$e = checkedType_1,
             arrayFind = _arrayFind,
             objectFind = _objectFind,
             mapFind = _mapFind,
@@ -1255,7 +1256,7 @@
      * 
      */
     function find$1(target, predicate, fromIndex=0) {
-        let type = checkedType$a(target),
+        let type = checkedType$e(target),
             func = null;
 
         switch (type) {
@@ -1374,7 +1375,7 @@
 
     var _setFindRight = setFindRight$1;
 
-    const checkedType$9 = checkedType_1,
+    const checkedType$d = checkedType_1,
             arrayFindRight = _arrayFindRight,
             objectFindRight = _objectFindRight,
             mapFindRight = _mapFindRight,
@@ -1405,7 +1406,7 @@
      */
     function findRight$1(target, fn, fromIndex) {
         let func = null,
-            type = checkedType$9(target);
+            type = checkedType$d(target);
 
         switch (type) {
             case 'Array':
@@ -1521,7 +1522,7 @@
 
     var _setEvery = setEvery$1;
 
-    const checkedType$8 = checkedType_1,
+    const checkedType$c = checkedType_1,
             arrayEvery = _arrayEvery,
             objectEvery = _objectEvery,
             mapEvery = _mapEvery,
@@ -1550,7 +1551,7 @@
      */
     function every$1 (target, predicate) {
         let func = null,
-            type = checkedType$8(target);
+            type = checkedType$c(target);
 
         switch (type) {
             case 'Array':
@@ -1661,7 +1662,7 @@
 
     var _setSome = setSome$1;
 
-    const checkedType$7 = checkedType_1,
+    const checkedType$b = checkedType_1,
             arraySome = _arraySome,
             objectSome = _objectSome,
             mapSome = _mapSome,
@@ -1693,7 +1694,7 @@
      * 
      */
     function some$1 (target, predicate) {
-        let type = checkedType$7(target),
+        let type = checkedType$b(target),
             func = null;
 
         switch (type) {
@@ -1873,7 +1874,7 @@
 
     var _setReduce = setReduce$1;
 
-    const checkedType$6 = checkedType_1,
+    const checkedType$a = checkedType_1,
             arrayReduce = _arrayReduce,
             objectReduce = _objectReduce,
             stringReduce = _stringReduce,
@@ -1906,7 +1907,7 @@
      * 
      */
     function reduce$2(target, fn, accumulator) {
-        let type = checkedType$6(target),
+        let type = checkedType$a(target),
             func = null;
 
         switch (type) {
@@ -2056,7 +2057,7 @@
 
     var _setReduceRight = setReduceRight$1;
 
-    const checkedType$5 = checkedType_1,
+    const checkedType$9 = checkedType_1,
             arrayReduceRight = _arrayReduceRight,
             mapReduceRight = _mapReduceRight,
             objectReduceRight = _objectReduceRight,
@@ -2091,7 +2092,7 @@
      * 
      */
     function reduceRight$1(target, fn, accumulator) {
-        let type = checkedType$5(target),
+        let type = checkedType$9(target),
             func = null;
 
         switch (type) {
@@ -2162,7 +2163,7 @@
 
     var _swapChar = swapChar$1;
 
-    const checkedType$4 = checkedType_1,
+    const checkedType$8 = checkedType_1,
             swapElem = _swapElem,
             swapChar = _swapChar;
 
@@ -2194,7 +2195,7 @@
         ) {
             return target;
         }
-        let type = checkedType$4(target),
+        let type = checkedType$8(target),
             func = null;
 
         switch (type) {
@@ -2214,7 +2215,7 @@
     var swapIndex_1 = swapIndex$1;
 
     const reduce$1 = reduce_1,
-            filter$1 = filter_1,
+            filter$2 = filter_1,
             map$4 = map_1;
 
     const NO_STRING_ERROR = 'str not is a string';
@@ -2250,7 +2251,7 @@
             throw new Error(NO_STRING_ERROR);
         }
 
-        let arr = filter$1( str.split(isSpecialChar), item => item !== '' );
+        let arr = filter$2( str.split(isSpecialChar), item => item !== '' );
 
         arr = map$4(arr, (item, index) =>
             index === 0 ? item : item[0].toUpperCase() + item.slice(1)
@@ -2281,9 +2282,9 @@
 
     var _toUpperAll = toUpperAll;
 
-    const checkedType$3 = checkedType_1,
+    const checkedType$7 = checkedType_1,
         upperAll = _toUpperAll,
-        forEach$4 = forEach_1;
+        forEach$5 = forEach_1;
 
 
 
@@ -2308,7 +2309,7 @@
      * 
      */
     function toUpper$1(target) {
-        let type = checkedType$3(target),
+        let type = checkedType$7(target),
             result = null;
 
         switch (type) {
@@ -2316,17 +2317,17 @@
                 result = upperAll(target);
                 break;
             case 'Array':
-                result = forEach$4( target, (item, index) => {
+                result = forEach$5( target, (item, index) => {
                     target[index] = toUpper$1(item);
                 } );
                 break;
             case 'Object':
-                result = forEach$4( target, (value, key) => {
+                result = forEach$5( target, (value, key) => {
                     target[key] = toUpper$1(value);
                 } );
                 break;
             case 'Map':
-                result = forEach$4( target, (value, key) => {
+                result = forEach$5( target, (value, key) => {
                     target.set( key, toUpper$1(value) );
                 } );
                 break;
@@ -2353,9 +2354,9 @@
 
     var _toUpperFirst = toUpperFirst;
 
-    const checkedType$2 = checkedType_1,
+    const checkedType$6 = checkedType_1,
         first = _toUpperFirst,
-        forEach$3 = forEach_1;
+        forEach$4 = forEach_1;
 
     /**
      *
@@ -2378,7 +2379,7 @@
      * 
      */
     function upperFirst$1(target) {
-        let type = checkedType$2(target),
+        let type = checkedType$6(target),
             result = null;
 
         switch (type) {
@@ -2386,17 +2387,17 @@
                 result = first(target);
                 break;
             case 'Array':
-                result = forEach$3(target, (item, index) => {
+                result = forEach$4(target, (item, index) => {
                     target[index] = upperFirst$1(item);
                 });
                 break;
             case 'Object':
-                result = forEach$3(target, (value, key) => {
+                result = forEach$4(target, (value, key) => {
                     target[key] = upperFirst$1(value);
                 });
                 break;
             case 'Map':
-                result = forEach$3(target, (value, key) => {
+                result = forEach$4(target, (value, key) => {
                     target.set(key, upperFirst$1(value));
                 });
                 break;
@@ -2426,9 +2427,9 @@
 
     var _toLower_1 = _toLower$1;
 
-    const checkedType$1 = checkedType_1,
+    const checkedType$5 = checkedType_1,
         _toLower = _toLower_1,
-        forEach$2 = forEach_1;
+        forEach$3 = forEach_1;
 
 
 
@@ -2453,7 +2454,7 @@
      * 
      */
     function toLower$1(target) {
-        let type = checkedType$1(target),
+        let type = checkedType$5(target),
             result = null;
 
         switch (type) {
@@ -2461,17 +2462,17 @@
                 result = _toLower(target);
                 break;
             case 'Array':
-                result = forEach$2(target, (item, index) => {
+                result = forEach$3(target, (item, index) => {
                     target[index] = toLower$1(item);
                 });
                 break;
             case 'Object':
-                result = forEach$2(target, (value, key) => {
+                result = forEach$3(target, (value, key) => {
                     target[key] = toLower$1(value);
                 });
                 break;
             case 'Map':
-                result = forEach$2(target, (value, key) => {
+                result = forEach$3(target, (value, key) => {
                     target.set(key, toLower$1(value));
                 });
                 break;
@@ -2507,7 +2508,7 @@
 
     var _pullOne = pullOne$1;
 
-    const forEach$1 = forEach_1,
+    const forEach$2 = forEach_1,
             pullOne = _pullOne;
 
 
@@ -2533,7 +2534,7 @@
      * 
      */
     function pull$2 (arr, ...args) {
-        forEach$1(args, argsItem => {
+        forEach$2(args, argsItem => {
             pullOne(arr, argsItem);
         });
         return arr;
@@ -2681,16 +2682,424 @@
 
     /**
      * 
-     * 限定执行器函数只能在num次调用才会执行函数fn
+     * @module compact
      * 
-     * @param {Function} fn func
-     * @param {Number} num 次数
-     * @returns {Function} 执行器函数
+     * @description 获取真值数组
+     * 
+     * 返回一个新数组，包含原数组只呢个的所有真值，
+     * 假值为：undefined, NaN, 0, false, null
+     * 
+     * 
+     * 
+     * @param {Array} arr array
+     * @returns {Array} 数组中的真值元素组成的数组
+     * 
+     * 
+     * @example
+     * 
+     * let arr = [0, 1, false, 2, null, '', 3, NaN, 4, undefined, 5];
+     * 
+     * // [1, 2, 3, 4, 5];
+     * console.log( _.compact(arr) );
+     * 
      */
-    function execBefore(fn, num) {
+
+    function compact$1 (arr) {
+        let cache = [];
+
+        for (const iterate of arr) {
+            if (iterate) {
+                cache.push(iterate);
+            }
+        }
+
+        return cache;
+    }
+
+
+
+    var compact_1 = compact$1;
+
+    const filter$1 = filter_1;
+
+
+
+    /**
+     * 
+     * @module withOut
+     * 
+     * @description 移除所有等于calue的值
+     * 
+     * 返回一个新数组，其中包含所有不等于value的值
+     * 
+     * @param {Array} arr array
+     * @param  {...any} values 想要移除的值
+     * @returns {Array}
+     * 
+     * @example
+     * 
+     * 
+     * let arr = [1, 1, 0, 2, 3 ,4 ,5 ,3, 6];
+     * 
+     * // [0, 2, 4, 5, 6]
+     * console.log( _.withOut(arr, 1, 3) );
+     * 
+     */
+    function withOut$1 (arr, ...values) {
+        return filter$1(arr, item => !values.includes(item));
+    }
+
+
+    var withOut_1 = withOut$1;
+
+    const random$3 = random_1;
+
+    /**
+     * 
+     * @param {Array} arr array
+     * @returns {any}
+     */
+    function arraySample$1 (arr) {
+        let len = arr.length;
+
+        if (len === 0) {
+            return undefined;
+        } else if (len === 1) {
+            return arr[0];
+        } else {
+            return arr[ random$3(0, len - 1) ];
+        }
+    }
+
+
+    var _arraySample = arraySample$1;
+
+    const checkedType$4 = checkedType_1,
+            arraySample = _arraySample;
+
+
+    /**
+     * 
+     * @module sample
+     * 
+     * @description 随机获取集合的某一项的值
+     * 
+     * 随机获取集合的某一项，对于Object和Map类型来说，获取得将会是他们的
+     * Key，而不是Value
+     * 
+     * @param {Array | Object | Map | Set | String} target 一个集合
+     * @returns {any} 集合的某一项
+     * 
+     * @example
+     * 
+     * let arr = [1, 2, 3, 4];
+     * 
+     * // 3, 2, 2, 3, 3, 1, 2, 4, 4, 1
+     * 
+     * _.forEach(10, () => {
+     *      console.log( _.sample(arr) )
+     * })
+     * 
+     */
+
+    function sample$1 (target) {
+        let type = checkedType$4(target),
+            cache = null;
+
+        switch (type) {
+            case 'Array':
+            case 'String':
+                cache = target;
+                break;
+            case 'Object':
+                cache = Object.keys(target);
+                break;
+            case 'Map':
+            case 'Set':
+                cache = Array.from(target.keys());
+                break;
+            default:
+                return target;
+        }
+
+        return arraySample(cache);
+    }
+
+
+    var sample_1 = sample$1;
+
+    const checkedType$3 = checkedType_1,
+            random$2 = random_1;
+
+
+    /**
+     * 
+     * @module sampleSize
+     * 
+     * @description 随机抽取一个集合的num个元素
+     * 
+     * 随机抽取一个集合的num个元素，适用于多种类型，若是num大于集合内元素的数量，会随机抽取
+     * 集合所有的元素，会将抽取到的元素放到一个数组内，
+     * 
+     * @param {Array | Map | Set | Object | String} target 想要随机抽取的对象
+     * @param {Number} num 想要获得的元素数量
+     * @returns {Array} 抽取的元素组成的数组
+     * 
+     * 
+     * @example
+     * 
+     * let arr = [1, 2, 3, 4];
+     * 
+     * // [3, 1]
+     * console.log(_.sampleSize(arr, 2));
+     * 
+     * // [2, 4, 3, 1]
+     * console.log(_.sampleSize(arr, 100));
+     * 
+     */
+    function sampleSize$1 (target, num) {
+        let type = checkedType$3(target),
+            cache = null;
+
+        switch (type) {
+            case 'Array':
+                cache = target.slice();
+                break;
+            case 'Object':
+                cache = Object.keys(target);
+                break;
+            case 'Map':
+            case 'Set':
+                cache = Array.from( target.keys() );
+                break;
+            case 'String':
+                cache = target.split('');
+                break;
+            default :
+                return target;
+        }
+
+        num = num > cache.length ? cache.length : num;
+
+        let result = [];
+
+        for (let i = 0; i < num; i++) {
+            let index = random$2(0, cache.length - 1),
+                value = cache[index];
+            result.push( value );
+            cache.splice(index, 1);
+        }
+
+        return result;
+    }
+
+
+
+
+    var sampleSize_1 = sampleSize$1;
+
+    const checkedType$2 = checkedType_1;
+
+
+
+    /**
+     * 
+     * @module size
+     * 
+     * @description 一个集合内元素的数量
+     * 
+     * 对于数组和字符串，为他们的length属性，其他类型的对象，为对象内所有
+     * 的可迭代属性的数量
+     * 
+     * @param {Array | String | Object | Map | Set} target 一个集合
+     * @returns {Number} 集合内元素的数量
+     * 
+     * @example
+     * 
+     * let o = {name: 'Davi', age: 22};
+     * 
+     * // 2
+     * console.log(_.size(o));
+     * 
+     */
+    function size$1 (target) {
+        let type = checkedType$2(target),
+            len = 0;
+
+        switch (type) {
+            case 'Array':
+            case 'String':
+                len = target.length;
+                break;
+            case 'Object':
+                len = Object.keys(target).length;
+                break;
+            case 'Map':
+            case 'Set':
+                len = Array.from( target.keys() ).length;
+                break;
+            default:
+                return target;
+        }
+
+        return len;
+    }
+
+
+    var size_1 = size$1;
+
+    const checkedType$1 = checkedType_1,
+            forEach$1 = forEach_1,
+            random$1 = random_1;
+
+
+
+    /**
+     * 
+     * @module shuffle
+     * 
+     * @description 打乱集合的顺序
+     * 
+     * 打乱一个集合的顺序，不会改变原集合，而是返回一个新集合，
+     * 
+     * @param {Array | Object | Map | Set | String} target 想要打乱顺序的集合
+     * @returns {Array | Object | Map | Set | String} 打乱顺序后的集合
+     * 
+     * 
+     * @example
+     * 
+     * let arr = [1, 2, 3, 4];
+     * 
+     * // [2, 4, 3, 1]
+     * console.log(_.shuffle(arr));
+     * 
+     * let str = 'ABCD';
+     * 
+     * // 'ADBC';
+     * console.log(_.shuffle(str));
+     * 
+     */
+    function shuffle$1 (target) {
+        let type = checkedType$1(target),
+            cache = null,
+            result = null,
+            len = 0;
+
+        switch (type) {
+            case 'Array':
+                result = [];
+                cache = target.slice();
+                len = cache.length;
+
+                forEach$1( len, () => {
+                    let i = random$1(0, len - 1);
+                    result.push( cache[i] );
+                    cache.splice(i, 1);
+                    len--;
+                } );
+                break;
+            case 'Object':
+                result = {};
+                cache = Object.keys(target);
+                len = cache.length;
+
+                forEach$1(len, () => {
+                    let i = random$1(0, len - 1),
+                        key = cache[i],
+                        value = target[key];
+                    
+                    result[key] = value;
+                    cache.splice(i, 1);
+                    len--;
+                });
+                break;
+            case 'Map':
+                result = new Map();
+                cache = Array.from( target.keys() );
+                len = cache.length;
+
+                forEach$1( len, () => {
+                    let i = random$1(0, len - 1),
+                        key = cache[i],
+                        value = target.get(key);
+
+                    result.set(key, value);
+                    cache.splice(i, 1);
+                    len--;
+                } );
+                break;
+            case 'Set':
+                result = new Set();
+                cache = Array.from( target.keys() );
+                len = cache.length;
+
+                forEach$1( len, () => {
+                    let i = random$1(0, len - 1),
+                        value = cache[i];
+
+                    result.add(value);
+                    cache.splice(i, 1);
+                    len--;
+                } );
+                break;
+            case 'String':
+                result = '';
+                cache = target.split('');
+                len = cache.length;
+
+                forEach$1(len, () => {
+                    let i = random$1(0, len - 1),
+                        value = cache[i];
+
+                    result += value;
+                    cache.splice(i, 1);
+                    len--;
+                });
+                break;
+            default:
+                return target;
+        }
+
+        return result;
+    }
+
+
+    var shuffle_1 = shuffle$1;
+
+    /**
+     * 
+     * @module before
+     * 
+     * @description 限制函数执行的次数
+     * 
+     * 限制函数只能执行多少次，返回一个执行器函数，用来执行函数，次数到之后，再次执行函数
+     * 会失效，
+     * 
+     * 
+     * @param {Function} fn 想要限制执行次数的函数
+     * @param {Number} count 执行次数
+     * @param {any}  [point=globalThis] 函数运行时所在环境，默认为globalThis
+     * @returns {Function}  执行器函数
+     * 
+     * 
+     * @example
+     * 
+     * function before (n) {
+        console.log('只有在前四次点击才会执行我');
+     *}
+     *
+     * 
+     * let button = document.querySelector('button');
+     * 
+     * let exec = _.before(before, 4);
+     * 
+     * button.addEventListener('click', exec);
+     * 
+     */
+    function before$1 (fn, count, point=globalThis) {
         function* generateSequence() {
-            for (let i = 0; i < num; i++) {
-                yield fn();
+            for (let i = 0; i < count; i++) {
+                yield fn.call(point);
             }
         }
 
@@ -2702,19 +3111,38 @@
     }
 
 
-    var _execBefore = execBefore;
+    var before_1 = before$1;
 
     /**
      * 
-     * 限定执行器函数只要有在执行num次后执行，才会调用函数fn
+     * @module after
      * 
-     * @param {Function} fn func
-     * @param {Number} num 次数
+     * @description 函数在count次后执行
+     * 
+     * 限制函数在触发多少次后执行
+     * 
+     * @param {Function} fn 想要限制执行的函数
+     * @param {Number} count 次数
+     * @param {any} [point=globalThis] 函数执行时环境，默认为globalThis
      * @returns {Function} 执行器函数
+     * 
+     * @example
+     * 
+     * function after (n) {
+        console.log('只有在点击四次后才会执行我');
+     *}
+     *
+     * 
+     * let button = document.querySelector('button');
+     * 
+     * let exec = _.after(after, 4);
+     * 
+     * button.addEventListener('click', exec);
+     * 
      */
-    function execAfter(fn, num) {
+    function after$1 (fn, count, point=globalThis) {
         function* generateSequence() {
-            for (let i = 0; i < num; i++) {
+            for (let i = 0; i < count; i++) {
                 yield;
             }
         }
@@ -2723,68 +3151,51 @@
 
         return () => {
             if (generator.next().done) {
-                fn();
+                fn.call(point);
             }
         };
     }
 
 
-    var _execAfter = execAfter;
-
-    const before = _execBefore,
-            after = _execAfter;
-
-
-
-
+    var after_1 = after$1;
 
     /**
      * 
-     * @module limitExec
+     * @module delay
      * 
-     * @description 限制函数的执行次数
+     * @description 延时函数
      * 
-     * 可选的第三个参数isBefore默认为True，决定函数fn能够执行的次数，
-     * 若是isBefore为false，则行为改变为在执行执行器函数执行num次后的执行，才会真正执行函数fn
+     * 延时函数fn的执行wait毫秒，会返回一个定时器ID
      * 
-     * @param {Function} fn 想要限制执行的函数
-     * @param {Number} num 次数
-     * @param {Boolean} isBefore 限制执行num次函数fn还是在执行num次后执行函数fn
-     * @returns {Function} 执行器函数
+     * @param {Function} fn 想要延时的函数
+     * @param {Number} wait 延时
+     * @param {Array} args 函数fn需要的参数，需要放到一个数组里面
+     * @param {any} [point=globalThis] 函数fn执行时环境，默认为globalThis
+     * @returns {Object} 定时器ID
      * 
      * 
      * @example
      * 
+     * let obj = {
+     *      name: 'Sun XiaoChuan',
+     *      age: 6,
+     *      introduction() {
+     *      console.log(`My name is ${this.name} I'm ${this.age} years old`)
+     *      }
+     * }
      * 
-     * function before (n) {
-        console.log('只有在前四次点击才会执行我');
-     *}
-     *
-     * 
-     * let button = document.querySelector('button');
-     * 
-     * let exec = limitExec(before, 4);
-     * 
-     * button.addEventListener('click', exec);
-     * 
-     * 
+     * // My name is sun Xiaochuan. I'm 6 years old
+     * let timerId = delay(obj.introduction, 1000, [], obj);
      * 
      */
-    function limitExec$1 (fn, num, isBefore=true) {
-        let func = null;
-
-        if (isBefore) {
-            func = before;
-        } else {
-            func = after;
-        }
-
-        return func( fn, num );
+    function delay$1 (fn, wait, args, point=globalThis) {
+        return setTimeout(() => {
+            fn.apply(point, args);
+        }, wait);
     }
 
 
-
-    var limitExec_1 = limitExec$1;
+    var delay_1 = delay$1;
 
     const checkedType = checkedType_1,
         curry = curry_1,
@@ -2812,8 +3223,15 @@
         unique = unique_1,
         remove = remove_1,
         toCurrency = toCurrency_1,
-        limitExec = limitExec_1;
-
+        compact = compact_1,
+        withOut = withOut_1,
+        sample = sample_1,
+        sampleSize = sampleSize_1,
+        size = size_1,
+        shuffle = shuffle_1,
+        before = before_1,
+        after = after_1,
+        delay = delay_1;
 
 
 
@@ -2841,10 +3259,18 @@
         some,
         reduceRight,
         toCurrency,
-        limitExec,
         forEachRight,
         upperFirst,
-        toLower
+        toLower,
+        compact,
+        withOut,
+        sample,
+        sampleSize,
+        size,
+        shuffle,
+        before,
+        after,
+        delay,
     };
 
     return src;

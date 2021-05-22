@@ -51,10 +51,18 @@ _.curry(f, 1)(2)(3); // 6
 </script>
 ```
 
-
 ## Modules
 
 <dl>
+<dt><a href="#module_after">after</a> ⇒ <code>function</code></dt>
+<dd><p>函数在count次后执行</p>
+<p>限制函数在触发多少次后执行</p>
+</dd>
+<dt><a href="#module_before">before</a> ⇒ <code>function</code></dt>
+<dd><p>限制函数执行的次数</p>
+<p>限制函数只能执行多少次，返回一个执行器函数，用来执行函数，次数到之后，再次执行函数
+会失效，</p>
+</dd>
 <dt><a href="#module_camelCase">camelCase</a> ⇒ <code>String</code></dt>
 <dd><p>驼峰化字符串</p>
 <p>函数会舍弃字符串的所有特殊字符，无论是在开头还是中间还是结尾，而在非开头处的数字或特殊字符
@@ -63,6 +71,11 @@ _.curry(f, 1)(2)(3); // 6
 <dt><a href="#module_checkedType">checkedType</a> ⇒ <code>String</code></dt>
 <dd><p>判断类型的函数</p>
 <p>函数会返回对应类型的大写形式</p>
+</dd>
+<dt><a href="#module_compact">compact</a> ⇒ <code>Array</code></dt>
+<dd><p>获取真值数组</p>
+<p>返回一个新数组，包含原数组只呢个的所有真值，
+假值为：undefined, NaN, 0, false, null</p>
 </dd>
 <dt><a href="#module_curry">curry</a> ⇒ <code>function</code></dt>
 <dd><p>函数柯里化的辅助函数</p>
@@ -80,6 +93,10 @@ _.curry(f, 1)(2)(3); // 6
 <dd><p>深拷贝函数</p>
 <p>一个深拷贝函数，cloneProto参数决定是否拷贝一个对象的原型，不会忽略函数，对象的
 Symbol属性，但是对于Symbol属性，仍然传递的是Symbol的引用</p>
+</dd>
+<dt><a href="#module_delay">delay</a> ⇒ <code>Object</code></dt>
+<dd><p>延时函数</p>
+<p>延时函数fn的执行wait毫秒，会返回一个定时器ID</p>
 </dd>
 <dt><a href="#module_every">every</a> ⇒ <code>Boolean</code></dt>
 <dd><p>every迭代函数</p>
@@ -116,11 +133,6 @@ fromIndex为迭代的起点，对于数组来说，是其索引，对于对象Ma
 <dt><a href="#module_isInContainer">isInContainer</a> ⇒ <code>Boolean</code></dt>
 <dd><p>判断一个元素是否在对应容器的可视区域内</p>
 </dd>
-<dt><a href="#module_limitExec">limitExec</a> ⇒ <code>function</code></dt>
-<dd><p>限制函数的执行次数</p>
-<p>可选的第三个参数isBefore默认为True，决定函数fn能够执行的次数，
-若是isBefore为false，则行为改变为在执行执行器函数执行num次后的执行，才会真正执行函数fn</p>
-</dd>
 <dt><a href="#module_map">map</a> ⇒ <code>Array</code></dt>
 <dd><p>map迭代函数</p>
 <p>适用于各种类型的map迭代函数，对集合的每一项调用函数fn，返回函数
@@ -153,6 +165,25 @@ fromIndex为迭代的起点，对于数组来说，是其索引，对于对象Ma
 <p>删除数组中所有对函数返回True的项，返回删除的项，在原数组删除
 断言函数接受三个参数，数组当前项的值，索引和数组本身</p>
 </dd>
+<dt><a href="#module_sample">sample</a> ⇒ <code>any</code></dt>
+<dd><p>随机获取集合的某一项的值</p>
+<p>随机获取集合的某一项，对于Object和Map类型来说，获取得将会是他们的
+Key，而不是Value</p>
+</dd>
+<dt><a href="#module_sampleSize">sampleSize</a> ⇒ <code>Array</code></dt>
+<dd><p>随机抽取一个集合的num个元素</p>
+<p>随机抽取一个集合的num个元素，适用于多种类型，若是num大于集合内元素的数量，会随机抽取
+集合所有的元素，会将抽取到的元素放到一个数组内，</p>
+</dd>
+<dt><a href="#module_shuffle">shuffle</a> ⇒ <code>Array</code> | <code>Object</code> | <code>Map</code> | <code>Set</code> | <code>String</code></dt>
+<dd><p>打乱集合的顺序</p>
+<p>打乱一个集合的顺序，不会改变原集合，而是返回一个新集合，</p>
+</dd>
+<dt><a href="#module_size">size</a> ⇒ <code>Number</code></dt>
+<dd><p>一个集合内元素的数量</p>
+<p>对于数组和字符串，为他们的length属性，其他类型的对象，为对象内所有
+的可迭代属性的数量</p>
+</dd>
 <dt><a href="#module_some">some</a> ⇒ <code>Boolean</code></dt>
 <dd><p>some迭代函数</p>
 <p>适用于多种类型的Some函数，对对象的每一项调用函数，若是有一项使函数返回True，
@@ -184,8 +215,48 @@ fromIndex为迭代的起点，对于数组来说，是其索引，对于对象Ma
 <dd><p>将字符串或一个集合中的字符串首字母大写，</p>
 <p>该方法会递归一个集合的所有深度，将集合的所有字符串转化为首字母大写形式</p>
 </dd>
+<dt><a href="#module_withOut">withOut</a> ⇒ <code>Array</code></dt>
+<dd><p>移除所有等于calue的值</p>
+<p>返回一个新数组，其中包含所有不等于value的值</p>
+</dd>
 </dl>
 
+<a name="module_after"></a>
+
+## after ⇒ <code>function</code>
+函数在count次后执行限制函数在触发多少次后执行
+
+**Returns**: <code>function</code> - 执行器函数  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| fn | <code>function</code> |  | 想要限制执行的函数 |
+| count | <code>Number</code> |  | 次数 |
+| [point] | <code>any</code> | <code>globalThis</code> | 函数执行时环境，默认为globalThis |
+
+**Example**  
+```js
+function after (n) {
+    console.log('只有在点击四次后才会执行我');}let button = document.querySelector('button');let exec = _.after(after, 4);button.addEventListener('click', exec);
+```
+<a name="module_before"></a>
+
+## before ⇒ <code>function</code>
+限制函数执行的次数限制函数只能执行多少次，返回一个执行器函数，用来执行函数，次数到之后，再次执行函数会失效，
+
+**Returns**: <code>function</code> - 执行器函数  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| fn | <code>function</code> |  | 想要限制执行次数的函数 |
+| count | <code>Number</code> |  | 执行次数 |
+| [point] | <code>any</code> | <code>globalThis</code> | 函数运行时所在环境，默认为globalThis |
+
+**Example**  
+```js
+function before (n) {
+    console.log('只有在前四次点击才会执行我');}let button = document.querySelector('button');let exec = _.before(before, 4);button.addEventListener('click', exec);
+```
 <a name="module_camelCase"></a>
 
 ## camelCase ⇒ <code>String</code>
@@ -215,6 +286,21 @@ let str1 = '@!$as3gh-at^e123!@#';let str2 = 'a1b2c3';camelCase(str1); // as3G
 **Example**  
 ```js
 _.checkedType({}); //  "Object" _.checkedType([]); // "Array" _.checkedType(true); // "Boolean" _.checkedType(undefined); // "Undefined" _.checkedType(null); // "Null" _.checkedType('str'); // "String"
+```
+<a name="module_compact"></a>
+
+## compact ⇒ <code>Array</code>
+获取真值数组返回一个新数组，包含原数组只呢个的所有真值，假值为：undefined, NaN, 0, false, null
+
+**Returns**: <code>Array</code> - 数组中的真值元素组成的数组  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arr | <code>Array</code> | array |
+
+**Example**  
+```js
+let arr = [0, 1, false, 2, null, '', 3, NaN, 4, undefined, 5];// [1, 2, 3, 4, 5];console.log( _.compact(arr) );
 ```
 <a name="module_curry"></a>
 
@@ -267,6 +353,24 @@ function go () {
 **Example**  
 ```js
 let obj = {     name: 'Jack',     age: 30};let o2 = _.deepClone(obj);
+```
+<a name="module_delay"></a>
+
+## delay ⇒ <code>Object</code>
+延时函数延时函数fn的执行wait毫秒，会返回一个定时器ID
+
+**Returns**: <code>Object</code> - 定时器ID  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| fn | <code>function</code> |  | 想要延时的函数 |
+| wait | <code>Number</code> |  | 延时 |
+| args | <code>Array</code> |  | 函数fn需要的参数，需要放到一个数组里面 |
+| [point] | <code>any</code> | <code>globalThis</code> | 函数fn执行时环境，默认为globalThis |
+
+**Example**  
+```js
+let obj = {     name: 'Sun XiaoChuan',     age: 6,     introduction() {     console.log(`My name is ${this.name} I'm ${this.age} years old`)     }}// My name is sun Xiaochuan. I'm 6 years oldlet timerId = delay(obj.introduction, 1000, [], obj);
 ```
 <a name="module_every"></a>
 
@@ -377,24 +481,6 @@ let arr = [1, 2, 3, 4]; _.forEachRight(arr, item => console.log(item));   // 4
 | el | <code>Object</code> | 判断是否在容器的目标DOM元素 |
 | container | <code>Object</code> | 容器DOM元素，默认为视口 |
 
-<a name="module_limitExec"></a>
-
-## limitExec ⇒ <code>function</code>
-限制函数的执行次数可选的第三个参数isBefore默认为True，决定函数fn能够执行的次数，若是isBefore为false，则行为改变为在执行执行器函数执行num次后的执行，才会真正执行函数fn
-
-**Returns**: <code>function</code> - 执行器函数  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>function</code> | 想要限制执行的函数 |
-| num | <code>Number</code> | 次数 |
-| isBefore | <code>Boolean</code> | 限制执行num次函数fn还是在执行num次后执行函数fn |
-
-**Example**  
-```js
-function before (n) {
-    console.log('只有在前四次点击才会执行我');}let button = document.querySelector('button');let exec = limitExec(before, 4);button.addEventListener('click', exec);
-```
 <a name="module_map"></a>
 
 ## map ⇒ <code>Array</code>
@@ -493,6 +579,67 @@ let arr = [0, 1, 2, 3, 4];console.log( _.reduceRight(arr, (pre, cur) => pre + 
 **Example**  
 ```js
 let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];_.remove(arr);    //  [ 2, 4, 6, 8, 10 ]console.log(arr);  //  [ 1, 3, 5, 7, 9 ]
+```
+<a name="module_sample"></a>
+
+## sample ⇒ <code>any</code>
+随机获取集合的某一项的值随机获取集合的某一项，对于Object和Map类型来说，获取得将会是他们的Key，而不是Value
+
+**Returns**: <code>any</code> - 集合的某一项  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| target | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> \| <code>String</code> | 一个集合 |
+
+**Example**  
+```js
+let arr = [1, 2, 3, 4];// 3, 2, 2, 3, 3, 1, 2, 4, 4, 1_.forEach(10, () => {     console.log( _.sample(arr) )})
+```
+<a name="module_sampleSize"></a>
+
+## sampleSize ⇒ <code>Array</code>
+随机抽取一个集合的num个元素随机抽取一个集合的num个元素，适用于多种类型，若是num大于集合内元素的数量，会随机抽取集合所有的元素，会将抽取到的元素放到一个数组内，
+
+**Returns**: <code>Array</code> - 抽取的元素组成的数组  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| target | <code>Array</code> \| <code>Map</code> \| <code>Set</code> \| <code>Object</code> \| <code>String</code> | 想要随机抽取的对象 |
+| num | <code>Number</code> | 想要获得的元素数量 |
+
+**Example**  
+```js
+let arr = [1, 2, 3, 4];// [3, 1]console.log(_.sampleSize(arr, 2));// [2, 4, 3, 1]console.log(_.sampleSize(arr, 100));
+```
+<a name="module_shuffle"></a>
+
+## shuffle ⇒ <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> \| <code>String</code>
+打乱集合的顺序打乱一个集合的顺序，不会改变原集合，而是返回一个新集合，
+
+**Returns**: <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> \| <code>String</code> - 打乱顺序后的集合  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| target | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> \| <code>String</code> | 想要打乱顺序的集合 |
+
+**Example**  
+```js
+let arr = [1, 2, 3, 4];// [2, 4, 3, 1]console.log(_.shuffle(arr));let str = 'ABCD';// 'ADBC';console.log(_.shuffle(str));
+```
+<a name="module_size"></a>
+
+## size ⇒ <code>Number</code>
+一个集合内元素的数量对于数组和字符串，为他们的length属性，其他类型的对象，为对象内所有的可迭代属性的数量
+
+**Returns**: <code>Number</code> - 集合内元素的数量  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| target | <code>Array</code> \| <code>String</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 一个集合 |
+
+**Example**  
+```js
+let o = {name: 'Davi', age: 22};// 2console.log(_.size(o));
 ```
 <a name="module_some"></a>
 
@@ -615,4 +762,19 @@ let arr = [1, 2, 3, 4, 1, 2, 3, 5];_.unique(arr);  // [1, 2, 3, 4, 5]
 **Example**  
 ```js
 let arr = ['aaa', {name: 'davi'}, 20];// ['Aaa', {name: 'Davi'}, 20];console.log(_.upperFirst(arr));
+```
+<a name="module_withOut"></a>
+
+## withOut ⇒ <code>Array</code>
+移除所有等于calue的值返回一个新数组，其中包含所有不等于value的值
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| arr | <code>Array</code> | array |
+| ...values | <code>any</code> | 想要移除的值 |
+
+**Example**  
+```js
+let arr = [1, 1, 0, 2, 3 ,4 ,5 ,3, 6];// [0, 2, 4, 5, 6]console.log( _.withOut(arr, 1, 3) );
 ```

@@ -24,8 +24,15 @@ const checkedType = require('./checkedType'),
     unique = require('./unique'),
     remove = require('./remove'),
     toCurrency = require('./toCurrency'),
-    limitExec = require('./limitExec');
-
+    compact = require('./compact'),
+    withOut = require('./withOut'),
+    sample = require('./sample'),
+    sampleSize = require('./sampleSize'),
+    size = require('./size'),
+    shuffle = require('./shuffle'),
+    before = require('./before'),
+    after = require('./after'),
+    delay = require('./delay');
 
 
 
@@ -53,8 +60,16 @@ module.exports = {
     some,
     reduceRight,
     toCurrency,
-    limitExec,
     forEachRight,
     upperFirst,
-    toLower
+    toLower,
+    compact,
+    withOut,
+    sample,
+    sampleSize,
+    size,
+    shuffle,
+    before,
+    after,
+    delay,
 };

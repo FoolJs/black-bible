@@ -17,6 +17,7 @@ const arrayForEach = require('./_arrayforEach'),
  * 适用于各种类型的forEach，对集合的每一项运行函数，最终返回集合本身，
  * 可以显式的通过返回false来终止循环
  * 
+ * 
  * @param {Array | Map | Set | String | Number | {}} target 对象
  * @param {Function} cb 对对象的元素调用的函数
  * @returns {Array | Map | Set | String | Number | {}} 集合本身

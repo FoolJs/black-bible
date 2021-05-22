@@ -21,7 +21,7 @@ const umd = {
 
 export default {
     input: 'src/index.js',
-    output: umd,
+    output: esm,
     plugins: [
         nodeResolve(),
         commonjs(),
