@@ -679,8 +679,6 @@
 	}
 
 
-	console.log(typeof new RegExp());
-
 
 	var isRegExp_1 = isRegExp$2;
 

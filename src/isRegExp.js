@@ -30,7 +30,5 @@ function isRegExp (value) {
 }
 
 
-console.log(typeof new RegExp());
-
 
 module.exports = isRegExp;

@@ -673,8 +673,6 @@ function isRegExp$2 (value) {
 }
 
 
-console.log(typeof new RegExp());
-
 
 var isRegExp_1 = isRegExp$2;
 
@@ -3997,6 +3995,9 @@ const checkedType = checkedType_1,
     isWeakSet = isWeakSet_1,
     isError = isError_1,
     isRegExp = isRegExp_1;
+
+
+
 
 
 const isFinite = isFinite$1;
