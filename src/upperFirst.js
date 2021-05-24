@@ -1,7 +1,9 @@
-
-const checkedType = require('./checkedType'),
-    first = require('./_toUpperFirst'),
-    forEach = require('./forEach');
+const first = require('./_toUpperFirst'),
+    forEach = require('./forEach'),
+    isArray = require('./isArray'),
+    isMap = require('./isMap'),
+    isPlainObject = require('./isPlainObject'),
+    isString = require('./isString');
 
 /**
  *
@@ -21,34 +23,27 @@ const checkedType = require('./checkedType'),
  *
  * // ['Aaa', {name: 'Davi'}, 20];
  *console.log(_.upperFirst(arr));
- * 
+ *
  */
 function upperFirst(target) {
-    let type = checkedType(target),
-        result = null;
+    let result = null;
 
-    switch (type) {
-        case 'String':
-            result = first(target);
-            break;
-        case 'Array':
-            result = forEach(target, (item, index) => {
-                target[index] = upperFirst(item);
-            });
-            break;
-        case 'Object':
-            result = forEach(target, (value, key) => {
-                target[key] = upperFirst(value);
-            });
-            break;
-        case 'Map':
-            result = forEach(target, (value, key) => {
-                target.set(key, upperFirst(value));
-            });
-            break;
-        default:
-            result = target;
-            break;
+    if (isString(target)) {
+        result = first(target);
+    } else if (isArray(target)) {
+        result = forEach(target, (item, index) => {
+            target[index] = upperFirst(item);
+        });
+    } else if (isPlainObject(target)) {
+        result = forEach(target, (value, key) => {
+            target[key] = upperFirst(value);
+        });
+    } else if (isMap(target)) {
+        result = forEach(target, (value, key) => {
+            target.set(key, upperFirst(value));
+        });
+    } else {
+        result = target;
     }
 
     return result;

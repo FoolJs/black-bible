@@ -1,5 +1,11 @@
-const checkedType = require('./checkedType.js'),
-        forEach = require('./forEach');
+const forEach = require('./forEach'),
+    isObject = require('./isObject'),
+    isDate = require('./isDate'),
+    isArray = require('./isArray'),
+    isMap = require('./isMap'),
+    isSet = require('./isSet'),
+    isPlainObject = require('./isPlainObject'),
+    isRegExp = require('./isRegExp');
 
 
 
@@ -26,22 +32,21 @@ const checkedType = require('./checkedType.js'),
  * let o2 = _.deepClone(obj);
  */
 function deepClone(target, cloneProto=false, cache=new WeakMap()) {
-    let result = null,
-        type = checkedType(target);
+    let result = null;
 
-    if ( typeof target !== 'object' ) {
+    if ( !isObject(target) ) {
         return target;
     }
-    if (type === 'Date') {
+    if (isDate(target)) {
         return new Date(target);
     }
-    if (type === 'RegExp') {
+    if (isRegExp(target)) {
         return new RegExp(target);
     }
     if ( cache.has(target) ) {
         return cache.get(target);
     }
-    if (type === 'Array') {
+    if (isArray(target)) {
         result = [];
 
         cache.set(target, result);
@@ -52,7 +57,7 @@ function deepClone(target, cloneProto=false, cache=new WeakMap()) {
 
         return result;
     }
-    if (type === 'Map') {
+    if (isMap(target)) {
         result = new Map();
 
         cache.set(target, result);
@@ -66,7 +71,7 @@ function deepClone(target, cloneProto=false, cache=new WeakMap()) {
 
         return result;
     }
-    if (type === 'Set') {
+    if (isSet(target)) {
         result = new Set();
 
         cache.set(target, result);
@@ -77,7 +82,7 @@ function deepClone(target, cloneProto=false, cache=new WeakMap()) {
 
         return result;
     }
-    if (type === 'Object') {
+    if (isPlainObject(value)) {
         result = {};
         cache.set(target, result);
 

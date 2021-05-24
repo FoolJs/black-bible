@@ -4,7 +4,10 @@
  * 
  * @description 判断类型的函数
  * 
- * 函数会返回对应类型的大写形式
+ * 该函数通过Object.prototype.toString方法来判断，所以
+ * 若是重写了该方法，函数可能会失效，函数会返回对应类型的大写形式，
+ * 
+ * 
  * 
  * @param {any} target 一个需要检查类型的值
  * @returns {String} 返回一个值对应的类型的字符串

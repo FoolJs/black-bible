@@ -51,6 +51,7 @@ _.curry(f, 1)(2)(3); // 6
 </script>
 ```
 
+
 ## Modules
 
 <dl>
@@ -70,7 +71,8 @@ _.curry(f, 1)(2)(3); // 6
 </dd>
 <dt><a href="#module_checkedType">checkedType</a> ⇒ <code>String</code></dt>
 <dd><p>判断类型的函数</p>
-<p>函数会返回对应类型的大写形式</p>
+<p>该函数通过Object.prototype.toString方法来判断，所以
+若是重写了该方法，函数可能会失效，函数会返回对应类型的大写形式，</p>
 </dd>
 <dt><a href="#module_compact">compact</a> ⇒ <code>Array</code></dt>
 <dd><p>获取真值数组</p>
@@ -130,8 +132,92 @@ fromIndex为迭代的起点，对于数组来说，是其索引，对于对象Ma
 <p>forEach函数的反向函数，从结尾开始迭代，可以通过返回false显式的
 结束迭代，返回集合本身</p>
 </dd>
+<dt><a href="#module_isArray">isArray</a></dt>
+<dd><p>是否是数组类型</p>
+<p>使用Array的isArray方法来进行检查</p>
+</dd>
+<dt><a href="#module_isBigInt">isBigInt</a> ⇒ <code>Boolean</code></dt>
+<dd><p>值是否是BigInt类型</p>
+</dd>
+<dt><a href="#module_isBoolean">isBoolean</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查是否是布尔值</p>
+</dd>
+<dt><a href="#module_isDate">isDate</a> ⇒ <code>Boolean</code></dt>
+<dd><p>值是否是Date</p>
+</dd>
+<dt><a href="#module_isError">isError</a> ⇒ <code>Boolean</code></dt>
+<dd><p>是否是Error类型</p>
+</dd>
+<dt><a href="#module_isFalseValue">isFalseValue</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查是否是假植</p>
+<p>在这里，假值的概念为值等于 undefined ，null ，false ，0</p>
+</dd>
+<dt><a href="#module_isFinite">isFinite</a> ⇒ <code>Boolean</code></dt>
+<dd><p>值是否是有限数字</p>
+</dd>
+<dt><a href="#module_isFunction">isFunction</a> ⇒ <code>Boolean</code></dt>
+<dd><p>值是否是函数</p>
+</dd>
 <dt><a href="#module_isInContainer">isInContainer</a> ⇒ <code>Boolean</code></dt>
 <dd><p>判断一个元素是否在对应容器的可视区域内</p>
+</dd>
+<dt><a href="#module_isMap">isMap</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查值是否为Map</p>
+</dd>
+<dt><a href="#module_isNaN">isNaN</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查是否是NaN</p>
+<p>与Javascript自带的isNaN不同，该函数只会对NaN值返回true</p>
+</dd>
+<dt><a href="#module_isNodeEnv">isNodeEnv</a> ⇒ <code>Boolean</code></dt>
+<dd><p>是否是Node环境</p>
+</dd>
+<dt><a href="#module_isNull">isNull</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查值是否等于Null</p>
+</dd>
+<dt><a href="#module_isNumber">isNumber</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查是否是数字</p>
+</dd>
+<dt><a href="#module_isObject">isObject</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查是否是对象类型</p>
+<p>对于任何对象类型包括函数返回True，对于null返回false和undefined返回false</p>
+</dd>
+<dt><a href="#module_isObjectLike">isObjectLike</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查是否是类对象</p>
+<p>跟isObject基本相同，只是会对函数返回false，也就是说对
+一个非null非function对象返回True</p>
+</dd>
+<dt><a href="#module_isPlainObject">isPlainObject</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查值是否为普通对象</p>
+<p>一个普通对象为直接通过Object构造函数或对象字面量创建的对象,
+一个对象若是继承了其他对象也算是普通对象</p>
+</dd>
+<dt><a href="#module_isRegExp">isRegExp</a> ⇒ <code>Boolean</code></dt>
+<dd><p>是否是RegExp</p>
+</dd>
+<dt><a href="#module_isSet">isSet</a> ⇒ <code>Boolean</code></dt>
+<dd><p>是否是Set</p>
+</dd>
+<dt><a href="#module_isString">isString</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查是否是字符串</p>
+</dd>
+<dt><a href="#module_isSymbol">isSymbol</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查值是否是Symbol</p>
+</dd>
+<dt><a href="#module_isTrueValue">isTrueValue</a> ⇒ <code>Boolean</code></dt>
+<dd><p>值是否是真值</p>
+<p>在这里，真值的概念为不等于 undefined ，null ，0 ，false，</p>
+</dd>
+<dt><a href="#module_isUndefined">isUndefined</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查值是否是Undefined</p>
+</dd>
+<dt><a href="#module_isWeakMap">isWeakMap</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查值是否是WeakMap</p>
+</dd>
+<dt><a href="#module_isWeakSet">isWeakSet</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查值是否是WeakSet</p>
+</dd>
+<dt><a href="#module_isWindow">isWindow</a> ⇒ <code>Boolean</code></dt>
+<dd><p>检查当前宿主环境是否为window</p>
 </dd>
 <dt><a href="#module_map">map</a> ⇒ <code>Array</code></dt>
 <dd><p>map迭代函数</p>
@@ -275,7 +361,7 @@ let str1 = '@!$as3gh-at^e123!@#';let str2 = 'a1b2c3';camelCase(str1); // as3G
 <a name="module_checkedType"></a>
 
 ## checkedType ⇒ <code>String</code>
-判断类型的函数函数会返回对应类型的大写形式
+判断类型的函数该函数通过Object.prototype.toString方法来判断，所以若是重写了该方法，函数可能会失效，函数会返回对应类型的大写形式，
 
 **Returns**: <code>String</code> - 返回一个值对应的类型的字符串  
 
@@ -469,6 +555,114 @@ forEachRight迭代函数forEach函数的反向函数，从结尾开始迭代�
 ```js
 let arr = [1, 2, 3, 4]; _.forEachRight(arr, item => console.log(item));   // 4, 3, 2, 1
 ```
+<a name="module_isArray"></a>
+
+## isArray
+是否是数组类型使用Array的isArray方法来进行检查
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>any</code> | 要检查的值 |
+
+**Example**  
+```js
+// true_.isArray([]);
+```
+<a name="module_isBigInt"></a>
+
+## isBigInt ⇒ <code>Boolean</code>
+值是否是BigInt类型
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 需要检查的值 |
+
+**Example**  
+```js
+let bigInt1 = 123n,     bigInt2 = BigInt(456),     bigInt3 = Object(789n);// trueconsole.log( isBigInt(bigInt1) );// trueconsole.log( isBigInt(bigInt2) );// trueconsole.log( isBigInt(bigInt3) );
+```
+<a name="module_isBoolean"></a>
+
+## isBoolean ⇒ <code>Boolean</code>
+检查是否是布尔值
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 需要检查的值 |
+
+**Example**  
+```js
+// true_.isBoolean(true)// true_.isBoolean(false)
+```
+<a name="module_isDate"></a>
+
+## isDate ⇒ <code>Boolean</code>
+值是否是Date
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+<a name="module_isError"></a>
+
+## isError ⇒ <code>Boolean</code>
+是否是Error类型
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log(_.isError(new Error()))
+```
+<a name="module_isFalseValue"></a>
+
+## isFalseValue ⇒ <code>Boolean</code>
+检查是否是假植在这里，假值的概念为值等于 undefined ，null ，false ，0
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// falseconsole.log( _.isFalseValue(0) );console.log( _.isFalseValue(false) );console.log( _.isFalseValue(null) );console.log( _.isFalseValue(undefined) );
+```
+<a name="module_isFinite"></a>
+
+## isFinite ⇒ <code>Boolean</code>
+值是否是有限数字
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 需要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log( _.isFinite(100) );// falseconsole.log( _.isFinite(1e10000) );
+```
+<a name="module_isFunction"></a>
+
+## isFunction ⇒ <code>Boolean</code>
+值是否是函数
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log(_.isFunction(function f(){}))
+```
 <a name="module_isInContainer"></a>
 
 ## isInContainer ⇒ <code>Boolean</code>
@@ -480,6 +674,223 @@ let arr = [1, 2, 3, 4]; _.forEachRight(arr, item => console.log(item));   // 4
 | --- | --- | --- |
 | el | <code>Object</code> | 判断是否在容器的目标DOM元素 |
 | container | <code>Object</code> | 容器DOM元素，默认为视口 |
+
+<a name="module_isMap"></a>
+
+## isMap ⇒ <code>Boolean</code>
+检查值是否为Map
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 需要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log(_.isMap(new Map()))
+```
+<a name="module_isNaN"></a>
+
+## isNaN ⇒ <code>Boolean</code>
+检查是否是NaN与Javascript自带的isNaN不同，该函数只会对NaN值返回true
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// true_.isNaN(NaN);// false_.isNaN('AAA');
+```
+<a name="module_isNodeEnv"></a>
+
+## isNodeEnv ⇒ <code>Boolean</code>
+是否是Node环境
+
+<a name="module_isNull"></a>
+
+## isNull ⇒ <code>Boolean</code>
+检查值是否等于Null
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 需要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log(_.isNull(null));
+```
+<a name="module_isNumber"></a>
+
+## isNumber ⇒ <code>Boolean</code>
+检查是否是数字
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// true_.isNumber(new Number(100));// true_.isNumber(100);
+```
+<a name="module_isObject"></a>
+
+## isObject ⇒ <code>Boolean</code>
+检查是否是对象类型对于任何对象类型包括函数返回True，对于null返回false和undefined返回false
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>any</code> | 想要检查的值 |
+
+**Example**  
+```js
+// true_.isObject([])// false_.isObject(null)// false_.isObject(undefined)
+```
+<a name="module_isObjectLike"></a>
+
+## isObjectLike ⇒ <code>Boolean</code>
+检查是否是类对象跟isObject基本相同，只是会对函数返回false，也就是说对一个非null非function对象返回True
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// false_.isObjectLike(function f () {})
+```
+<a name="module_isPlainObject"></a>
+
+## isPlainObject ⇒ <code>Boolean</code>
+检查值是否为普通对象一个普通对象为直接通过Object构造函数或对象字面量创建的对象,一个对象若是继承了其他对象也算是普通对象
+
+**Returns**: <code>Boolean</code> - let o1 = {},     o2 = {};Object.setPrototypeOf(o1, o2);// trueconsole.log(_.isPlainObject(o1))// trueconsole.log(_.isPlainObject(o2))  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 需要检查的值 |
+
+<a name="module_isRegExp"></a>
+
+## isRegExp ⇒ <code>Boolean</code>
+是否是RegExp
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 检查的值 |
+
+**Example**  
+```js
+// trueconsole.log(_.isRegExp(new RegExp()))
+```
+<a name="module_isSet"></a>
+
+## isSet ⇒ <code>Boolean</code>
+是否是Set
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 需要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log(_.isSet(new Set()))
+```
+<a name="module_isString"></a>
+
+## isString ⇒ <code>Boolean</code>
+检查是否是字符串
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// true_.isString('aaa')// true_.isString(new String())
+```
+<a name="module_isSymbol"></a>
+
+## isSymbol ⇒ <code>Boolean</code>
+检查值是否是Symbol
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 需要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log(_.isSymbol( Symbol("foo")))// trueconsole.log(_.isSymbol(Object(Symbol("foo"))))
+```
+<a name="module_isTrueValue"></a>
+
+## isTrueValue ⇒ <code>Boolean</code>
+值是否是真值在这里，真值的概念为不等于 undefined ，null ，0 ，false，
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// falseconsole.log(_.isTrueValue(undefined));// falseconsole.log(_.isTrueValue(0));// falseconsole.log(_.isTrueValue(null));// falseconsole.log(_.isTrueValue(false));// trueconsole.log(_.isTrueValue('0'));
+```
+<a name="module_isUndefined"></a>
+
+## isUndefined ⇒ <code>Boolean</code>
+检查值是否是Undefined
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 需要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log( _.isUndefined(Undefined) );
+```
+<a name="module_isWeakMap"></a>
+
+## isWeakMap ⇒ <code>Boolean</code>
+检查值是否是WeakMap
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log(_.isWeakMap(new WeakMap()))
+```
+<a name="module_isWeakSet"></a>
+
+## isWeakSet ⇒ <code>Boolean</code>
+检查值是否是WeakSet
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| value | <code>\*</code> | 想要检查的值 |
+
+**Example**  
+```js
+// trueconsole.log(_.isWeakSet(new WeakSet()))
+```
+<a name="module_isWindow"></a>
+
+## isWindow ⇒ <code>Boolean</code>
+检查当前宿主环境是否为window
 
 <a name="module_map"></a>
 
@@ -731,7 +1142,7 @@ let arr = ['AAA', ['BBB', ['CCC']]];//  ['aaa', ['bbb', ['ccc']]];console.log
 
 **Example**  
 ```js
-let arr = ['aaa', {name: 'davi'}, 20];// ['AAA', {name: 'DAVI'}, 20]console.log(_.toUpper(['aaa', { name: 'davi' }, 20]));  
+let arr = ['aaa', {name: 'davi'}, 20];// ['AAA', {name: 'DAVI'}, 20]console.log(_.toUpper(['aaa', { name: 'davi' }, 20]));
 ```
 <a name="module_unique"></a>
 

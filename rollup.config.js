@@ -21,9 +21,11 @@ const umd = {
 
 export default {
     input: 'src/index.js',
-    output: esm,
+    output: cjs,
     plugins: [
         nodeResolve(),
-        commonjs(),
+        commonjs({
+            ignoreTryCatch: true
+        }),
     ],
 };

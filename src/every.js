@@ -1,8 +1,11 @@
-const checkedType = require('./checkedType'),
-        arrayEvery = require('./_arrayEvery'),
+const arrayEvery = require('./_arrayEvery'),
         objectEvery = require('./_objectEvery'),
         mapEvery = require('./_mapEvery'),
-        setEvery = require('./_setEvery');
+        setEvery = require('./_setEvery'),
+    isArray = require('./isArray'),
+    isMap = require('./isMap'),
+    isSet = require('./isSet'),
+    isPlainObject = require('./isPlainObject');
 
 /**
  * 
@@ -26,25 +29,18 @@ const checkedType = require('./checkedType'),
  * 
  */
 function every (target, predicate) {
-    let func = null,
-        type = checkedType(target);
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayEvery;
-            break;
-        case 'Object':
-            func = objectEvery;
-            break;
-        case 'Map':
-            func = mapEvery;
-            break;
-        case 'Set':
-            func = setEvery;
-            break;
-    
-        default:
-            return target;
+    if (isArray(target)) {
+        func = arrayEvery;
+    } else if ( isPlainObject(target) ) {
+        func = objectEvery;
+    } else if ( isMap(target) ) {
+        fnc = mapEvery;
+    } else if ( isSet(target) ) {
+        func = setEvery;
+    } else {
+        return target;
     }
 
     return func(target, predicate);

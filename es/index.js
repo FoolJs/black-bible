@@ -1,9 +1,14 @@
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
 /**
  * @module checkedType
  * 
  * @description 判断类型的函数
  * 
- * 函数会返回对应类型的大写形式
+ * 该函数通过Object.prototype.toString方法来判断，所以
+ * 若是重写了该方法，函数可能会失效，函数会返回对应类型的大写形式，
+ * 
+ * 
  * 
  * @param {any} target 一个需要检查类型的值
  * @returns {String} 返回一个值对应的类型的字符串
@@ -16,7 +21,7 @@
  *  _.checkedType(null); // "Null"
  *  _.checkedType('str'); // "String"
  */
-function checkedType$k(target) {
+function checkedType$i(target) {
     return Object.prototype.toString.call(target).slice(8, -1);
 }
 
@@ -24,7 +29,7 @@ function checkedType$k(target) {
 
 
 
-var checkedType_1 = checkedType$k;
+var checkedType_1 = checkedType$i;
 
 /**
  * @description 数组版本的forEach，可以通过返回false停止执行
@@ -156,64 +161,365 @@ function stringForEach$1 (target, cb) {
 
 var _stringForEach = stringForEach$1;
 
-const arrayForEach = _arrayforEach,
-        objectForEach = _objectForEach,
-        mapForEach = _mapForEach,
-        setForEach = _setForEach,
-        numberForEach = _numberForEach,
-        stringForEach = _stringForEach,
-        checkedType$j = checkedType_1;
+/**
+ * 
+ * @module isObjectLike
+ * 
+ * @description 检查是否是类对象
+ * 
+ * 跟isObject基本相同，只是会对函数返回false，也就是说对
+ * 一个非null非function对象返回True
+ * 
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ * 
+ * @example
+ * 
+ * // false
+ * _.isObjectLike(function f () {})
+ * 
+ */
+function isObjectLike$g (value) {
+    const type = typeof value;
+    return value !== null && type === 'object';
+}
+
+
+
+var isObjectLike_1 = isObjectLike$g;
+
+const checkedType$h = checkedType_1,
+        isObjectLike$f = isObjectLike_1;
+
+
+/**
+ * @module isArray
+ * 
+ * @description 是否是数组类型
+ * 
+ * 使用Array的isArray方法来进行检查
+ * 
+ * @param {any} value 要检查的值
+ * 
+ * @example
+ * 
+ * 
+ * // true
+ * _.isArray([]);
+ * 
+ * 
+ * 
+ */
+function isArray$k (value) {
+    return Array.isArray(value) ||
+            (isObjectLike$f(value) && checkedType$h(value) === 'Array');
+}
+
+
+
+var isArray_1 = isArray$k;
+
+const checkedType$g = checkedType_1,
+        isObjectLike$e = isObjectLike_1;
+
+/**
+ * 
+ * @module isWindow
+ * 
+ * @description 检查当前宿主环境是否为window
+ * 
+ * @returns {Boolean}
+ * 
+ * 
+ */
+function isWindow$3 () {
+    if ( typeof window !== 'object' ) {
+        return false;
+    }
+
+    if (globalThis) {
+        return globalThis === window;
+    }
+
+    return isObjectLike$e(window) && checkedType$g(window) === 'Window';
+}
+
+
+
+
+var isWindow_1 = isWindow$3;
+
+const isWindow$2 = isWindow_1,
+    checkedType$f = checkedType_1,
+    isObjectLike$d = isObjectLike_1;
+
+
+/**
+ * 
+ * @module isNodeEnv
+ * 
+ * @description 是否是Node环境
+ * 
+ * 
+ * 
+ * @returns {Boolean}
+ */
+function isNodeEnv$9 () {
+    if (isWindow$2()) {
+        return false;
+    }
+    if (globalThis) {
+        return isObjectLike$d(globalThis) && checkedType$f(globalThis) === 'global';
+    }
+    return isObjectLike$d(commonjsGlobal) && checkedType$f(commonjsGlobal) === 'global';
+}
+
+var isNodeEnv_1 = isNodeEnv$9;
+
+const isNodeEnv$8 = isNodeEnv_1;
+
+try {
+    const util = isNodeEnv$8() ? require('util').types : {};
+} catch (error) {}
+
+
+
+
+function f() {
+    try {
+            return isNodeEnv$8() ? require('util').types : {};
+    } catch (error) {}
+}
+
+const util$1 = f();
+
+
+var _nodeUtil = util$1;
+
+const checkedType$e = checkedType_1,
+        isNodeEnv$7 = isNodeEnv_1,
+        isObjectLike$c = isObjectLike_1,
+        nodeUtil$4= _nodeUtil;
+
+/**
+ * 
+ * @module isMap
+ * 
+ * @description 检查值是否为Map
+ * 
+ * @param {*} value 需要检查的值
+ * @returns {Boolean}
+ * 
+ * @example
+ * 
+ * // true
+ * console.log(_.isMap(new Map()))
+ * 
+ */
+function isMap$j (value) {
+    return isNodeEnv$7() ?
+            nodeUtil$4.isMap(value) :
+            isObjectLike$c(value) && checkedType$e(value) === 'Map';
+}
+
+
+
+
+var isMap_1 = isMap$j;
+
+const checkedType$d = checkedType_1,
+    isNodeEnv$6 = isNodeEnv_1,
+    isObjectLike$b = isObjectLike_1,
+    nodeUtil$3 = _nodeUtil;
+
+
+/**
+ * 
+ * @module isSet
+ * 
+ * @description 是否是Set
+ * 
+ * @param {*} value 需要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * // true
+ * console.log(_.isSet(new Set()))
+ * 
+ */
+function isSet$g(value) {
+    return isNodeEnv$6() ?
+            nodeUtil$3.isSet(value) :
+            isObjectLike$b(value) && checkedType$d(value) === 'Set';
+}
+
+var isSet_1 = isSet$g;
+
+const checkedType$c = checkedType_1;
+const isObjectLike$a = isObjectLike_1;
+
+
+/**
+ * 
+ * @module isPlainObject
+ * 
+ * @description 检查值是否为普通对象
+ * 
+ * 一个普通对象为直接通过Object构造函数或对象字面量创建的对象,
+ * 一个对象若是继承了其他对象也算是普通对象
+ * 
+ * @param {*} value 需要检查的值
+ * @returns {Boolean}
+ * 
+ * let o1 = {},
+ *      o2 = {};
+ * 
+ * Object.setPrototypeOf(o1, o2);
+ * 
+ * 
+ * // true
+ * console.log(_.isPlainObject(o1))
+ * 
+ * 
+ * // true
+ * console.log(_.isPlainObject(o2))
+ * 
+ */
+function isPlainObject$j (value) {
+    if (!isObjectLike$a(value)) {
+        return false;
+    }
+
+    return checkedType$c(value) === 'Object';
+}
+
+
+var isPlainObject_1 = isPlainObject$j;
+
+const checkedType$b = checkedType_1,
+    isObjectLike$9 = isObjectLike_1;
 
 
 
 /**
  * 
- * @module forEach
+ * @module isNumber
  * 
- * @description forEach迭代函数
+ * @description 检查是否是数字
  * 
- * 适用于各种类型的forEach，对集合的每一项运行函数，最终返回集合本身，
- * 可以显式的通过返回false来终止循环
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
  * 
- * 
- * @param {Array | Map | Set | String | Number | {}} target 对象
- * @param {Function} cb 对对象的元素调用的函数
- * @returns {Array | Map | Set | String | Number | {}} 集合本身
  * 
  * @example
  * 
- * _.forEach([1, 2, 3], item => console.log(item)); 1, 2, 3
+ * // true
+ * _.isNumber(new Number(100));
  * 
+ * // true
+ * _.isNumber(100);
+ * 
+ */
+function isNumber$6 (value) {
+    return typeof value === 'number' || 
+        ( isObjectLike$9(value) && checkedType$b(value) === 'Number' );
+}
+
+
+var isNumber_1 = isNumber$6;
+
+const checkedType$a = checkedType_1,
+    isObjectLike$8 = isObjectLike_1;
+
+
+
+/**
+ * 
+ * @module isString
+ * 
+ * @description 检查是否是字符串
+ * 
+ * 
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * // true
+ * _.isString('aaa')
+ * 
+ * // true
+ * _.isString(new String())
+ * 
+ */
+function isString$d(value) {
+    return (
+        typeof value === 'string' ||
+        (isObjectLike$8(value) && checkedType$a(value) === 'String')
+    );
+}
+
+
+
+var isString_1 = isString$d;
+
+const arrayForEach = _arrayforEach,
+    objectForEach = _objectForEach,
+    mapForEach = _mapForEach,
+    setForEach = _setForEach,
+    numberForEach = _numberForEach,
+    stringForEach = _stringForEach,
+    isArray$j = isArray_1,
+    isMap$i = isMap_1,
+    isSet$f = isSet_1,
+    isPlainObject$i = isPlainObject_1,
+    isNumber$5 = isNumber_1,
+    isString$c = isString_1;
+
+/**
+ *
+ * @module forEach
+ *
+ * @description forEach迭代函数
+ *
+ * 适用于各种类型的forEach，对集合的每一项运行函数，最终返回集合本身，
+ * 可以显式的通过返回false来终止循环
+ *
+ *
+ * @param {Array | Map | Set | String | Number | {}} target 对象
+ * @param {Function} cb 对对象的元素调用的函数
+ * @returns {Array | Map | Set | String | Number | {}} 集合本身
+ *
+ * @example
+ *
+ * _.forEach([1, 2, 3], item => console.log(item)); 1, 2, 3
+ *
  * _.forEach({name: 'Jack', age: 30}, value => console.log(value)); // 'Jack', 30
  */
-function forEach$8 (target, cb) {
-    let type = checkedType$j(target),
-        func = null;
+function forEach$8(target, cb) {
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayForEach;
-            break;
-        case 'Object':
-            func = objectForEach;
-            break;
-        case 'Map':
-            func = mapForEach;
-            break;
-        case 'Set':
-            func = setForEach;
-            break;
-        case 'Number':
-            func = numberForEach;
-            break;
-        case 'String':
-            func = stringForEach;
-            break;
+    if (isArray$j(target)) {
+        func = arrayForEach;
+    } else if (isPlainObject$i(target)) {
+        func = objectForEach;
+    } else if (isMap$i(target)) {
+        func = mapForEach;
+    } else if (isSet$f(target)) {
+        func = setForEach;
+    } else if (isNumber$5(target)) {
+        func = numberForEach;
+    } else if (isString$c(target)) {
+        func = stringForEach;
+    } else {
+        return target;
     }
 
     return func(target, cb);
 }
-
 
 var forEach_1 = forEach$8;
 
@@ -275,8 +581,111 @@ function curry$1 (fn, ...args) {
 
 var curry_1 = curry$1;
 
-const checkedType$i = checkedType_1,
-        forEach$6 = forEach_1;
+/**
+ * 
+ * @module isObject
+ * 
+ * @description 检查是否是对象类型
+ * 
+ * 对于任何对象类型包括函数返回True，对于null返回false和undefined返回false
+ * 
+ * @param {any} value 想要检查的值
+ * @returns {Boolean} 
+ * 
+ * @example
+ * 
+ * // true
+ * _.isObject([])
+ * 
+ * // false
+ * _.isObject(null)
+ * 
+ * // false
+ * _.isObject(undefined)
+ * 
+ */
+function isObject$3 (value) {
+    const type = typeof value;
+
+    return value !== null && (type === 'function' || type === 'object');
+}
+
+
+var isObject_1 = isObject$3;
+
+const checkedType$9 = checkedType_1,
+        isObjectLike$7 = isObjectLike_1,
+        isNodeEnv$5 = isNodeEnv_1,
+        nodeUtil$2 = _nodeUtil;
+
+
+
+/**
+ * 
+ * @module isDate
+ * 
+ * @description 值是否是Date
+ * 
+ * 
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ */
+function isDate$2 (value) {
+    if (isNodeEnv$5()) {
+        return nodeUtil$2.isDate(value);
+    }
+    return isObjectLike$7(value) && checkedType$9(value) === 'Date';
+}
+
+
+
+var isDate_1 = isDate$2;
+
+const checkedType$8 = checkedType_1;
+const isNodeEnv$4 = isNodeEnv_1;
+const isObjectLike$6 = isObjectLike_1;
+const util = _nodeUtil;
+
+
+/**
+ * 
+ * @module isRegExp
+ * 
+ * @description 是否是RegExp
+ * 
+ * 
+ * 
+ * @param {*} value 检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * // true
+ * console.log(_.isRegExp(new RegExp()))
+ * 
+ */
+function isRegExp$2 (value) {
+    if (isNodeEnv$4()) {
+        return util.isRegExp(value);
+    }
+    return isObjectLike$6(value) && checkedType$8(value) === 'RegExp';
+}
+
+
+console.log(typeof new RegExp());
+
+
+var isRegExp_1 = isRegExp$2;
+
+const forEach$6 = forEach_1,
+    isObject$2 = isObject_1,
+    isDate$1 = isDate_1,
+    isArray$i = isArray_1,
+    isMap$h = isMap_1,
+    isSet$e = isSet_1,
+    isPlainObject$h = isPlainObject_1,
+    isRegExp$1 = isRegExp_1;
 
 
 
@@ -303,22 +712,21 @@ const checkedType$i = checkedType_1,
  * let o2 = _.deepClone(obj);
  */
 function deepClone$1(target, cloneProto=false, cache=new WeakMap()) {
-    let result = null,
-        type = checkedType$i(target);
+    let result = null;
 
-    if ( typeof target !== 'object' ) {
+    if ( !isObject$2(target) ) {
         return target;
     }
-    if (type === 'Date') {
+    if (isDate$1(target)) {
         return new Date(target);
     }
-    if (type === 'RegExp') {
+    if (isRegExp$1(target)) {
         return new RegExp(target);
     }
     if ( cache.has(target) ) {
         return cache.get(target);
     }
-    if (type === 'Array') {
+    if (isArray$i(target)) {
         result = [];
 
         cache.set(target, result);
@@ -329,7 +737,7 @@ function deepClone$1(target, cloneProto=false, cache=new WeakMap()) {
 
         return result;
     }
-    if (type === 'Map') {
+    if (isMap$h(target)) {
         result = new Map();
 
         cache.set(target, result);
@@ -343,7 +751,7 @@ function deepClone$1(target, cloneProto=false, cache=new WeakMap()) {
 
         return result;
     }
-    if (type === 'Set') {
+    if (isSet$e(target)) {
         result = new Set();
 
         cache.set(target, result);
@@ -354,7 +762,7 @@ function deepClone$1(target, cloneProto=false, cache=new WeakMap()) {
 
         return result;
     }
-    if (type === 'Object') {
+    if (isPlainObject$h(value)) {
         result = {};
         cache.set(target, result);
 
@@ -684,60 +1092,54 @@ function setForEachRight$1 (set, fn) {
 
 var _setForEachRight = setForEachRight$1;
 
-const checkedType$h = checkedType_1,
-        arrayForEachRight = _arrayForEachRight,
-        objectForEachRight = _objectForEachRight,
-        mapForEachRight = _mapForEachRight,
-        setForEachRight = _setForEachRight;
-
+const arrayForEachRight = _arrayForEachRight,
+    objectForEachRight = _objectForEachRight,
+    mapForEachRight = _mapForEachRight,
+    setForEachRight = _setForEachRight,
+    isArray$h = isArray_1,
+    isMap$g = isMap_1,
+    isSet$d = isSet_1,
+    isPlainObject$g = isPlainObject_1;
 
 /**
- * 
+ *
  * @module forEachRight
- * 
+ *
  * @description forEachRight迭代函数
- * 
+ *
  * forEach函数的反向函数，从结尾开始迭代，可以通过返回false显式的
  * 结束迭代，返回集合本身
- * 
+ *
  * @param {Array | {} | Map | Set} target 想要迭代的集合
  * @param {Function} fn 对每个元素调用的迭代函数
  * @returns {Array | {} | Map | Set}
- * 
- * 
+ *
+ *
  * @example
- * 
+ *
  * let arr = [1, 2, 3, 4];
- * 
+ *
  *  _.forEachRight(arr, item => console.log(item));   // 4, 3, 2, 1
- * 
- * 
+ *
+ *
  */
-function forEachRight$1 (target, fn,) {
-    let type = checkedType$h(target),
-        func = null;
+function forEachRight$1(target, fn) {
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayForEachRight;
-            break;
-        case 'Object':
-            func = objectForEachRight;
-            break;
-        case 'Map':
-            func = mapForEachRight;
-            break;
-        case 'Set':
-            func = setForEachRight;
-            break;
-    
-        default:
-            return target;
+    if (isArray$h(target)) {
+        func = arrayForEachRight;
+    } else if (isPlainObject$g(target)) {
+        func = objectForEachRight;
+    } else if (isMap$g(target)) {
+        func = mapForEachRight;
+    } else if (isSet$d(target)) {
+        func = setForEachRight;
+    } else {
+        return target;
     }
 
     return func(target, fn);
 }
-
 
 var forEachRight_1 = forEachRight$1;
 
@@ -876,65 +1278,61 @@ function numberFilter$1 (num, cb) {
 
 var _numberFilter = numberFilter$1;
 
-const checkedType$g = checkedType_1,
-        arrayFilter = _arrayFilter,
-        objectFilter = _objectFilter,
-        mapFilter = _mapFilter,
-        setFilter = _setFilter,
-        stringFilter$1 = _stringFilter,
-        numberFilter = _numberFilter;
+const arrayFilter = _arrayFilter,
+    objectFilter = _objectFilter,
+    mapFilter = _mapFilter,
+    setFilter = _setFilter,
+    stringFilter$1 = _stringFilter,
+    numberFilter = _numberFilter,
+    isArray$g = isArray_1,
+    isMap$f = isMap_1,
+    isSet$c = isSet_1,
+    isPlainObject$f = isPlainObject_1,
+    isNumber$4 = isNumber_1,
+    isString$b = isString_1;
 
 /**
- * 
+ *
  * @module filter
- * 
+ *
  * @description 适用于各种类型的Filter迭代函数
- * 
+ *
  * 适用于各种类型的Filter迭代函数，对于集合的每一项调用函数，返回函数返回True的
  * 项组成的数组
- * 
+ *
  * @param {Array | Map | Set | String | Number} target 对象
  * @param {Function} cb 对对象的元素调用的函数
  * @returns {Array} 函数返回true的项组成的数组
- * 
+ *
  * @example
- * 
+ *
  * _.filter([1, 2, 3, 4], item => item % 2 === 0);   // [2, 4]
- * 
+ *
  * _.filter('Jack', char => true);  // ['J', 'a', 'c', 'k']
- * 
+ *
  * _.filter(5, n => true);   // [0, 1, 2, 3, 4];
  */
-function filter$3 (target, cb) {
-    let type = checkedType$g(target),
-        func = null;
+function filter$3(target, cb) {
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayFilter;
-            break;
-        case 'Object':
-            func = objectFilter;
-            break;
-        case 'Map':
-            func = mapFilter;
-            break;
-        case 'Set':
-            func = setFilter;
-            break;
-        case 'Number':
-            func = numberFilter;
-            break;
-        case 'String':
-            func = stringFilter$1;
-            break;
+    if (isArray$g(target)) {
+        func = arrayFilter;
+    } else if (isPlainObject$f(target)) {
+        func = objectFilter;
+    } else if (isMap$f(target)) {
+        func = mapFilter;
+    } else if (isSet$c(target)) {
+        func = setFilter;
+    } else if (isNumber$4(target)) {
+        func = numberFilter;
+    } else if (isString$b(target)) {
+        func = stringFilter$1;
+    } else {
+        return target;
     }
 
-    return func( target, cb );
+    return func(target, cb);
 }
-
-
-
 
 var filter_1 = filter$3;
 
@@ -1058,67 +1456,60 @@ function numberMap$1 (num, fn) {
 
 var _numberMap = numberMap$1;
 
-const checkedType$f = checkedType_1,
-        arrayMap = _arrayMap,
-        objectMap = _objectMap,
-        mapMap = _mapMap,
-        setMap = _setMap,
-        stringMap = _stringMap,
-        numberMap = _numberMap;
-
-
+const arrayMap = _arrayMap,
+    objectMap = _objectMap,
+    mapMap = _mapMap,
+    setMap = _setMap,
+    stringMap = _stringMap,
+    numberMap = _numberMap,
+    isArray$f = isArray_1,
+    isMap$e = isMap_1,
+    isSet$b = isSet_1,
+    isPlainObject$e = isPlainObject_1,
+    isNumber$3 = isNumber_1,
+    isString$a = isString_1;
 
 /**
- * 
+ *
  * @module map
- * 
+ *
  * @description map迭代函数
- * 
+ *
  * 适用于各种类型的map迭代函数，对集合的每一项调用函数fn，返回函数
  * 的返回值组成的数组
- * 
- * 
+ *
+ *
  * @param {Array | Map | Set | String | Number} target obj
  * @param {Function} fn 迭代函数
  * @returns {Array} 函数的返回值组成的数组
- * 
+ *
  * @example
- * 
+ *
  * _.map(5, item => item + '号'); // [ '0号', '1号', '2号', '3号', '4号' ]
- * 
+ *
  * _.map([1, 2, 3, 4, 5], (item, index) => index + '号'); // [ '0号', '1号', '2号', '3号', '4号' ]
  */
-function map$5 (target, fn) {
-    let type = checkedType$f(target),
-        func = null;
+function map$5(target, fn) {
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayMap;
-            break;
-        case 'Object':
-            func = objectMap;
-            break;
-        case 'Map':
-            func = mapMap;
-            break;
-        case 'Set':
-            func = setMap;
-            break;
-        case 'String':
-            func = stringMap;
-            break;
-        case 'Number':
-            func = numberMap;
-            break;
+    if (isArray$f(target)) {
+        func = arrayMap;
+    } else if (isPlainObject$e(target)) {
+        func = objectMap;
+    } else if (isMap$e(target)) {
+        func = mapMap;
+    } else if (isSet$b(target)) {
+        func = setMap;
+    } else if (isString$a(target)) {
+        func = stringMap;
+    } else if (isNumber$3(target)) {
+        func = numberMap;
+    } else {
+        return target;
     }
 
     return func(target, fn);
 }
-
-
-
-
 
 var map_1 = map$5;
 
@@ -1214,67 +1605,60 @@ function setFind$1(set, predicate, fromIndex) {
 
 var _setFind = setFind$1;
 
-const checkedType$e = checkedType_1,
-        arrayFind = _arrayFind,
-        objectFind = _objectFind,
-        mapFind = _mapFind,
-        setFind = _setFind;
-
-
+const arrayFind = _arrayFind,
+    objectFind = _objectFind,
+    mapFind = _mapFind,
+    setFind = _setFind,
+    isArray$e = isArray_1,
+    isMap$d = isMap_1,
+    isSet$a = isSet_1,
+    isPlainObject$d = isPlainObject_1;
 
 /**
- * 
+ *
  * @module find
- * 
+ *
  * @description find迭代函数
- * 
+ *
  * 适用于多种类型的find方法，它返回第一个使断言函数返回true的项,
  * 对于Object和Map类型，find返回的将不再是项，而是键值对中的键,
  * fromIndex为迭代的起点，对于数组来说，是其索引，对于对象Map等类型来说，
  * 是获取他们的所有键的数组的索引
- * 
+ *
  * @param {Array | Map | Set | {}} target object
  * @param {Function} predicate 断言函数，
  * @param {Number} fromIndex 迭代的起始索引
- * @returns {any} 第一个使断言函数返回true的项 
- * 
- * 
+ * @returns {any} 第一个使断言函数返回true的项
+ *
+ *
  * @example
- * 
+ *
  * let arr = [1, 2, 3, 4, 5, 6];
- * 
+ *
  * console.log( _.find(arr, item => item > 3) );  // 4
- * 
+ *
  * let obj = {a: 1, b: 2, c: 3};
- * 
+ *
  * console.log(  _.find(obj, item => item > 2) );  // c
- * 
+ *
  */
-function find$1(target, predicate, fromIndex=0) {
-    let type = checkedType$e(target),
-        func = null;
+function find$1(target, predicate, fromIndex = 0) {
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayFind;
-            break;
-        case 'Object':
-            func = objectFind;
-            break;
-        case 'Map':
-            func = mapFind;
-            break;
-        case 'Set':
-            func = setFind;
-            break;
-        default:
-            return target;
+    if (isArray$e(target)) {
+        func = arrayFind;
+    } else if (isPlainObject$d(target)) {
+        func = objectFind;
+    } else if (isMap$d(target)) {
+        func = mapFind;
+    } else if (isSet$a(target)) {
+        func = setFind;
+    } else {
+        return target;
     }
 
     return func(target, predicate, fromIndex);
 }
-
-
 
 var find_1 = find$1;
 
@@ -1370,61 +1754,53 @@ function setFindRight$1(set, fn, fromIndex) {
 
 var _setFindRight = setFindRight$1;
 
-const checkedType$d = checkedType_1,
-        arrayFindRight = _arrayFindRight,
-        objectFindRight = _objectFindRight,
-        mapFindRight = _mapFindRight,
-        setFindRight = _setFindRight;
-
-
+const arrayFindRight = _arrayFindRight,
+    objectFindRight = _objectFindRight,
+    mapFindRight = _mapFindRight,
+    setFindRight = _setFindRight,
+    isArray$d = isArray_1,
+    isMap$c = isMap_1,
+    isSet$9 = isSet_1,
+    isPlainObject$c = isPlainObject_1;
 
 /**
- * 
+ *
  * @module findRight
- * 
+ *
  * @description find函数的反向函数
- * 
+ *
  * 从反方向开始迭代，返回第一个使函数返回True的项的值
  * 对于对象或Map，返回的将是他们的键而不是值
- * 
+ *
  * @param {Array | {} | Map | Set} target object
  * @param {Function} fn 对象每一项调用的函数
  * @param {Number} fromIndex 迭代的起始索引
- * @returns {any} 第一个使断言函数返回true的项 
- * 
+ * @returns {any} 第一个使断言函数返回true的项
+ *
  * @example
- * 
+ *
  * let arr = [1, 2, 3, 4];
- * 
+ *
  * console.log( _.findRight(arr, item => item > 1) ); // 4
- * 
+ *
  */
 function findRight$1(target, fn, fromIndex) {
-    let func = null,
-        type = checkedType$d(target);
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayFindRight;
-            break;
-        case 'Object':
-            func = objectFindRight;
-            break;
-        case 'Map':
-            func = mapFindRight;
-            break;
-        case 'Set':
-            func = setFindRight;
-            break;
-
-        default:
-            return target;
+    if (isArray$d(target)) {
+        func = arrayFindRight;
+    } else if (isPlainObject$c(target)) {
+        func = objectFindRight;
+    } else if (isMap$c(target)) {
+        func = mapFindRight;
+    } else if (isSet$9(target)) {
+        func = setFindRight;
+    } else {
+        return target;
     }
 
     return func(target, fn, fromIndex);
 }
-
-
 
 var findRight_1 = findRight$1;
 
@@ -1517,11 +1893,14 @@ function setEvery$1 (set, predicate) {
 
 var _setEvery = setEvery$1;
 
-const checkedType$c = checkedType_1,
-        arrayEvery = _arrayEvery,
+const arrayEvery = _arrayEvery,
         objectEvery = _objectEvery,
         mapEvery = _mapEvery,
-        setEvery = _setEvery;
+        setEvery = _setEvery,
+    isArray$c = isArray_1,
+    isMap$b = isMap_1,
+    isSet$8 = isSet_1,
+    isPlainObject$b = isPlainObject_1;
 
 /**
  * 
@@ -1545,25 +1924,18 @@ const checkedType$c = checkedType_1,
  * 
  */
 function every$1 (target, predicate) {
-    let func = null,
-        type = checkedType$c(target);
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayEvery;
-            break;
-        case 'Object':
-            func = objectEvery;
-            break;
-        case 'Map':
-            func = mapEvery;
-            break;
-        case 'Set':
-            func = setEvery;
-            break;
-    
-        default:
-            return target;
+    if (isArray$c(target)) {
+        func = arrayEvery;
+    } else if ( isPlainObject$b(target) ) {
+        func = objectEvery;
+    } else if ( isMap$b(target) ) {
+        fnc = mapEvery;
+    } else if ( isSet$8(target) ) {
+        func = setEvery;
+    } else {
+        return target;
     }
 
     return func(target, predicate);
@@ -1657,63 +2029,53 @@ function setSome$1(set, predicate) {
 
 var _setSome = setSome$1;
 
-const checkedType$b = checkedType_1,
-        arraySome = _arraySome,
-        objectSome = _objectSome,
-        mapSome = _mapSome,
-        setSome = _setSome;
-
-
-
-
+const arraySome = _arraySome,
+    objectSome = _objectSome,
+    mapSome = _mapSome,
+    setSome = _setSome,
+    isArray$b = isArray_1,
+    isMap$a = isMap_1,
+    isSet$7 = isSet_1,
+    isPlainObject$a = isPlainObject_1;
 
 /**
- * 
+ *
  * @module some
- * 
+ *
  * @description some迭代函数
- * 
+ *
  * 适用于多种类型的Some函数，对对象的每一项调用函数，若是有一项使函数返回True，
  * 则返回True，否则返回false
- * 
+ *
  * @param {Array | {} | Map | Set} target 对象
  * @param {Function} predicate 断言函数
- * @returns {Boolean} 
- * 
- * 
+ * @returns {Boolean}
+ *
+ *
  * @example
- * 
+ *
  * let arr = [1, 2, 3, 4];
- * 
+ *
  * console.log( _.some(arr, item => item > 3) );  // true
- * 
+ *
  */
-function some$1 (target, predicate) {
-    let type = checkedType$b(target),
-        func = null;
+function some$1(target, predicate) {
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arraySome;
-            break;
-        case 'Object':
-            func = objectSome;
-            break;
-        case 'Map':
-            func = mapSome;
-            break;
-        case 'Set':
-            func = setSome;
-            break;
-    
-        default:
-            return target;
+    if (isArray$b(target)) {
+        func = arraySome;
+    } else if (isPlainObject$a(target)) {
+        func = objectSome;
+    } else if (isMap$a(target)) {
+        func = mapSome;
+    } else if (isSet$7(target)) {
+        func = setSome;
+    } else {
+        return target;
     }
 
     return func(target, predicate);
 }
-
-
 
 var some_1 = some$1;
 
@@ -1869,68 +2231,61 @@ function setReduce$1 (set, fn, accumulator) {
 
 var _setReduce = setReduce$1;
 
-const checkedType$a = checkedType_1,
-        arrayReduce = _arrayReduce,
-        objectReduce = _objectReduce,
-        stringReduce = _stringReduce,
-        mapReduce = _mapReduce,
-        setReduce = _setReduce;
+const arrayReduce = _arrayReduce,
+    objectReduce = _objectReduce,
+    stringReduce = _stringReduce,
+    mapReduce = _mapReduce,
+    setReduce = _setReduce,
+    isArray$a = isArray_1,
+    isMap$9 = isMap_1,
+    isSet$6 = isSet_1,
+    isPlainObject$9 = isPlainObject_1,
+    isString$9 = isString_1;
 
 /**
  * @module reduce
- * 
+ *
  * @description reduce归并函数
- * 
+ *
  * 适用于多种类型的归并函数，函数接受四个参数，
  * 前一项的值，当前项的值，当前项的索引，对象本身，函数的返回值会作为第一个
  * 参数自动传给下一项，也可以通过使函数返回false终止迭代
- * 
+ *
  * @param {Array| String | {} | Map | Set} target obj
  * @param {Function} fn 对目标每一项调用的函数
  * @param {any} accumulator 初始值
  * @returns {any} 函数fn最终的返回值
- * 
+ *
  * @example
- * 
+ *
  * let o = {a: 1, b: 2, c: 3};
- * 
+ *
  * // 6
  * let result = _reduce(o, (cur, pre) => {
  *      return pre + cur;
  * });
- * 
- * 
+ *
+ *
  */
 function reduce$2(target, fn, accumulator) {
-    let type = checkedType$a(target),
-        func = null;
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayReduce;
-            break;
-        case 'Object':
-            func = objectReduce;
-            break;
-        case 'String':
-            func = stringReduce;
-            break;
-        case 'Map':
-            func = mapReduce;
-            break;
-        case 'Set':
-            func = setReduce;
-            break;
-
-        default:
-            return target;
+    if (isArray$a(target)) {
+        func = arrayReduce;
+    } else if (isPlainObject$9(target)) {
+        func = objectReduce;
+    } else if (isString$9(target)) {
+        func = stringReduce;
+    } else if (isMap$9(target)) {
+        func = mapReduce;
+    } else if (isSet$6(target)) {
+        func = setReduce;
+    } else {
+        return target;
     }
 
     return func(target, fn, accumulator);
 }
-
-
-
 
 var reduce_1 = reduce$2;
 
@@ -2052,65 +2407,56 @@ function setReduceRight$1 (set, fn, accumulator) {
 
 var _setReduceRight = setReduceRight$1;
 
-const checkedType$9 = checkedType_1,
-        arrayReduceRight = _arrayReduceRight,
-        mapReduceRight = _mapReduceRight,
-        objectReduceRight = _objectReduceRight,
-        setReduceRight = _setReduceRight;
-
-
-
-
+const arrayReduceRight = _arrayReduceRight,
+    mapReduceRight = _mapReduceRight,
+    objectReduceRight = _objectReduceRight,
+    setReduceRight = _setReduceRight,
+    isArray$9 = isArray_1,
+    isMap$8 = isMap_1,
+    isSet$5 = isSet_1,
+    isPlainObject$8 = isPlainObject_1;
 
 /**
- * 
+ *
  * @module reduceRight
- * 
+ *
  * @description rediceRight归并函数
- * 
+ *
  * reduce函数的反向函数，从反方向开始迭代，对每一项调用函数fn，
  * 函数fn接受4个参数，前一项的值，当前项的值，当前项的索引，对象本身，
  * 若accumulator存在，则从第一项开始迭代，否则，从第二项开始迭代
  * 若fn函数显式的返回false，则终止迭代，返回结果
- * 
+ *
  * @param {Array | {} | Map | Set} target object
  * @param {Function} fn 对对象每个元素调用的函数
  * @param {any} accumulator 初始值
  * @returns {any} 构建的最终值
- * 
+ *
  * @example
- * 
+ *
  * let arr = [0, 1, 2, 3, 4];
- * 
+ *
  * console.log( _.reduceRight(arr, (pre, cur) => pre + cur) );  // 10
- * 
- * 
+ *
+ *
  */
 function reduceRight$1(target, fn, accumulator) {
-    let type = checkedType$9(target),
-        func = null;
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = arrayReduceRight;
-            break;
-        case 'Object':
-            func = objectReduceRight;
-            break;
-        case 'Map':
-            func = mapReduceRight;
-            break;
-        case 'Set':
-            func = setReduceRight;
-            break;
-
-        default:
-            return target;
+    if (isArray$9(target)) {
+        func = arrayReduceRight;
+    } else if (isPlainObject$8(target)) {
+        func = objectReduceRight;
+    } else if (isMap$8(target)) {
+        func = mapReduceRight;
+    } else if (isSet$5(target)) {
+        func = setReduceRight;
+    } else {
+        return target;
     }
 
     return func(target, fn, accumulator);
 }
-
 
 var reduceRight_1 = reduceRight$1;
 
@@ -2158,54 +2504,76 @@ function swapChar$1 (str, i, j) {
 
 var _swapChar = swapChar$1;
 
-const checkedType$8 = checkedType_1,
-        swapElem = _swapElem,
-        swapChar = _swapChar;
-
-
 /**
  * 
+ * @module isNaN
  * 
+ * @description 检查是否是NaN
+ * 
+ * 与Javascript自带的isNaN不同，该函数只会对NaN值返回true
+ * 
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * // true
+ * _.isNaN(NaN);
+ * 
+ * // false
+ * _.isNaN('AAA');
+ * 
+ */
+function isNaN$2 (value) {
+    return value !== value;
+}
+
+
+var _isNaN = isNaN$2;
+
+const swapElem = _swapElem,
+    swapChar = _swapChar,
+    isArray$8 = isArray_1,
+    isString$8 = isString_1,
+    isNaN$1 = _isNaN;
+
+/**
+ *
+ *
  * @module swapIndex
- * 
+ *
  * @description 交换元素位置
- * 
+ *
  * 交换数组或字符串元素的位置，对于数组，在数组本身修改，对于字符串，会返回新的字符串
- * 
+ *
  * @param {Array | String} target 数组或字符串
  * @param {Number} i 索引
  * @param {Number} j 索引
  * @returns {Array | String}
- * 
+ *
  * @example
- * 
+ *
  * _.swapIndex([1, 2], 0, 1); // [2, 1]
- * 
+ *
  * _.swapIndex('abcd', 0, 3); // dbca
  */
-function swapIndex$1 (target, i, j) {
-    if (
-        isNaN( Number(i) )||
-        isNaN( Number(j) )
-    ) {
+function swapIndex$1(target, i, j) {
+    if (isNaN$1(Number(i)) || isNaN$1(Number(j))) {
         return target;
     }
-    let type = checkedType$8(target),
-        func = null;
+    let func = null;
 
-    switch (type) {
-        case 'Array':
-            func = swapElem;
-            break;
-        case 'String':
-            func = swapChar;
-            break;
+    if (isArray$8(target)) {
+        func = swapElem;
+    } else if (isString$8(target)) {
+        func = swapChar;
+    } else {
+        return target;
     }
 
     return func(target, i, j);
 }
-
-
 
 var swapIndex_1 = swapIndex$1;
 
@@ -2217,7 +2585,7 @@ const NO_STRING_ERROR = 'str not is a string';
 
 const isLetter = /[a-zA-Z]/,
         isSpecialChar = /[^a-zA-Z0-9]/,
-        isNumber = /[0-9]/;
+        isNumber$2 = /[0-9]/;
 
 
 
@@ -2253,7 +2621,7 @@ function camelCase$1 (str) {
     ).join('').split('');
 
     reduce$1(arr, (pre, cur, index) => {
-        if ( isNumber.test(pre) ) {
+        if ( isNumber$2.test(pre) ) {
             if ( isLetter.test(cur) ) {
                 arr[index] = cur.toUpperCase();
             }
@@ -2277,58 +2645,52 @@ function toUpperAll (str) {
 
 var _toUpperAll = toUpperAll;
 
-const checkedType$7 = checkedType_1,
-    upperAll = _toUpperAll,
-    forEach$5 = forEach_1;
-
-
+const upperAll = _toUpperAll,
+    forEach$5 = forEach_1,
+    isArray$7 = isArray_1,
+    isMap$7 = isMap_1,
+    isPlainObject$7 = isPlainObject_1,
+    isString$7 = isString_1;
 
 /**
- * 
+ *
  * @module toUpper
- * 
+ *
  * @description 将字符串或一个集合中的字符串大写，
- * 
+ *
  * 该方法会递归一个集合的所有深度，将集合的所有字符串转化为大写形式
- * 
- * 
+ *
+ *
  * @param {String | Array | Object | Map} target 想要大写的字符串或集合
  * @returns {String | Array | Object | Map} 转化完成的字符串或集合
- * 
- * @example 
- * 
+ *
+ * @example
+ *
  * let arr = ['aaa', {name: 'davi'}, 20];
- * 
+ *
  * // ['AAA', {name: 'DAVI'}, 20]
- * console.log(_.toUpper(['aaa', { name: 'davi' }, 20]));  
- * 
+ * console.log(_.toUpper(['aaa', { name: 'davi' }, 20]));
+ *
  */
 function toUpper$1(target) {
-    let type = checkedType$7(target),
-        result = null;
+    let result = null;
 
-    switch (type) {
-        case 'String':
-            result = upperAll(target);
-            break;
-        case 'Array':
-            result = forEach$5( target, (item, index) => {
-                target[index] = toUpper$1(item);
-            } );
-            break;
-        case 'Object':
-            result = forEach$5( target, (value, key) => {
-                target[key] = toUpper$1(value);
-            } );
-            break;
-        case 'Map':
-            result = forEach$5( target, (value, key) => {
-                target.set( key, toUpper$1(value) );
-            } );
-            break;
-        default:
-            result = target;
-            break;
+    if (isString$7(target)) {
+        result = upperAll(target);
+    } else if (isArray$7(target)) {
+        result = forEach$5(target, (item, index) => {
+            target[index] = toUpper$1(item);
+        });
+    } else if (isPlainObject$7(target)) {
+        result = forEach$5(target, (value, key) => {
+            target[key] = toUpper$1(value);
+        });
+    } else if (isMap$7(target)) {
+        result = forEach$5(target, (value, key) => {
+            target.set(key, toUpper$1(value));
+        });
+    } else {
+        result = target;
     }
 
     return result;
@@ -2349,9 +2711,12 @@ function toUpperFirst (str) {
 
 var _toUpperFirst = toUpperFirst;
 
-const checkedType$6 = checkedType_1,
-    first = _toUpperFirst,
-    forEach$4 = forEach_1;
+const first = _toUpperFirst,
+    forEach$4 = forEach_1,
+    isArray$6 = isArray_1,
+    isMap$6 = isMap_1,
+    isPlainObject$6 = isPlainObject_1,
+    isString$6 = isString_1;
 
 /**
  *
@@ -2371,34 +2736,27 @@ const checkedType$6 = checkedType_1,
  *
  * // ['Aaa', {name: 'Davi'}, 20];
  *console.log(_.upperFirst(arr));
- * 
+ *
  */
 function upperFirst$1(target) {
-    let type = checkedType$6(target),
-        result = null;
+    let result = null;
 
-    switch (type) {
-        case 'String':
-            result = first(target);
-            break;
-        case 'Array':
-            result = forEach$4(target, (item, index) => {
-                target[index] = upperFirst$1(item);
-            });
-            break;
-        case 'Object':
-            result = forEach$4(target, (value, key) => {
-                target[key] = upperFirst$1(value);
-            });
-            break;
-        case 'Map':
-            result = forEach$4(target, (value, key) => {
-                target.set(key, upperFirst$1(value));
-            });
-            break;
-        default:
-            result = target;
-            break;
+    if (isString$6(target)) {
+        result = first(target);
+    } else if (isArray$6(target)) {
+        result = forEach$4(target, (item, index) => {
+            target[index] = upperFirst$1(item);
+        });
+    } else if (isPlainObject$6(target)) {
+        result = forEach$4(target, (value, key) => {
+            target[key] = upperFirst$1(value);
+        });
+    } else if (isMap$6(target)) {
+        result = forEach$4(target, (value, key) => {
+            target.set(key, upperFirst$1(value));
+        });
+    } else {
+        result = target;
     }
 
     return result;
@@ -2422,63 +2780,56 @@ function _toLower$1 (str) {
 
 var _toLower_1 = _toLower$1;
 
-const checkedType$5 = checkedType_1,
-    _toLower = _toLower_1,
-    forEach$3 = forEach_1;
-
-
+const _toLower = _toLower_1,
+    forEach$3 = forEach_1,
+    isArray$5 = isArray_1,
+    isMap$5 = isMap_1,
+    isPlainObject$5 = isPlainObject_1,
+    isString$5 = isString_1;
 
 /**
- * 
+ *
  * @module toLower
- * 
+ *
  * @description 将一个字符串或集合中的字符串转化为小写形式
- * 
+ *
  * 会递归一个集合所有的深度，将它们的字符串值全部转化
- * 
- * 
+ *
+ *
  * @param {String | Object | Map | Array} target 想要小写的字符串或集合
  * @returns {any}
- * 
+ *
  * @example
- * 
+ *
  * let arr = ['AAA', ['BBB', ['CCC']]];
- * 
+ *
  * //  ['aaa', ['bbb', ['ccc']]];
  * console.log(_.toLower(arr));
- * 
+ *
  */
 function toLower$1(target) {
-    let type = checkedType$5(target),
-        result = null;
+    let result = null;
 
-    switch (type) {
-        case 'String':
-            result = _toLower(target);
-            break;
-        case 'Array':
-            result = forEach$3(target, (item, index) => {
-                target[index] = toLower$1(item);
-            });
-            break;
-        case 'Object':
-            result = forEach$3(target, (value, key) => {
-                target[key] = toLower$1(value);
-            });
-            break;
-        case 'Map':
-            result = forEach$3(target, (value, key) => {
-                target.set(key, toLower$1(value));
-            });
-            break;
-        default:
-            result = target;
-            break;
+    if (isString$5(target)) {
+        result = _toLower(target);
+    } else if (isArray$5(target)) {
+        result = forEach$3(target, (item, index) => {
+            target[index] = toLower$1(item);
+        });
+    } else if (isPlainObject$5(target)) {
+        result = forEach$3(target, (value, key) => {
+            target[key] = toLower$1(value);
+        });
+    } else if (isMap$5(target)) {
+        result = forEach$3(target, (value, key) => {
+            target.set(key, toLower$1(value));
+        });
+    } else {
+        result = target;
     }
 
     return result;
 }
-
 
 var toLower_1 = toLower$1;
 
@@ -2769,109 +3120,100 @@ function arraySample$1 (arr) {
 
 var _arraySample = arraySample$1;
 
-const checkedType$4 = checkedType_1,
-        arraySample = _arraySample;
-
+const arraySample = _arraySample,
+    isArray$4 = isArray_1,
+    isMap$4 = isMap_1,
+    isSet$4 = isSet_1,
+    isPlainObject$4 = isPlainObject_1,
+    isString$4 = isString_1;
 
 /**
- * 
+ *
  * @module sample
- * 
+ *
  * @description 随机获取集合的某一项的值
- * 
+ *
  * 随机获取集合的某一项，对于Object和Map类型来说，获取得将会是他们的
  * Key，而不是Value
- * 
+ *
  * @param {Array | Object | Map | Set | String} target 一个集合
  * @returns {any} 集合的某一项
- * 
+ *
  * @example
- * 
+ *
  * let arr = [1, 2, 3, 4];
- * 
+ *
  * // 3, 2, 2, 3, 3, 1, 2, 4, 4, 1
- * 
+ *
  * _.forEach(10, () => {
  *      console.log( _.sample(arr) )
  * })
- * 
+ *
  */
 
-function sample$1 (target) {
-    let type = checkedType$4(target),
-        cache = null;
+function sample$1(target) {
+    let cache = null;
 
-    switch (type) {
-        case 'Array':
-        case 'String':
-            cache = target;
-            break;
-        case 'Object':
-            cache = Object.keys(target);
-            break;
-        case 'Map':
-        case 'Set':
-            cache = Array.from(target.keys());
-            break;
-        default:
-            return target;
+    if (isArray$4(target) || isString$4(target)) {
+        cache = target;
+    } else if (isPlainObject$4(target)) {
+        cache = Object.keys(target);
+    } else if (isMap$4(target) || isSet$4(target)) {
+        cache = Array.from(target.keys());
+    } else {
+        return target;
     }
 
     return arraySample(cache);
 }
 
-
 var sample_1 = sample$1;
 
-const checkedType$3 = checkedType_1,
-        random$2 = random_1;
-
+const random$2 = random_1,
+    isArray$3 = isArray_1,
+    isMap$3 = isMap_1,
+    isSet$3 = isSet_1,
+    isPlainObject$3 = isPlainObject_1,
+    isString$3 = isString_1;
 
 /**
- * 
+ *
  * @module sampleSize
- * 
+ *
  * @description 随机抽取一个集合的num个元素
- * 
+ *
  * 随机抽取一个集合的num个元素，适用于多种类型，若是num大于集合内元素的数量，会随机抽取
  * 集合所有的元素，会将抽取到的元素放到一个数组内，
- * 
+ *
  * @param {Array | Map | Set | Object | String} target 想要随机抽取的对象
  * @param {Number} num 想要获得的元素数量
  * @returns {Array} 抽取的元素组成的数组
- * 
- * 
+ *
+ *
  * @example
- * 
+ *
  * let arr = [1, 2, 3, 4];
- * 
+ *
  * // [3, 1]
  * console.log(_.sampleSize(arr, 2));
- * 
+ *
  * // [2, 4, 3, 1]
  * console.log(_.sampleSize(arr, 100));
- * 
+ *
  */
-function sampleSize$1 (target, num) {
-    let type = checkedType$3(target),
-        cache = null;
+function sampleSize$1(target, num) {
+    let cache = null;
 
-    switch (type) {
-        case 'Array':
-            cache = target.slice();
-            break;
-        case 'Object':
-            cache = Object.keys(target);
-            break;
-        case 'Map':
-        case 'Set':
-            cache = Array.from( target.keys() );
-            break;
-        case 'String':
-            cache = target.split('');
-            break;
-        default :
-            return target;
+    if (isArray$3(target)) {
+        cache = target.slice();
+    } else if (isPlainObject$3(target)) {
+        cache = Object.keys(target);
+    } else if (isMap$3(target) || isSet$3(target)) {
+        cache = Array.from(target.keys());
+    } else if (isString$3(target)) {
+        cache = target.split('');
+    } else {
+        return target;
     }
 
     num = num > cache.length ? cache.length : num;
@@ -2881,183 +3223,168 @@ function sampleSize$1 (target, num) {
     for (let i = 0; i < num; i++) {
         let index = random$2(0, cache.length - 1),
             value = cache[index];
-        result.push( value );
+        result.push(value);
         cache.splice(index, 1);
     }
 
     return result;
 }
 
-
-
-
 var sampleSize_1 = sampleSize$1;
 
-const checkedType$2 = checkedType_1;
-
-
+const isArray$2 = isArray_1,
+    isMap$2 = isMap_1,
+    isSet$2 = isSet_1,
+    isPlainObject$2 = isPlainObject_1,
+    isString$2 = isString_1;
 
 /**
- * 
+ *
  * @module size
- * 
+ *
  * @description 一个集合内元素的数量
- * 
+ *
  * 对于数组和字符串，为他们的length属性，其他类型的对象，为对象内所有
  * 的可迭代属性的数量
- * 
+ *
  * @param {Array | String | Object | Map | Set} target 一个集合
  * @returns {Number} 集合内元素的数量
- * 
+ *
  * @example
- * 
+ *
  * let o = {name: 'Davi', age: 22};
- * 
+ *
  * // 2
  * console.log(_.size(o));
- * 
+ *
  */
-function size$1 (target) {
-    let type = checkedType$2(target),
-        len = 0;
+function size$1(target) {
+    let len = 0;
 
-    switch (type) {
-        case 'Array':
-        case 'String':
-            len = target.length;
-            break;
-        case 'Object':
-            len = Object.keys(target).length;
-            break;
-        case 'Map':
-        case 'Set':
-            len = Array.from( target.keys() ).length;
-            break;
-        default:
-            return target;
+    if (isArray$2(target) || isString$2(target)) {
+        len = target.length;
+    } else if (isPlainObject$2(target)) {
+        len = Object.keys(target).length;
+    } else if (isMap$2(target) || isSet$2(target)) {
+        len = Array.from(target.keys()).length;
+    } else {
+        return target;
     }
 
     return len;
 }
 
-
 var size_1 = size$1;
 
-const checkedType$1 = checkedType_1,
-        forEach$1 = forEach_1,
-        random$1 = random_1;
-
-
+const forEach$1 = forEach_1,
+    random$1 = random_1,
+    isArray$1 = isArray_1,
+    isMap$1 = isMap_1,
+    isSet$1 = isSet_1,
+    isPlainObject$1 = isPlainObject_1,
+    isString$1 = isString_1;
 
 /**
- * 
+ *
  * @module shuffle
- * 
+ *
  * @description 打乱集合的顺序
- * 
+ *
  * 打乱一个集合的顺序，不会改变原集合，而是返回一个新集合，
- * 
+ *
  * @param {Array | Object | Map | Set | String} target 想要打乱顺序的集合
  * @returns {Array | Object | Map | Set | String} 打乱顺序后的集合
- * 
- * 
+ *
+ *
  * @example
- * 
+ *
  * let arr = [1, 2, 3, 4];
- * 
+ *
  * // [2, 4, 3, 1]
  * console.log(_.shuffle(arr));
- * 
+ *
  * let str = 'ABCD';
- * 
+ *
  * // 'ADBC';
  * console.log(_.shuffle(str));
- * 
+ *
  */
-function shuffle$1 (target) {
-    let type = checkedType$1(target),
-        cache = null,
+function shuffle$1(target) {
+    let cache = null,
         result = null,
         len = 0;
 
-    switch (type) {
-        case 'Array':
-            result = [];
-            cache = target.slice();
-            len = cache.length;
+    if (isArray$1(target)) {
+        result = [];
+        cache = target.slice();
+        len = cache.length;
 
-            forEach$1( len, () => {
-                let i = random$1(0, len - 1);
-                result.push( cache[i] );
-                cache.splice(i, 1);
-                len--;
-            } );
-            break;
-        case 'Object':
-            result = {};
-            cache = Object.keys(target);
-            len = cache.length;
+        forEach$1(len, () => {
+            let i = random$1(0, len - 1);
+            result.push(cache[i]);
+            cache.splice(i, 1);
+            len--;
+        });
+    } else if (isPlainObject$1(target)) {
+        result = {};
+        cache = Object.keys(target);
+        len = cache.length;
 
-            forEach$1(len, () => {
-                let i = random$1(0, len - 1),
-                    key = cache[i],
-                    value = target[key];
-                
-                result[key] = value;
-                cache.splice(i, 1);
-                len--;
-            });
-            break;
-        case 'Map':
-            result = new Map();
-            cache = Array.from( target.keys() );
-            len = cache.length;
+        forEach$1(len, () => {
+            let i = random$1(0, len - 1),
+                key = cache[i],
+                value = target[key];
 
-            forEach$1( len, () => {
-                let i = random$1(0, len - 1),
-                    key = cache[i],
-                    value = target.get(key);
+            result[key] = value;
+            cache.splice(i, 1);
+            len--;
+        });
+    } else if (isMap$1(target)) {
+        result = new Map();
+        cache = Array.from(target.keys());
+        len = cache.length;
 
-                result.set(key, value);
-                cache.splice(i, 1);
-                len--;
-            } );
-            break;
-        case 'Set':
-            result = new Set();
-            cache = Array.from( target.keys() );
-            len = cache.length;
+        forEach$1(len, () => {
+            let i = random$1(0, len - 1),
+                key = cache[i],
+                value = target.get(key);
 
-            forEach$1( len, () => {
-                let i = random$1(0, len - 1),
-                    value = cache[i];
+            result.set(key, value);
+            cache.splice(i, 1);
+            len--;
+        });
+    } else if (isSet$1(target)) {
+        result = new Set();
+        cache = Array.from(target.keys());
+        len = cache.length;
 
-                result.add(value);
-                cache.splice(i, 1);
-                len--;
-            } );
-            break;
-        case 'String':
-            result = '';
-            cache = target.split('');
-            len = cache.length;
+        forEach$1(len, () => {
+            let i = random$1(0, len - 1),
+                value = cache[i];
 
-            forEach$1(len, () => {
-                let i = random$1(0, len - 1),
-                    value = cache[i];
+            result.add(value);
+            cache.splice(i, 1);
+            len--;
+        });
+    } else if (isString$1(target)) {
+        result = '';
+        cache = target.split('');
+        len = cache.length;
 
-                result += value;
-                cache.splice(i, 1);
-                len--;
-            });
-            break;
-        default:
-            return target;
+        forEach$1(len, () => {
+            let i = random$1(0, len - 1),
+                value = cache[i];
+
+            result += value;
+            cache.splice(i, 1);
+            len--;
+        });
+    } else {
+        return target;
     }
 
     return result;
 }
-
 
 var shuffle_1 = shuffle$1;
 
@@ -3192,6 +3519,424 @@ function delay$1 (fn, wait, args, point=globalThis) {
 
 var delay_1 = delay$1;
 
+const checkedType$7 = checkedType_1;
+
+/**
+ * 
+ * @module isBoolean
+ * 
+ * @description 检查是否是布尔值
+ * 
+ * 
+ * 
+ * @param {*} value 需要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * // true
+ * _.isBoolean(true)
+ * 
+ * 
+ * // true
+ * _.isBoolean(false)
+ * 
+ */
+function isBoolean$1 (value) {
+    return (typeof value === 'boolean') || (checkedType$7(value) === 'Boolean');
+}
+
+
+var isBoolean_1 = isBoolean$1;
+
+const checkedType$6 = checkedType_1,
+        isObjectLike$5 = isObjectLike_1;
+
+
+
+/**
+ * 
+ * @module isSymbol
+ * 
+ * @description 检查值是否是Symbol
+ * 
+ * 
+ * @param {*} value 需要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * // true
+ * console.log(_.isSymbol( Symbol("foo")))
+ * 
+ * // true
+ * console.log(_.isSymbol(Object(Symbol("foo"))))
+ * 
+ */
+function isSymbol$1 (value) {
+    return (typeof value === 'symbol') ||
+            ( isObjectLike$5(value) && checkedType$6(value) === 'Symbol' );
+}
+
+
+
+
+var isSymbol_1 = isSymbol$1;
+
+/**
+ * 
+ * @module isUndefined
+ * 
+ * @description 检查值是否是Undefined
+ * 
+ * 
+ * 
+ * 
+ * @param {*} value 需要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * 
+ * // true
+ * console.log( _.isUndefined(Undefined) );
+ * 
+ * 
+ */
+function isUndefined$3 (value) {
+    return typeof value === 'undefined';
+}
+
+
+var isUndefined_1 = isUndefined$3;
+
+/**
+ * 
+ * 
+ * @module isNull
+ * 
+ * @description 检查值是否等于Null
+ * 
+ * 
+ * @param {*} value 需要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * // true
+ * console.log(_.isNull(null));
+ * 
+ */
+function isNull$3 (value) {
+    return value === null;
+}
+
+
+var isNull_1 = isNull$3;
+
+const isWindow$1 = isWindow_1,
+        isNodeEnv$3 = isNodeEnv_1;
+
+function root$1 () {
+    if (globalThis) {
+        return globalThis;
+    }
+    if ( isWindow$1() ) {
+        return window;
+    }
+    if ( isNodeEnv$3() ) {
+        return commonjsGlobal;
+    }
+}
+
+
+var _root = root$1();
+
+const root = _root;
+
+
+var _nativeIsFinite = root.isFinite;
+
+const isNumber$1 = isNumber_1;
+const nativeIsFinite = _nativeIsFinite;
+
+
+
+/**
+ * 
+ * 
+ * @module isFinite
+ * 
+ * @description 值是否是有限数字
+ * 
+ * @param {*} value 需要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * // true
+ * console.log( _.isFinite(100) );
+ * 
+ * // false
+ * console.log( _.isFinite(1e10000) );
+ * 
+ */
+
+const _isFinite = function (value) {
+    return isNumber$1(value) && nativeIsFinite(value);
+};
+
+
+var _isFinite_1 = _isFinite;
+
+const checkedType$5 = checkedType_1,
+        isObjectLike$4 = isObjectLike_1;
+
+
+
+/**
+ * 
+ * @module isBigInt
+ * 
+ * @description 值是否是BigInt类型
+ * 
+ * 
+ * 
+ * 
+ * @param {*} value 需要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * let bigInt1 = 123n,
+ *      bigInt2 = BigInt(456),
+ *      bigInt3 = Object(789n);
+ *
+ * // true
+ * console.log( isBigInt(bigInt1) );
+ * // true
+ * console.log( isBigInt(bigInt2) );
+ * // true
+ * console.log( isBigInt(bigInt3) );
+ * 
+ */
+function isBigInt$1 (value) {
+    return (typeof value === 'bigint') ||
+            ( isObjectLike$4(value) && checkedType$5(value) === 'BigInt' );
+}
+
+
+
+
+
+var isBigInt_1 = isBigInt$1;
+
+const checkedType$4 = checkedType_1,
+        isObject$1 = isObject_1;
+
+/**
+ * 
+ * @module isFunction
+ * 
+ * @description 值是否是函数
+ * 
+ * 
+ * 
+ * 
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ * 
+ * @example
+ * 
+ * // true
+ * console.log(_.isFunction(function f(){}))
+ * 
+ * 
+ */
+function isFunction$1 (value) {
+    return (typeof value === 'function') ||
+            (isObject$1(value) && checkedType$4(value) === 'Function');
+}
+
+
+
+var isFunction_1 = isFunction$1;
+
+const isUndefined$2 = isUndefined_1,
+    isNull$2 = isNull_1;
+
+/**
+ *
+ * @module isTrueValue
+ *
+ * @description 值是否是真值
+ *
+ * 在这里，真值的概念为不等于 undefined ，null ，0 ，false，
+ *
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ *
+ * @example
+ *
+ * // false
+ * console.log(_.isTrueValue(undefined));
+ *
+ * // false
+ * console.log(_.isTrueValue(0));
+ *
+ * // false
+ * console.log(_.isTrueValue(null));
+ *
+ * // false
+ * console.log(_.isTrueValue(false));
+ *
+ * // true
+ * console.log(_.isTrueValue('0'));
+ *
+ */
+function isTrueValue$1(value) {
+    return (
+        !isUndefined$2(value) && !isNull$2(value) && value !== 0 && value !== false
+    );
+}
+
+
+var isTrueValue_1 = isTrueValue$1;
+
+const isUndefined$1 = isUndefined_1,
+        isNull$1 = isNull_1;
+
+/**
+ * 
+ * @module isFalseValue
+ * 
+ * @description 检查是否是假植
+ * 
+ * 在这里，假值的概念为值等于 undefined ，null ，false ，0
+ * 
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * 
+ * // false
+ * console.log( _.isFalseValue(0) );
+ * console.log( _.isFalseValue(false) );
+ * console.log( _.isFalseValue(null) );
+ * console.log( _.isFalseValue(undefined) );
+ * 
+ * 
+ */
+function isFalseValue$1 (value) {
+    return isUndefined$1(value) ||
+            isNull$1(value) ||
+            value === 0 ||
+            value === false;
+}
+
+
+
+
+
+var isFalseValue_1 = isFalseValue$1;
+
+const checkedType$3 = checkedType_1,
+    isNodeEnv$2 = isNodeEnv_1,
+    isObjectLike$3 = isObjectLike_1,
+    nodeUtil$1 = _nodeUtil;
+
+
+
+/**
+ * 
+ * @module isWeakMap
+ * 
+ * @description 检查值是否是WeakMap
+ * 
+ * 
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ * 
+ * 
+ * @example
+ * 
+ * // true
+ * console.log(_.isWeakMap(new WeakMap()))
+ * 
+ */
+function isWeakMap$1 (value) {
+    return isNodeEnv$2() ?
+            nodeUtil$1.isWeakMap(value) :
+            isObjectLike$3(value) && checkedType$3(value) === 'WeakMap';
+}
+
+
+var isWeakMap_1 = isWeakMap$1;
+
+const checkedType$2 = checkedType_1,
+    isNodeEnv$1 = isNodeEnv_1,
+    isObjectLike$2 = isObjectLike_1,
+    nodeUtil = _nodeUtil;
+
+/**
+ *
+ * @module isWeakSet
+ *
+ * @description 检查值是否是WeakSet
+ *
+ *
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ *
+ *
+ * @example
+ *
+ * // true
+ * console.log(_.isWeakSet(new WeakSet()))
+ *
+ */
+function isWeakSet$1(value) {
+    return isNodeEnv$1()
+        ? nodeUtil.isWeakSet(value)
+        : isObjectLike$2(value) && checkedType$2(value) === 'WeakSet';
+}
+
+var isWeakSet_1 = isWeakSet$1;
+
+const checkedType$1 = checkedType_1,
+        isObjectLike$1 = isObjectLike_1;
+
+
+/**
+ * 
+ * @module isError
+ * 
+ * @description 是否是Error类型
+ * 
+ * @param {*} value 想要检查的值
+ * @returns {Boolean}
+ * 
+ * @example
+ * 
+ * // true
+ * console.log(_.isError(new Error()))
+ * 
+ */
+function isError$1 (value) {
+    return isObjectLike$1(value) && checkedType$1(value) === 'Error';
+}
+
+
+var isError_1 = isError$1;
+
 const checkedType = checkedType_1,
     curry = curry_1,
     deepClone = deepClone_1,
@@ -3226,11 +3971,35 @@ const checkedType = checkedType_1,
     shuffle = shuffle_1,
     before = before_1,
     after = after_1,
-    delay = delay_1;
+    delay = delay_1,
+    isArray = isArray_1,
+    isObject = isObject_1,
+    isNaN = _isNaN,
+    isBoolean = isBoolean_1,
+    isNumber = isNumber_1,
+    isObjectLike = isObjectLike_1,
+    isString = isString_1,
+    isSymbol = isSymbol_1,
+    isUndefined = isUndefined_1,
+    isNull = isNull_1,
+    isFinite$1 = _isFinite_1,
+    isBigInt = isBigInt_1,
+    isFunction = isFunction_1,
+    isTrueValue = isTrueValue_1,
+    isFalseValue = isFalseValue_1,
+    isWindow = isWindow_1,
+    isNodeEnv = isNodeEnv_1,
+    isDate = isDate_1,
+    isPlainObject = isPlainObject_1,
+    isMap = isMap_1,
+    isSet = isSet_1,
+    isWeakMap = isWeakMap_1,
+    isWeakSet = isWeakSet_1,
+    isError = isError_1,
+    isRegExp = isRegExp_1;
 
 
-
-
+const isFinite = isFinite$1;
 
 export {
     checkedType,
@@ -3268,4 +4037,29 @@ export {
     before,
     after,
     delay,
+    isArray,
+    isObject,
+    isNaN,
+    isBoolean,
+    isNumber,
+    isObjectLike,
+    isString,
+    isSymbol,
+    isUndefined,
+    isNull,
+    isFinite,
+    isBigInt,
+    isFunction,
+    isTrueValue,
+    isFalseValue,
+    isWindow,
+    isNodeEnv,
+    isDate,
+    isPlainObject,
+    isMap,
+    isSet,
+    isWeakMap,
+    isWeakSet,
+    isError,
+    isRegExp
 };
