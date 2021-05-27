@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Set} set set
  * @param {Function} fn func
  * @param {any} accumulator 初始值

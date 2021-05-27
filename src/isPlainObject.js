@@ -14,6 +14,10 @@ const isObjectLike = require('./isObjectLike');
  * @param {*} value 需要检查的值
  * @returns {Boolean}
  * 
+ * 
+ * @example
+ * 
+ * 
  * let o1 = {},
  *      o2 = {};
  * 

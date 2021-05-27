@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @description 对象版filter
  * @param {Object} obj obj
  * @param {Function} cb 对每个元素调用的函数

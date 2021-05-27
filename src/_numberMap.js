@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @param {Number} num number
  * @param {Function} fn func
  * @returns {Array}

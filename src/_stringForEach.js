@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @description String类型的Foreach
  * @param {String} target string
  * @param {Function} cb 对每个字符调用的函数

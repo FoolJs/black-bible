@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Array} arr array
  * @param {Function} fn func
  * @returns {Array}

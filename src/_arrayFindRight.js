@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Array} array array
  * @param {Function} fn 断言函数
  * @param {Number} fromIndex 

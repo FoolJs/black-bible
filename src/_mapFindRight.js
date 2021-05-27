@@ -1,6 +1,6 @@
 
 /**
- * 
+ * @private
  * @param {Map} map map
  * @param {Function} fn 断言
  * @param {Number} fromIndex 索引

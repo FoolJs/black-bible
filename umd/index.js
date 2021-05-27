@@ -27,7 +27,7 @@
 	 *  _.checkedType(null); // "Null"
 	 *  _.checkedType('str'); // "String"
 	 */
-	function checkedType$i(target) {
+	function checkedType$h(target) {
 	    return Object.prototype.toString.call(target).slice(8, -1);
 	}
 
@@ -35,9 +35,11 @@
 
 
 
-	var checkedType_1 = checkedType$i;
+	var checkedType_1 = checkedType$h;
 
 	/**
+	 * 
+	 * @private
 	 * @description 数组版本的forEach，可以通过返回false停止执行
 	 * @param {Array} target 数组
 	 * @param {Function} cb 对数组每个元素调用的函数
@@ -59,6 +61,8 @@
 	var _arrayforEach = arrayForEach$1;
 
 	/**
+	 * 
+	 * @private
 	 * @description 对象版本的forEach
 	 * @param {Object} target  对象
 	 * @param {Function} cb 对对象每个属性调用的回调函数
@@ -84,6 +88,7 @@
 	var _objectForEach = objectForEach$1;
 
 	/**
+	 * @private
 	 * @description map版forEach
 	 * @param {Map} target map
 	 * @param {Function} cb 对map的每个元素调用的函数
@@ -106,6 +111,7 @@
 	var _mapForEach = mapForEach$1;
 
 	/**
+	 * @private
 	 * @description Set版forEach
 	 * @param {Set} target set
 	 * @param {Function} cb 对set每个元素调用的函数
@@ -124,6 +130,7 @@
 	var _setForEach = setForEach$1;
 
 	/**
+	 * @private
 	 * @description Number版Foreach
 	 * @param {Number} target number
 	 * @param {Function} cb 调用target次cb
@@ -146,6 +153,7 @@
 	var _numberForEach = numberForEach$1;
 
 	/**
+	 * @private
 	 * @description String类型的Foreach
 	 * @param {String} target string
 	 * @param {Function} cb 对每个字符调用的函数
@@ -185,17 +193,17 @@
 	 * _.isObjectLike(function f () {})
 	 * 
 	 */
-	function isObjectLike$g (value) {
+	function isObjectLike$f (value) {
 	    const type = typeof value;
 	    return value !== null && type === 'object';
 	}
 
 
 
-	var isObjectLike_1 = isObjectLike$g;
+	var isObjectLike_1 = isObjectLike$f;
 
-	const checkedType$h = checkedType_1,
-	        isObjectLike$f = isObjectLike_1;
+	const checkedType$g = checkedType_1,
+	        isObjectLike$e = isObjectLike_1;
 
 
 	/**
@@ -216,17 +224,17 @@
 	 * 
 	 * 
 	 */
-	function isArray$k (value) {
+	function isArray$j (value) {
 	    return Array.isArray(value) ||
-	            (isObjectLike$f(value) && checkedType$h(value) === 'Array');
+	            (isObjectLike$e(value) && checkedType$g(value) === 'Array');
 	}
 
 
 
-	var isArray_1 = isArray$k;
+	var isArray_1 = isArray$j;
 
-	const checkedType$g = checkedType_1,
-	        isObjectLike$e = isObjectLike_1;
+	const checkedType$f = checkedType_1,
+	        isObjectLike$d = isObjectLike_1;
 
 	/**
 	 * 
@@ -243,11 +251,11 @@
 	        return false;
 	    }
 
-	    if (globalThis) {
+	    if (typeof globalThis !== 'undefined') {
 	        return globalThis === window;
 	    }
 
-	    return isObjectLike$e(window) && checkedType$g(window) === 'Window';
+	    return isObjectLike$d(window) && checkedType$f(window) === 'Window';
 	}
 
 
@@ -256,8 +264,8 @@
 	var isWindow_1 = isWindow$3;
 
 	const isWindow$2 = isWindow_1,
-	    checkedType$f = checkedType_1,
-	    isObjectLike$d = isObjectLike_1;
+	    checkedType$e = checkedType_1,
+	    isObjectLike$c = isObjectLike_1;
 
 
 	/**
@@ -274,23 +282,24 @@
 	    if (isWindow$2()) {
 	        return false;
 	    }
-	    if (globalThis) {
-	        return isObjectLike$d(globalThis) && checkedType$f(globalThis) === 'global';
+	    if (typeof globalThis !== 'undefined') {
+	        return isObjectLike$c(globalThis) && checkedType$e(globalThis) === 'global';
 	    }
-	    return isObjectLike$d(commonjsGlobal) && checkedType$f(commonjsGlobal) === 'global';
+	    return isObjectLike$c(commonjsGlobal) && checkedType$e(commonjsGlobal) === 'global';
 	}
 
 	var isNodeEnv_1 = isNodeEnv$9;
 
 	const isNodeEnv$8 = isNodeEnv_1;
 
-	try {
-	    const util = isNodeEnv$8() ? require('util').types : {};
-	} catch (error) {}
 
 
-
-
+	/**
+	 * @private
+	 * @description Node的util模块
+	 * 
+	 * @returns {Object}
+	 */
 	function f() {
 	    try {
 	            return isNodeEnv$8() ? require('util').types : {};
@@ -302,9 +311,9 @@
 
 	var _nodeUtil = util$1;
 
-	const checkedType$e = checkedType_1,
+	const checkedType$d = checkedType_1,
 	        isNodeEnv$7 = isNodeEnv_1,
-	        isObjectLike$c = isObjectLike_1,
+	        isObjectLike$b = isObjectLike_1,
 	        nodeUtil$4= _nodeUtil;
 
 	/**
@@ -322,20 +331,20 @@
 	 * console.log(_.isMap(new Map()))
 	 * 
 	 */
-	function isMap$j (value) {
+	function isMap$i (value) {
 	    return isNodeEnv$7() ?
 	            nodeUtil$4.isMap(value) :
-	            isObjectLike$c(value) && checkedType$e(value) === 'Map';
+	            isObjectLike$b(value) && checkedType$d(value) === 'Map';
 	}
 
 
 
 
-	var isMap_1 = isMap$j;
+	var isMap_1 = isMap$i;
 
-	const checkedType$d = checkedType_1,
+	const checkedType$c = checkedType_1,
 	    isNodeEnv$6 = isNodeEnv_1,
-	    isObjectLike$b = isObjectLike_1,
+	    isObjectLike$a = isObjectLike_1,
 	    nodeUtil$3 = _nodeUtil;
 
 
@@ -355,16 +364,16 @@
 	 * console.log(_.isSet(new Set()))
 	 * 
 	 */
-	function isSet$g(value) {
+	function isSet$f(value) {
 	    return isNodeEnv$6() ?
 	            nodeUtil$3.isSet(value) :
-	            isObjectLike$b(value) && checkedType$d(value) === 'Set';
+	            isObjectLike$a(value) && checkedType$c(value) === 'Set';
 	}
 
-	var isSet_1 = isSet$g;
+	var isSet_1 = isSet$f;
 
-	const checkedType$c = checkedType_1;
-	const isObjectLike$a = isObjectLike_1;
+	const checkedType$b = checkedType_1;
+	const isObjectLike$9 = isObjectLike_1;
 
 
 	/**
@@ -378,6 +387,10 @@
 	 * 
 	 * @param {*} value 需要检查的值
 	 * @returns {Boolean}
+	 * 
+	 * 
+	 * @example
+	 * 
 	 * 
 	 * let o1 = {},
 	 *      o2 = {};
@@ -393,19 +406,19 @@
 	 * console.log(_.isPlainObject(o2))
 	 * 
 	 */
-	function isPlainObject$j (value) {
-	    if (!isObjectLike$a(value)) {
+	function isPlainObject$i (value) {
+	    if (!isObjectLike$9(value)) {
 	        return false;
 	    }
 
-	    return checkedType$c(value) === 'Object';
+	    return checkedType$b(value) === 'Object';
 	}
 
 
-	var isPlainObject_1 = isPlainObject$j;
+	var isPlainObject_1 = isPlainObject$i;
 
-	const checkedType$b = checkedType_1,
-	    isObjectLike$9 = isObjectLike_1;
+	const checkedType$a = checkedType_1,
+	    isObjectLike$8 = isObjectLike_1;
 
 
 
@@ -428,16 +441,16 @@
 	 * _.isNumber(100);
 	 * 
 	 */
-	function isNumber$6 (value) {
+	function isNumber$5 (value) {
 	    return typeof value === 'number' || 
-	        ( isObjectLike$9(value) && checkedType$b(value) === 'Number' );
+	        ( isObjectLike$8(value) && checkedType$a(value) === 'Number' );
 	}
 
 
-	var isNumber_1 = isNumber$6;
+	var isNumber_1 = isNumber$5;
 
-	const checkedType$a = checkedType_1,
-	    isObjectLike$8 = isObjectLike_1;
+	const checkedType$9 = checkedType_1,
+	    isObjectLike$7 = isObjectLike_1;
 
 
 
@@ -461,16 +474,16 @@
 	 * _.isString(new String())
 	 * 
 	 */
-	function isString$d(value) {
+	function isString$c(value) {
 	    return (
 	        typeof value === 'string' ||
-	        (isObjectLike$8(value) && checkedType$a(value) === 'String')
+	        (isObjectLike$7(value) && checkedType$9(value) === 'String')
 	    );
 	}
 
 
 
-	var isString_1 = isString$d;
+	var isString_1 = isString$c;
 
 	const arrayForEach = _arrayforEach,
 	    objectForEach = _objectForEach,
@@ -478,12 +491,12 @@
 	    setForEach = _setForEach,
 	    numberForEach = _numberForEach,
 	    stringForEach = _stringForEach,
-	    isArray$j = isArray_1,
-	    isMap$i = isMap_1,
-	    isSet$f = isSet_1,
-	    isPlainObject$i = isPlainObject_1,
-	    isNumber$5 = isNumber_1,
-	    isString$c = isString_1;
+	    isArray$i = isArray_1,
+	    isMap$h = isMap_1,
+	    isSet$e = isSet_1,
+	    isPlainObject$h = isPlainObject_1,
+	    isNumber$4 = isNumber_1,
+	    isString$b = isString_1;
 
 	/**
 	 *
@@ -505,20 +518,20 @@
 	 *
 	 * _.forEach({name: 'Jack', age: 30}, value => console.log(value)); // 'Jack', 30
 	 */
-	function forEach$8(target, cb) {
+	function forEach$b(target, cb) {
 	    let func = null;
 
-	    if (isArray$j(target)) {
+	    if (isArray$i(target)) {
 	        func = arrayForEach;
-	    } else if (isPlainObject$i(target)) {
+	    } else if (isPlainObject$h(target)) {
 	        func = objectForEach;
-	    } else if (isMap$i(target)) {
+	    } else if (isMap$h(target)) {
 	        func = mapForEach;
-	    } else if (isSet$f(target)) {
+	    } else if (isSet$e(target)) {
 	        func = setForEach;
-	    } else if (isNumber$5(target)) {
+	    } else if (isNumber$4(target)) {
 	        func = numberForEach;
-	    } else if (isString$c(target)) {
+	    } else if (isString$b(target)) {
 	        func = stringForEach;
 	    } else {
 	        return target;
@@ -527,9 +540,9 @@
 	    return func(target, cb);
 	}
 
-	var forEach_1 = forEach$8;
+	var forEach_1 = forEach$b;
 
-	const forEach$7 = forEach_1;
+	const forEach$a = forEach_1;
 
 	/**
 	 *
@@ -563,7 +576,7 @@
 	 *
 	 *
 	 */
-	function curry$1 (fn, ...args) {
+	function curry (fn, ...args) {
 	    if (args.length >= fn.length) {
 	        return function () {
 	            return fn.apply(this, args);
@@ -572,7 +585,7 @@
 	    let cache = [...args];
 
 	    return function curried(...args2) {
-	        forEach$7(args2, item => {
+	        forEach$a(args2, item => {
 	            cache.push(item);
 	        });
 
@@ -585,7 +598,7 @@
 	    };
 	}
 
-	var curry_1 = curry$1;
+	var curry_1 = curry;
 
 	/**
 	 * 
@@ -610,17 +623,17 @@
 	 * _.isObject(undefined)
 	 * 
 	 */
-	function isObject$3 (value) {
+	function isObject$2 (value) {
 	    const type = typeof value;
 
 	    return value !== null && (type === 'function' || type === 'object');
 	}
 
 
-	var isObject_1 = isObject$3;
+	var isObject_1 = isObject$2;
 
-	const checkedType$9 = checkedType_1,
-	        isObjectLike$7 = isObjectLike_1,
+	const checkedType$8 = checkedType_1,
+	        isObjectLike$6 = isObjectLike_1,
 	        isNodeEnv$5 = isNodeEnv_1,
 	        nodeUtil$2 = _nodeUtil;
 
@@ -636,20 +649,20 @@
 	 * @param {*} value 想要检查的值
 	 * @returns {Boolean}
 	 */
-	function isDate$2 (value) {
+	function isDate$1 (value) {
 	    if (isNodeEnv$5()) {
 	        return nodeUtil$2.isDate(value);
 	    }
-	    return isObjectLike$7(value) && checkedType$9(value) === 'Date';
+	    return isObjectLike$6(value) && checkedType$8(value) === 'Date';
 	}
 
 
 
-	var isDate_1 = isDate$2;
+	var isDate_1 = isDate$1;
 
-	const checkedType$8 = checkedType_1;
+	const checkedType$7 = checkedType_1;
 	const isNodeEnv$4 = isNodeEnv_1;
-	const isObjectLike$6 = isObjectLike_1;
+	const isObjectLike$5 = isObjectLike_1;
 	const util = _nodeUtil;
 
 
@@ -671,25 +684,25 @@
 	 * console.log(_.isRegExp(new RegExp()))
 	 * 
 	 */
-	function isRegExp$2 (value) {
+	function isRegExp$1 (value) {
 	    if (isNodeEnv$4()) {
 	        return util.isRegExp(value);
 	    }
-	    return isObjectLike$6(value) && checkedType$8(value) === 'RegExp';
+	    return isObjectLike$5(value) && checkedType$7(value) === 'RegExp';
 	}
 
 
 
-	var isRegExp_1 = isRegExp$2;
+	var isRegExp_1 = isRegExp$1;
 
-	const forEach$6 = forEach_1,
-	    isObject$2 = isObject_1,
-	    isDate$1 = isDate_1,
-	    isArray$i = isArray_1,
-	    isMap$h = isMap_1,
-	    isSet$e = isSet_1,
-	    isPlainObject$h = isPlainObject_1,
-	    isRegExp$1 = isRegExp_1;
+	const forEach$9 = forEach_1,
+	    isObject$1 = isObject_1,
+	    isDate = isDate_1,
+	    isArray$h = isArray_1,
+	    isMap$g = isMap_1,
+	    isSet$d = isSet_1,
+	    isPlainObject$g = isPlainObject_1,
+	    isRegExp = isRegExp_1;
 
 
 
@@ -715,64 +728,64 @@
 	 * 
 	 * let o2 = _.deepClone(obj);
 	 */
-	function deepClone$1(target, cloneProto=false, cache=new WeakMap()) {
+	function deepClone(target, cloneProto=false, cache=new WeakMap()) {
 	    let result = null;
 
-	    if ( !isObject$2(target) ) {
+	    if ( !isObject$1(target) ) {
 	        return target;
 	    }
-	    if (isDate$1(target)) {
+	    if (isDate(target)) {
 	        return new Date(target);
 	    }
-	    if (isRegExp$1(target)) {
+	    if (isRegExp(target)) {
 	        return new RegExp(target);
 	    }
 	    if ( cache.has(target) ) {
 	        return cache.get(target);
 	    }
-	    if (isArray$i(target)) {
+	    if (isArray$h(target)) {
 	        result = [];
 
 	        cache.set(target, result);
 
-	        forEach$6(target, element => {
-	            result.push( deepClone$1(element, cloneProto, cache) );
+	        forEach$9(target, element => {
+	            result.push( deepClone(element, cloneProto, cache) );
 	        });
 
 	        return result;
 	    }
-	    if (isMap$h(target)) {
+	    if (isMap$g(target)) {
 	        result = new Map();
 
 	        cache.set(target, result);
 
-	        forEach$6(target, (value, key) => {
+	        forEach$9(target, (value, key) => {
 	            result.set(
-	                deepClone$1(key, cloneProto, cache),
-	                deepClone$1(value, cloneProto, cache)
+	                deepClone(key, cloneProto, cache),
+	                deepClone(value, cloneProto, cache)
 	            );
 	        });
 
 	        return result;
 	    }
-	    if (isSet$e(target)) {
+	    if (isSet$d(target)) {
 	        result = new Set();
 
 	        cache.set(target, result);
 
-	        forEach$6(target, value => {
-	            result.add( deepClone$1(value, cloneProto, cache) );
+	        forEach$9(target, value => {
+	            result.add( deepClone(value, cloneProto, cache) );
 	        });
 
 	        return result;
 	    }
-	    if (isPlainObject$h(value)) {
+	    if (isPlainObject$g(value)) {
 	        result = {};
 	        cache.set(target, result);
 
 	        if (cloneProto) {
 	            if ( Object.getPrototypeOf(target) !== Object.prototype ) {
-	                let prototype = deepClone$1( Object.getPrototypeOf(target), cloneProto, cache );
+	                let prototype = deepClone( Object.getPrototypeOf(target), cloneProto, cache );
 	                Object.setPrototypeOf(result, prototype);
 	            }
 	        }
@@ -780,12 +793,12 @@
 	        let props = Object.getOwnPropertyNames(target),
 	            symbolProps = Object.getOwnPropertySymbols(target);
 	        
-	        forEach$6(symbolProps, prop => {
+	        forEach$9(symbolProps, prop => {
 	            props.push(prop);
 	        });
 
-	        forEach$6(props, prop => {
-	            result[prop] = deepClone$1( target[prop], cloneProto, cache );
+	        forEach$9(props, prop => {
+	            result[prop] = deepClone( target[prop], cloneProto, cache );
 	        });
 
 	        return result;
@@ -794,7 +807,7 @@
 
 
 
-	var deepClone_1 = deepClone$1;
+	var deepClone_1 = deepClone;
 
 	/**
 	 * 
@@ -810,7 +823,7 @@
 	 * 
 	 */
 
-	function isInContainer$1(el, container) {
+	function isInContainer(el, container) {
 	    const elRect = el.getBoundingClientRect();
 	    let containerRect = null;
 
@@ -838,7 +851,7 @@
 	}
 
 
-	var isInContainer_1 = isInContainer$1;
+	var isInContainer_1 = isInContainer;
 
 	const NO_FUNCTION_ERROR = 'cb is not a function';
 
@@ -875,7 +888,7 @@
 	 * 
 	 * 
 	 */
-	function debounce$1(cb, delay=0, option = { before: false, after: true }) {
+	function debounce(cb, delay=0, option = { before: false, after: true }) {
 	    let timerId = null;
 
 	    if (typeof cb !== 'function') {
@@ -916,7 +929,7 @@
 	    return debounced;
 	}
 
-	var debounce_1 = debounce$1;
+	var debounce_1 = debounce;
 
 	/**
 	 * 
@@ -940,7 +953,7 @@
 	 * window.addEventListener( 'scroll', _.throttle(go, 1000) );
 	 * 
 	 */
-	function throttle$1 (fn, time) {
+	function throttle (fn, time) {
 	    let state = true;
 
 	    let throttled = function () {
@@ -962,7 +975,7 @@
 	}
 
 
-	var throttle_1 = throttle$1;
+	var throttle_1 = throttle;
 
 	/**
 	 * 
@@ -986,7 +999,7 @@
 	 * 
 	 * 
 	 */
-	function random$4(min,max, floating=false) {
+	function random$3(min,max, floating=false) {
 	    if (floating) {
 	        return min + Math.random() * (max - min);
 	    }
@@ -997,10 +1010,10 @@
 
 
 
-	var random_1 = random$4;
+	var random_1 = random$3;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Array} arr array
 	 * @param {Function} fn func
 	 * @returns {Array}
@@ -1022,7 +1035,7 @@
 	var _arrayForEachRight = arrayForEachRight$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Object} obj obj
 	 * @param {Function} fn func
 	 * @returns {Object}
@@ -1047,7 +1060,7 @@
 	var _objectForEachRight = objectForEachRight$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Map} map map
 	 * @param {Function} fn func
 	 * @returns {Map}
@@ -1072,7 +1085,7 @@
 	var _mapForEachRight = mapForEachRight$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Set} set set
 	 * @param {Function} fn func
 	 * @returns {Set}
@@ -1099,10 +1112,10 @@
 	    objectForEachRight = _objectForEachRight,
 	    mapForEachRight = _mapForEachRight,
 	    setForEachRight = _setForEachRight,
-	    isArray$h = isArray_1,
-	    isMap$g = isMap_1,
-	    isSet$d = isSet_1,
-	    isPlainObject$g = isPlainObject_1;
+	    isArray$g = isArray_1,
+	    isMap$f = isMap_1,
+	    isSet$c = isSet_1,
+	    isPlainObject$f = isPlainObject_1;
 
 	/**
 	 *
@@ -1126,16 +1139,16 @@
 	 *
 	 *
 	 */
-	function forEachRight$1(target, fn) {
+	function forEachRight(target, fn) {
 	    let func = null;
 
-	    if (isArray$h(target)) {
+	    if (isArray$g(target)) {
 	        func = arrayForEachRight;
-	    } else if (isPlainObject$g(target)) {
+	    } else if (isPlainObject$f(target)) {
 	        func = objectForEachRight;
-	    } else if (isMap$g(target)) {
+	    } else if (isMap$f(target)) {
 	        func = mapForEachRight;
-	    } else if (isSet$d(target)) {
+	    } else if (isSet$c(target)) {
 	        func = setForEachRight;
 	    } else {
 	        return target;
@@ -1144,9 +1157,12 @@
 	    return func(target, fn);
 	}
 
-	var forEachRight_1 = forEachRight$1;
+	var forEachRight_1 = forEachRight;
 
 	/**
+	 * 
+	 * @private
+	 * 
 	 * @description 数组版filter
 	 * @param {Array} arr array
 	 * @param {Function} cb 对每个元素调用的函数
@@ -1169,6 +1185,7 @@
 	var _arrayFilter = arrayFilter$1;
 
 	/**
+	 * @private
 	 * @description 对象版filter
 	 * @param {Object} obj obj
 	 * @param {Function} cb 对每个元素调用的函数
@@ -1194,6 +1211,7 @@
 	var _objectFilter = objectFilter$1;
 
 	/**
+	 * @private
 	 * @description map版filter
 	 * @param {Map} map map
 	 * @param {Function} cb 对每个元素调用的函数
@@ -1218,6 +1236,7 @@
 	var _mapFilter = mapFilter$1;
 
 	/**
+	 * @private
 	 * @description set版filter
 	 * @param {Set} arr Set
 	 * @param {Function} cb 对每个元素调用的函数
@@ -1239,6 +1258,7 @@
 	var _setFilter = setFilter$1;
 
 	/**
+	 * @private
 	 * @description 字符串版filter
 	 * @param {String} str String
 	 * @param {Function} cb 对每个元素调用的函数
@@ -1261,6 +1281,7 @@
 	var _stringFilter = stringFilter$2;
 
 	/**
+	 * @private
 	 * @description 数字版filter
 	 * @param {Number} num number
 	 * @param {Function} cb 调用tnum次cb
@@ -1287,12 +1308,12 @@
 	    setFilter = _setFilter,
 	    stringFilter$1 = _stringFilter,
 	    numberFilter = _numberFilter,
-	    isArray$g = isArray_1,
-	    isMap$f = isMap_1,
-	    isSet$c = isSet_1,
-	    isPlainObject$f = isPlainObject_1,
-	    isNumber$4 = isNumber_1,
-	    isString$b = isString_1;
+	    isArray$f = isArray_1,
+	    isMap$e = isMap_1,
+	    isSet$b = isSet_1,
+	    isPlainObject$e = isPlainObject_1,
+	    isNumber$3 = isNumber_1,
+	    isString$a = isString_1;
 
 	/**
 	 *
@@ -1315,20 +1336,20 @@
 	 *
 	 * _.filter(5, n => true);   // [0, 1, 2, 3, 4];
 	 */
-	function filter$3(target, cb) {
+	function filter$4(target, cb) {
 	    let func = null;
 
-	    if (isArray$g(target)) {
+	    if (isArray$f(target)) {
 	        func = arrayFilter;
-	    } else if (isPlainObject$f(target)) {
+	    } else if (isPlainObject$e(target)) {
 	        func = objectFilter;
-	    } else if (isMap$f(target)) {
+	    } else if (isMap$e(target)) {
 	        func = mapFilter;
-	    } else if (isSet$c(target)) {
+	    } else if (isSet$b(target)) {
 	        func = setFilter;
-	    } else if (isNumber$4(target)) {
+	    } else if (isNumber$3(target)) {
 	        func = numberFilter;
-	    } else if (isString$b(target)) {
+	    } else if (isString$a(target)) {
 	        func = stringFilter$1;
 	    } else {
 	        return target;
@@ -1337,9 +1358,10 @@
 	    return func(target, cb);
 	}
 
-	var filter_1 = filter$3;
+	var filter_1 = filter$4;
 
 	/**
+	 * @private
 	 * @description 数组版map迭代方法
 	 * @param {Array} arr 数组
 	 * @param {Function} fn func
@@ -1360,7 +1382,7 @@
 	var _arrayMap = arrayMap$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Object} obj 
 	 * @param {Function} fn 
 	 * @returns {Array}
@@ -1382,6 +1404,7 @@
 	var _objectMap = objectMap$1;
 
 	/**
+	 * @private
 	 * @description map版map
 	 * @param {Map} map map
 	 * @param {Function} fn func
@@ -1401,7 +1424,7 @@
 	var _mapMap = mapMap$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Set} set 
 	 * @param {Function} fn 
 	 * @returns {Array}
@@ -1420,6 +1443,7 @@
 	var _setMap = setMap$1;
 
 	/**
+	 * @private
 	 * @param {String} str 
 	 * @param {Function} fn 
 	 * @returns {Array}
@@ -1440,6 +1464,7 @@
 	var _stringMap = stringMap$1;
 
 	/**
+	 * @private
 	 * @param {Number} num number
 	 * @param {Function} fn func
 	 * @returns {Array}
@@ -1465,12 +1490,12 @@
 	    setMap = _setMap,
 	    stringMap = _stringMap,
 	    numberMap = _numberMap,
-	    isArray$f = isArray_1,
-	    isMap$e = isMap_1,
-	    isSet$b = isSet_1,
-	    isPlainObject$e = isPlainObject_1,
-	    isNumber$3 = isNumber_1,
-	    isString$a = isString_1;
+	    isArray$e = isArray_1,
+	    isMap$d = isMap_1,
+	    isSet$a = isSet_1,
+	    isPlainObject$d = isPlainObject_1,
+	    isNumber$2 = isNumber_1,
+	    isString$9 = isString_1;
 
 	/**
 	 *
@@ -1492,20 +1517,20 @@
 	 *
 	 * _.map([1, 2, 3, 4, 5], (item, index) => index + '号'); // [ '0号', '1号', '2号', '3号', '4号' ]
 	 */
-	function map$5(target, fn) {
+	function map$4(target, fn) {
 	    let func = null;
 
-	    if (isArray$f(target)) {
+	    if (isArray$e(target)) {
 	        func = arrayMap;
-	    } else if (isPlainObject$e(target)) {
+	    } else if (isPlainObject$d(target)) {
 	        func = objectMap;
-	    } else if (isMap$e(target)) {
+	    } else if (isMap$d(target)) {
 	        func = mapMap;
-	    } else if (isSet$b(target)) {
+	    } else if (isSet$a(target)) {
 	        func = setMap;
-	    } else if (isString$a(target)) {
+	    } else if (isString$9(target)) {
 	        func = stringMap;
-	    } else if (isNumber$3(target)) {
+	    } else if (isNumber$2(target)) {
 	        func = numberMap;
 	    } else {
 	        return target;
@@ -1514,9 +1539,11 @@
 	    return func(target, fn);
 	}
 
-	var map_1 = map$5;
+	var map_1 = map$4;
 
 	/**
+	 * 
+	 * @private
 	 * 
 	 * @param {Array} arr array
 	 * @param {Function} predicate 断言函数
@@ -1538,7 +1565,7 @@
 	var _arrayFind = arrayFind$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {{}} obj object
 	 * @param {Function} predicate 断言函数
 	 * @param {Number} fromIndex 索引
@@ -1563,7 +1590,7 @@
 	var _objectFind = objectFind$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Map} map map
 	 * @param {Function} predicate 断言函数
 	 * @param {Number} fromIndex 
@@ -1587,7 +1614,7 @@
 	var _mapFind = mapFind$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Set} set set
 	 * @param {Function} predicate 断言
 	 * @param {Number} fromIndex 
@@ -1612,10 +1639,10 @@
 	    objectFind = _objectFind,
 	    mapFind = _mapFind,
 	    setFind = _setFind,
-	    isArray$e = isArray_1,
-	    isMap$d = isMap_1,
-	    isSet$a = isSet_1,
-	    isPlainObject$d = isPlainObject_1;
+	    isArray$d = isArray_1,
+	    isMap$c = isMap_1,
+	    isSet$9 = isSet_1,
+	    isPlainObject$c = isPlainObject_1;
 
 	/**
 	 *
@@ -1645,16 +1672,16 @@
 	 * console.log(  _.find(obj, item => item > 2) );  // c
 	 *
 	 */
-	function find$1(target, predicate, fromIndex = 0) {
+	function find(target, predicate, fromIndex = 0) {
 	    let func = null;
 
-	    if (isArray$e(target)) {
+	    if (isArray$d(target)) {
 	        func = arrayFind;
-	    } else if (isPlainObject$d(target)) {
+	    } else if (isPlainObject$c(target)) {
 	        func = objectFind;
-	    } else if (isMap$d(target)) {
+	    } else if (isMap$c(target)) {
 	        func = mapFind;
-	    } else if (isSet$a(target)) {
+	    } else if (isSet$9(target)) {
 	        func = setFind;
 	    } else {
 	        return target;
@@ -1663,10 +1690,10 @@
 	    return func(target, predicate, fromIndex);
 	}
 
-	var find_1 = find$1;
+	var find_1 = find;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Array} array array
 	 * @param {Function} fn 断言函数
 	 * @param {Number} fromIndex 
@@ -1687,7 +1714,7 @@
 	var _arrayFindRight = arrayFindRight$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Object} obj object
 	 * @param {Function} fn 断言函数
 	 * @param {Number} fromIndex 索引
@@ -1711,7 +1738,7 @@
 	var _objectFindRight = objectFindRight$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Map} map map
 	 * @param {Function} fn 断言
 	 * @param {Number} fromIndex 索引
@@ -1735,7 +1762,7 @@
 	var _mapFindRight = mapFindRight$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Set} set set
 	 * @param {Function} fn 断言
 	 * @param {Number} fromIndex 索引
@@ -1761,10 +1788,10 @@
 	    objectFindRight = _objectFindRight,
 	    mapFindRight = _mapFindRight,
 	    setFindRight = _setFindRight,
-	    isArray$d = isArray_1,
-	    isMap$c = isMap_1,
-	    isSet$9 = isSet_1,
-	    isPlainObject$c = isPlainObject_1;
+	    isArray$c = isArray_1,
+	    isMap$b = isMap_1,
+	    isSet$8 = isSet_1,
+	    isPlainObject$b = isPlainObject_1;
 
 	/**
 	 *
@@ -1787,16 +1814,16 @@
 	 * console.log( _.findRight(arr, item => item > 1) ); // 4
 	 *
 	 */
-	function findRight$1(target, fn, fromIndex) {
+	function findRight(target, fn, fromIndex) {
 	    let func = null;
 
-	    if (isArray$d(target)) {
+	    if (isArray$c(target)) {
 	        func = arrayFindRight;
-	    } else if (isPlainObject$c(target)) {
+	    } else if (isPlainObject$b(target)) {
 	        func = objectFindRight;
-	    } else if (isMap$c(target)) {
+	    } else if (isMap$b(target)) {
 	        func = mapFindRight;
-	    } else if (isSet$9(target)) {
+	    } else if (isSet$8(target)) {
 	        func = setFindRight;
 	    } else {
 	        return target;
@@ -1805,10 +1832,11 @@
 	    return func(target, fn, fromIndex);
 	}
 
-	var findRight_1 = findRight$1;
+	var findRight_1 = findRight;
 
 	/**
 	 * 
+	 * @private
 	 * @param {Array} arr array
 	 * @param {Function} predicate 断言
 	 * 
@@ -1829,7 +1857,7 @@
 	var _arrayEvery = arrayEvery$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {{}} obj object
 	 * @param {Function} predicate 断言
 	 * 
@@ -1852,7 +1880,7 @@
 	var _objectEvery = objectEvery$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Map} map map
 	 * @param {Function} predicate 断言
 	 * @returns 
@@ -1875,7 +1903,7 @@
 	var _mapEvery = mapEvery$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Set} set set
 	 * @param {Function} predicate 断言
 	 * @returns {Boolean}
@@ -1900,10 +1928,10 @@
 	        objectEvery = _objectEvery,
 	        mapEvery = _mapEvery,
 	        setEvery = _setEvery,
-	    isArray$c = isArray_1,
-	    isMap$b = isMap_1,
-	    isSet$8 = isSet_1,
-	    isPlainObject$b = isPlainObject_1;
+	    isArray$b = isArray_1,
+	    isMap$a = isMap_1,
+	    isSet$7 = isSet_1,
+	    isPlainObject$a = isPlainObject_1;
 
 	/**
 	 * 
@@ -1926,16 +1954,16 @@
 	 * console.log( _.every(arr, item => item > 0) );  // true
 	 * 
 	 */
-	function every$1 (target, predicate) {
+	function every (target, predicate) {
 	    let func = null;
 
-	    if (isArray$c(target)) {
+	    if (isArray$b(target)) {
 	        func = arrayEvery;
-	    } else if ( isPlainObject$b(target) ) {
+	    } else if ( isPlainObject$a(target) ) {
 	        func = objectEvery;
-	    } else if ( isMap$b(target) ) {
+	    } else if ( isMap$a(target) ) {
 	        fnc = mapEvery;
-	    } else if ( isSet$8(target) ) {
+	    } else if ( isSet$7(target) ) {
 	        func = setEvery;
 	    } else {
 	        return target;
@@ -1944,10 +1972,10 @@
 	    return func(target, predicate);
 	}
 
-	var every_1 = every$1;
+	var every_1 = every;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Array} arr array
 	 * @param {Function} predicate 断言
 	 * @returns {Boolean}
@@ -1968,7 +1996,7 @@
 	var _arraySome = arraySome$1;
 
 	/**
-	 *  
+	 *  @private
 	 * @param {{}} obj object
 	 * @param {Function} predicate 断言
 	 */
@@ -1990,7 +2018,7 @@
 	var _objectSome = objectSome$1;
 
 	/**
-	 *  
+	 *  @private
 	 * @param {Map} map map
 	 * @param {Function} predicate 断言
 	 */
@@ -2012,7 +2040,7 @@
 	var _mapSome = mapSome$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Set} set set
 	 * @param {Function} predicate 断言
 	 * @returns {Boolean}
@@ -2036,10 +2064,10 @@
 	    objectSome = _objectSome,
 	    mapSome = _mapSome,
 	    setSome = _setSome,
-	    isArray$b = isArray_1,
-	    isMap$a = isMap_1,
-	    isSet$7 = isSet_1,
-	    isPlainObject$a = isPlainObject_1;
+	    isArray$a = isArray_1,
+	    isMap$9 = isMap_1,
+	    isSet$6 = isSet_1,
+	    isPlainObject$9 = isPlainObject_1;
 
 	/**
 	 *
@@ -2062,16 +2090,16 @@
 	 * console.log( _.some(arr, item => item > 3) );  // true
 	 *
 	 */
-	function some$1(target, predicate) {
+	function some(target, predicate) {
 	    let func = null;
 
-	    if (isArray$b(target)) {
+	    if (isArray$a(target)) {
 	        func = arraySome;
-	    } else if (isPlainObject$a(target)) {
+	    } else if (isPlainObject$9(target)) {
 	        func = objectSome;
-	    } else if (isMap$a(target)) {
+	    } else if (isMap$9(target)) {
 	        func = mapSome;
-	    } else if (isSet$7(target)) {
+	    } else if (isSet$6(target)) {
 	        func = setSome;
 	    } else {
 	        return target;
@@ -2080,10 +2108,10 @@
 	    return func(target, predicate);
 	}
 
-	var some_1 = some$1;
+	var some_1 = some;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Array} arr arr
 	 * @param {Function} fn func
 	 * @param {any} accumulator 初始值 
@@ -2111,7 +2139,7 @@
 	var _arrayReduce = arrayReduce$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Object} obj obj
 	 * @param {Function} fn func
 	 * @param {any} accumulator 
@@ -2143,7 +2171,7 @@
 	var _objectReduce = objectReduce$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {String} str string
 	 * @param {Function} fn func
 	 * @param {any} accumulator 
@@ -2172,7 +2200,7 @@
 	var _stringReduce = stringReduce$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Map} map map
 	 * @param {Function} fn func
 	 * @param {any} accumulator 初始值
@@ -2205,7 +2233,7 @@
 	var _mapReduce = mapReduce$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Set} set set
 	 * @param {Function} fn func
 	 * @param {any} accumulator 初始值
@@ -2239,11 +2267,11 @@
 	    stringReduce = _stringReduce,
 	    mapReduce = _mapReduce,
 	    setReduce = _setReduce,
-	    isArray$a = isArray_1,
-	    isMap$9 = isMap_1,
-	    isSet$6 = isSet_1,
-	    isPlainObject$9 = isPlainObject_1,
-	    isString$9 = isString_1;
+	    isArray$9 = isArray_1,
+	    isMap$8 = isMap_1,
+	    isSet$5 = isSet_1,
+	    isPlainObject$8 = isPlainObject_1,
+	    isString$8 = isString_1;
 
 	/**
 	 * @module reduce
@@ -2270,18 +2298,18 @@
 	 *
 	 *
 	 */
-	function reduce$2(target, fn, accumulator) {
+	function reduce$e(target, fn, accumulator) {
 	    let func = null;
 
-	    if (isArray$a(target)) {
+	    if (isArray$9(target)) {
 	        func = arrayReduce;
-	    } else if (isPlainObject$9(target)) {
+	    } else if (isPlainObject$8(target)) {
 	        func = objectReduce;
-	    } else if (isString$9(target)) {
+	    } else if (isString$8(target)) {
 	        func = stringReduce;
-	    } else if (isMap$9(target)) {
+	    } else if (isMap$8(target)) {
 	        func = mapReduce;
-	    } else if (isSet$6(target)) {
+	    } else if (isSet$5(target)) {
 	        func = setReduce;
 	    } else {
 	        return target;
@@ -2290,10 +2318,10 @@
 	    return func(target, fn, accumulator);
 	}
 
-	var reduce_1 = reduce$2;
+	var reduce_1 = reduce$e;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Array} arr array
 	 * @param {Function} fn func
 	 * @param {any} accumulator 初始值
@@ -2321,7 +2349,7 @@
 	var _arrayReduceRight = arrayReduceRight$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Map} map map
 	 * @param {Function} fn func
 	 * @param {any} accumulator 初始值
@@ -2352,7 +2380,7 @@
 	var _mapReduceRight = mapReduceRight$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {{}} obj obj
 	 * @param {Function} fn func
 	 * @param {any} accumulator 初始值
@@ -2382,7 +2410,7 @@
 	var _objectReduceRight = objectReduceRight$1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Set} set set
 	 * @param {Function} fn func
 	 * @param {any} accumulator 初始值
@@ -2414,10 +2442,10 @@
 	    mapReduceRight = _mapReduceRight,
 	    objectReduceRight = _objectReduceRight,
 	    setReduceRight = _setReduceRight,
-	    isArray$9 = isArray_1,
-	    isMap$8 = isMap_1,
-	    isSet$5 = isSet_1,
-	    isPlainObject$8 = isPlainObject_1;
+	    isArray$8 = isArray_1,
+	    isMap$7 = isMap_1,
+	    isSet$4 = isSet_1,
+	    isPlainObject$7 = isPlainObject_1;
 
 	/**
 	 *
@@ -2443,16 +2471,16 @@
 	 *
 	 *
 	 */
-	function reduceRight$1(target, fn, accumulator) {
+	function reduceRight(target, fn, accumulator) {
 	    let func = null;
 
-	    if (isArray$9(target)) {
+	    if (isArray$8(target)) {
 	        func = arrayReduceRight;
-	    } else if (isPlainObject$8(target)) {
+	    } else if (isPlainObject$7(target)) {
 	        func = objectReduceRight;
-	    } else if (isMap$8(target)) {
+	    } else if (isMap$7(target)) {
 	        func = mapReduceRight;
-	    } else if (isSet$5(target)) {
+	    } else if (isSet$4(target)) {
 	        func = setReduceRight;
 	    } else {
 	        return target;
@@ -2461,9 +2489,10 @@
 	    return func(target, fn, accumulator);
 	}
 
-	var reduceRight_1 = reduceRight$1;
+	var reduceRight_1 = reduceRight;
 
 	/**
+	 * @private
 	 * @description 交换数组i和j位置的元素
 	 * @param {Array} arr 数组
 	 * @param {Number} i 索引
@@ -2486,6 +2515,7 @@
 	        swapElem$1 = _swapElem;
 
 	/**
+	 * @private
 	 * @description 交换字符串两个字符的位置，返回新字符串
 	 * @param {String} str String
 	 * @param {Number} i 索引
@@ -2528,18 +2558,18 @@
 	 * _.isNaN('AAA');
 	 * 
 	 */
-	function isNaN$2 (value) {
+	function isNaN$1 (value) {
 	    return value !== value;
 	}
 
 
-	var _isNaN = isNaN$2;
+	var _isNaN = isNaN$1;
 
 	const swapElem = _swapElem,
 	    swapChar = _swapChar,
-	    isArray$8 = isArray_1,
-	    isString$8 = isString_1,
-	    isNaN$1 = _isNaN;
+	    isArray$7 = isArray_1,
+	    isString$7 = isString_1,
+	    isNaN = _isNaN;
 
 	/**
 	 *
@@ -2561,15 +2591,15 @@
 	 *
 	 * _.swapIndex('abcd', 0, 3); // dbca
 	 */
-	function swapIndex$1(target, i, j) {
-	    if (isNaN$1(Number(i)) || isNaN$1(Number(j))) {
+	function swapIndex(target, i, j) {
+	    if (isNaN(Number(i)) || isNaN(Number(j))) {
 	        return target;
 	    }
 	    let func = null;
 
-	    if (isArray$8(target)) {
+	    if (isArray$7(target)) {
 	        func = swapElem;
-	    } else if (isString$8(target)) {
+	    } else if (isString$7(target)) {
 	        func = swapChar;
 	    } else {
 	        return target;
@@ -2578,17 +2608,17 @@
 	    return func(target, i, j);
 	}
 
-	var swapIndex_1 = swapIndex$1;
+	var swapIndex_1 = swapIndex;
 
-	const reduce$1 = reduce_1,
-	        filter$2 = filter_1,
-	        map$4 = map_1;
+	const reduce$d = reduce_1,
+	        filter$3 = filter_1,
+	        map$3 = map_1;
 
 	const NO_STRING_ERROR = 'str not is a string';
 
 	const isLetter = /[a-zA-Z]/,
 	        isSpecialChar = /[^a-zA-Z0-9]/,
-	        isNumber$2 = /[0-9]/;
+	        isNumber$1 = /[0-9]/;
 
 
 
@@ -2612,19 +2642,19 @@
 	 * 
 	 * 
 	 */
-	function camelCase$1 (str) {
+	function camelCase (str) {
 	    if (typeof str !== 'string') {
 	        throw new Error(NO_STRING_ERROR);
 	    }
 
-	    let arr = filter$2( str.split(isSpecialChar), item => item !== '' );
+	    let arr = filter$3( str.split(isSpecialChar), item => item !== '' );
 
-	    arr = map$4(arr, (item, index) =>
+	    arr = map$3(arr, (item, index) =>
 	        index === 0 ? item : item[0].toUpperCase() + item.slice(1)
 	    ).join('').split('');
 
-	    reduce$1(arr, (pre, cur, index) => {
-	        if ( isNumber$2.test(pre) ) {
+	    reduce$d(arr, (pre, cur, index) => {
+	        if ( isNumber$1.test(pre) ) {
 	            if ( isLetter.test(cur) ) {
 	                arr[index] = cur.toUpperCase();
 	            }
@@ -2636,12 +2666,17 @@
 	}
 
 
-	var camelCase_1 = camelCase$1;
+	var camelCase_1 = camelCase;
 
-	const map$3 = map_1;
+	const map$2 = map_1;
 
+	/**
+	 * @private
+	 * @param {*} str 
+	 * @returns {String}
+	 */
 	function toUpperAll (str) {
-	    return map$3(str, char => char.toUpperCase()).join('');
+	    return map$2(str, char => char.toUpperCase()).join('');
 	}
 
 
@@ -2649,11 +2684,11 @@
 	var _toUpperAll = toUpperAll;
 
 	const upperAll = _toUpperAll,
-	    forEach$5 = forEach_1,
-	    isArray$7 = isArray_1,
-	    isMap$7 = isMap_1,
-	    isPlainObject$7 = isPlainObject_1,
-	    isString$7 = isString_1;
+	    forEach$8 = forEach_1,
+	    isArray$6 = isArray_1,
+	    isMap$6 = isMap_1,
+	    isPlainObject$6 = isPlainObject_1,
+	    isString$6 = isString_1;
 
 	/**
 	 *
@@ -2675,22 +2710,22 @@
 	 * console.log(_.toUpper(['aaa', { name: 'davi' }, 20]));
 	 *
 	 */
-	function toUpper$1(target) {
+	function toUpper(target) {
 	    let result = null;
 
-	    if (isString$7(target)) {
+	    if (isString$6(target)) {
 	        result = upperAll(target);
-	    } else if (isArray$7(target)) {
-	        result = forEach$5(target, (item, index) => {
-	            target[index] = toUpper$1(item);
+	    } else if (isArray$6(target)) {
+	        result = forEach$8(target, (item, index) => {
+	            target[index] = toUpper(item);
 	        });
-	    } else if (isPlainObject$7(target)) {
-	        result = forEach$5(target, (value, key) => {
-	            target[key] = toUpper$1(value);
+	    } else if (isPlainObject$6(target)) {
+	        result = forEach$8(target, (value, key) => {
+	            target[key] = toUpper(value);
 	        });
-	    } else if (isMap$7(target)) {
-	        result = forEach$5(target, (value, key) => {
-	            target.set(key, toUpper$1(value));
+	    } else if (isMap$6(target)) {
+	        result = forEach$8(target, (value, key) => {
+	            target.set(key, toUpper(value));
 	        });
 	    } else {
 	        result = target;
@@ -2699,9 +2734,10 @@
 	    return result;
 	}
 
-	var toUpper_1 = toUpper$1;
+	var toUpper_1 = toUpper;
 
 	/**
+	 * @private
 	 * @description 字符串首字母大写
 	 * @param {String} str string
 	 * @returns {String}
@@ -2715,11 +2751,11 @@
 	var _toUpperFirst = toUpperFirst;
 
 	const first = _toUpperFirst,
-	    forEach$4 = forEach_1,
-	    isArray$6 = isArray_1,
-	    isMap$6 = isMap_1,
-	    isPlainObject$6 = isPlainObject_1,
-	    isString$6 = isString_1;
+	    forEach$7 = forEach_1,
+	    isArray$5 = isArray_1,
+	    isMap$5 = isMap_1,
+	    isPlainObject$5 = isPlainObject_1,
+	    isString$5 = isString_1;
 
 	/**
 	 *
@@ -2741,22 +2777,22 @@
 	 *console.log(_.upperFirst(arr));
 	 *
 	 */
-	function upperFirst$1(target) {
+	function upperFirst(target) {
 	    let result = null;
 
-	    if (isString$6(target)) {
+	    if (isString$5(target)) {
 	        result = first(target);
-	    } else if (isArray$6(target)) {
-	        result = forEach$4(target, (item, index) => {
-	            target[index] = upperFirst$1(item);
+	    } else if (isArray$5(target)) {
+	        result = forEach$7(target, (item, index) => {
+	            target[index] = upperFirst(item);
 	        });
-	    } else if (isPlainObject$6(target)) {
-	        result = forEach$4(target, (value, key) => {
-	            target[key] = upperFirst$1(value);
+	    } else if (isPlainObject$5(target)) {
+	        result = forEach$7(target, (value, key) => {
+	            target[key] = upperFirst(value);
 	        });
-	    } else if (isMap$6(target)) {
-	        result = forEach$4(target, (value, key) => {
-	            target.set(key, upperFirst$1(value));
+	    } else if (isMap$5(target)) {
+	        result = forEach$7(target, (value, key) => {
+	            target.set(key, upperFirst(value));
 	        });
 	    } else {
 	        result = target;
@@ -2765,30 +2801,30 @@
 	    return result;
 	}
 
-	var upperFirst_1 = upperFirst$1;
+	var upperFirst_1 = upperFirst;
 
-	const map$2 = map_1;
+	const map$1 = map_1;
 
 	/**
-	 * 
+	 * @private
 	 * @description 将字符串的怎么转为小写
 	 * 
 	 * @param {String} str str
 	 * @returns {String}
 	 */
 	function _toLower$1 (str) {
-	    return map$2(str, char => char.toLowerCase()).join('');
+	    return map$1(str, char => char.toLowerCase()).join('');
 	}
 
 
 	var _toLower_1 = _toLower$1;
 
 	const _toLower = _toLower_1,
-	    forEach$3 = forEach_1,
-	    isArray$5 = isArray_1,
-	    isMap$5 = isMap_1,
-	    isPlainObject$5 = isPlainObject_1,
-	    isString$5 = isString_1;
+	    forEach$6 = forEach_1,
+	    isArray$4 = isArray_1,
+	    isMap$4 = isMap_1,
+	    isPlainObject$4 = isPlainObject_1,
+	    isString$4 = isString_1;
 
 	/**
 	 *
@@ -2810,22 +2846,22 @@
 	 * console.log(_.toLower(arr));
 	 *
 	 */
-	function toLower$1(target) {
+	function toLower(target) {
 	    let result = null;
 
-	    if (isString$5(target)) {
+	    if (isString$4(target)) {
 	        result = _toLower(target);
-	    } else if (isArray$5(target)) {
-	        result = forEach$3(target, (item, index) => {
-	            target[index] = toLower$1(item);
+	    } else if (isArray$4(target)) {
+	        result = forEach$6(target, (item, index) => {
+	            target[index] = toLower(item);
 	        });
-	    } else if (isPlainObject$5(target)) {
-	        result = forEach$3(target, (value, key) => {
-	            target[key] = toLower$1(value);
+	    } else if (isPlainObject$4(target)) {
+	        result = forEach$6(target, (value, key) => {
+	            target[key] = toLower(value);
 	        });
-	    } else if (isMap$5(target)) {
-	        result = forEach$3(target, (value, key) => {
-	            target.set(key, toLower$1(value));
+	    } else if (isMap$4(target)) {
+	        result = forEach$6(target, (value, key) => {
+	            target.set(key, toLower(value));
 	        });
 	    } else {
 	        result = target;
@@ -2834,10 +2870,12 @@
 	    return result;
 	}
 
-	var toLower_1 = toLower$1;
+	var toLower_1 = toLower;
 
 	/**
-	 * 删除数组中所有等于item的元素，该方法在原数组修改
+	 * 
+	 * @private
+	 * @description 删除数组中所有等于item的元素，该方法在原数组修改
 	 * 
 	 * @param {Array} arr array
 	 * @param {any} item item
@@ -2857,7 +2895,7 @@
 
 	var _pullOne = pullOne$1;
 
-	const forEach$2 = forEach_1,
+	const forEach$5 = forEach_1,
 	        pullOne = _pullOne;
 
 
@@ -2882,8 +2920,8 @@
 	 * 
 	 * 
 	 */
-	function pull$2 (arr, ...args) {
-	    forEach$2(args, argsItem => {
+	function pull$1 (arr, ...args) {
+	    forEach$5(args, argsItem => {
 	        pullOne(arr, argsItem);
 	    });
 	    return arr;
@@ -2893,7 +2931,7 @@
 
 
 
-	var pull_1 = pull$2;
+	var pull_1 = pull$1;
 
 	/**
 	 * @module unique
@@ -2912,7 +2950,7 @@
 	 * _.unique(arr);  // [1, 2, 3, 4, 5]
 	 * 
 	 */
-	function unique$2 (arr) {
+	function unique$1 (arr) {
 	    let cache = [];
 
 	    for (const iterate of arr) {
@@ -2926,10 +2964,10 @@
 	}
 
 
-	var unique_1 = unique$2;
+	var unique_1 = unique$1;
 
-	const pull$1 = pull_1,
-	        unique$1 = unique_1;
+	const pull = pull_1,
+	        unique = unique_1;
 
 
 
@@ -2956,7 +2994,7 @@
 	 * console.log(arr);  //  [ 1, 3, 5, 7, 9 ]
 	 * 
 	 */
-	function remove$1 (arr, fn) {
+	function remove (arr, fn) {
 	    let cache = [];
 
 	    for (let i = 0; i < arr.length; i++) {
@@ -2965,17 +3003,17 @@
 	        }
 	    }
 
-	    pull$1( arr, ...unique$1(cache) );
+	    pull( arr, ...unique(cache) );
 
 	    return cache;
 	}
 
 
 
-	var remove_1 = remove$1;
+	var remove_1 = remove;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Number} num number
 	 * @returns {String}
 	 */
@@ -2993,7 +3031,7 @@
 
 	var _toCurrencied = toCurrencied$1;
 
-	const map$1 = map_1,
+	const map = map_1,
 	        toCurrencied = _toCurrencied;
 
 
@@ -3016,9 +3054,9 @@
 	 * 
 	 * 
 	 */
-	function toCurrency$1(num) {
+	function toCurrency(num) {
 	    if (isFinite(num)) {
-	        return map$1(String(num).split('.'), (item, index) =>
+	        return map(String(num).split('.'), (item, index) =>
 	            index === 0 ? toCurrencied(item) : '.' + item
 	        ).join('');
 	    }
@@ -3027,7 +3065,7 @@
 
 
 
-	var toCurrency_1 = toCurrency$1;
+	var toCurrency_1 = toCurrency;
 
 	/**
 	 * 
@@ -3035,7 +3073,7 @@
 	 * 
 	 * @description 获取真值数组
 	 * 
-	 * 返回一个新数组，包含原数组只呢个的所有真值，
+	 * 返回一个新数组，包含原数组的所有真值，
 	 * 假值为：undefined, NaN, 0, false, null
 	 * 
 	 * 
@@ -3053,7 +3091,7 @@
 	 * 
 	 */
 
-	function compact$1 (arr) {
+	function compact (arr) {
 	    let cache = [];
 
 	    for (const iterate of arr) {
@@ -3067,9 +3105,9 @@
 
 
 
-	var compact_1 = compact$1;
+	var compact_1 = compact;
 
-	const filter$1 = filter_1;
+	const filter$2 = filter_1;
 
 
 
@@ -3077,7 +3115,7 @@
 	 * 
 	 * @module withOut
 	 * 
-	 * @description 移除所有等于calue的值
+	 * @description 不改变原数组，返回一个去除给定值的新数组
 	 * 
 	 * 返回一个新数组，其中包含所有不等于value的值
 	 * 
@@ -3094,17 +3132,17 @@
 	 * console.log( _.withOut(arr, 1, 3) );
 	 * 
 	 */
-	function withOut$1 (arr, ...values) {
-	    return filter$1(arr, item => !values.includes(item));
+	function withOut (arr, ...values) {
+	    return filter$2(arr, item => !values.includes(item));
 	}
 
 
-	var withOut_1 = withOut$1;
+	var withOut_1 = withOut;
 
-	const random$3 = random_1;
+	const random$2 = random_1;
 
 	/**
-	 * 
+	 * @private
 	 * @param {Array} arr array
 	 * @returns {any}
 	 */
@@ -3116,7 +3154,7 @@
 	    } else if (len === 1) {
 	        return arr[0];
 	    } else {
-	        return arr[ random$3(0, len - 1) ];
+	        return arr[ random$2(0, len - 1) ];
 	    }
 	}
 
@@ -3124,11 +3162,11 @@
 	var _arraySample = arraySample$1;
 
 	const arraySample = _arraySample,
-	    isArray$4 = isArray_1,
-	    isMap$4 = isMap_1,
-	    isSet$4 = isSet_1,
-	    isPlainObject$4 = isPlainObject_1,
-	    isString$4 = isString_1;
+	    isArray$3 = isArray_1,
+	    isMap$3 = isMap_1,
+	    isSet$3 = isSet_1,
+	    isPlainObject$3 = isPlainObject_1,
+	    isString$3 = isString_1;
 
 	/**
 	 *
@@ -3154,14 +3192,14 @@
 	 *
 	 */
 
-	function sample$1(target) {
+	function sample(target) {
 	    let cache = null;
 
-	    if (isArray$4(target) || isString$4(target)) {
+	    if (isArray$3(target) || isString$3(target)) {
 	        cache = target;
-	    } else if (isPlainObject$4(target)) {
+	    } else if (isPlainObject$3(target)) {
 	        cache = Object.keys(target);
-	    } else if (isMap$4(target) || isSet$4(target)) {
+	    } else if (isMap$3(target) || isSet$3(target)) {
 	        cache = Array.from(target.keys());
 	    } else {
 	        return target;
@@ -3170,14 +3208,14 @@
 	    return arraySample(cache);
 	}
 
-	var sample_1 = sample$1;
+	var sample_1 = sample;
 
-	const random$2 = random_1,
-	    isArray$3 = isArray_1,
-	    isMap$3 = isMap_1,
-	    isSet$3 = isSet_1,
-	    isPlainObject$3 = isPlainObject_1,
-	    isString$3 = isString_1;
+	const random$1 = random_1,
+	    isArray$2 = isArray_1,
+	    isMap$2 = isMap_1,
+	    isSet$2 = isSet_1,
+	    isPlainObject$2 = isPlainObject_1,
+	    isString$2 = isString_1;
 
 	/**
 	 *
@@ -3204,16 +3242,16 @@
 	 * console.log(_.sampleSize(arr, 100));
 	 *
 	 */
-	function sampleSize$1(target, num) {
+	function sampleSize(target, num) {
 	    let cache = null;
 
-	    if (isArray$3(target)) {
+	    if (isArray$2(target)) {
 	        cache = target.slice();
-	    } else if (isPlainObject$3(target)) {
+	    } else if (isPlainObject$2(target)) {
 	        cache = Object.keys(target);
-	    } else if (isMap$3(target) || isSet$3(target)) {
+	    } else if (isMap$2(target) || isSet$2(target)) {
 	        cache = Array.from(target.keys());
-	    } else if (isString$3(target)) {
+	    } else if (isString$2(target)) {
 	        cache = target.split('');
 	    } else {
 	        return target;
@@ -3224,7 +3262,7 @@
 	    let result = [];
 
 	    for (let i = 0; i < num; i++) {
-	        let index = random$2(0, cache.length - 1),
+	        let index = random$1(0, cache.length - 1),
 	            value = cache[index];
 	        result.push(value);
 	        cache.splice(index, 1);
@@ -3233,13 +3271,13 @@
 	    return result;
 	}
 
-	var sampleSize_1 = sampleSize$1;
+	var sampleSize_1 = sampleSize;
 
-	const isArray$2 = isArray_1,
-	    isMap$2 = isMap_1,
-	    isSet$2 = isSet_1,
-	    isPlainObject$2 = isPlainObject_1,
-	    isString$2 = isString_1;
+	const isArray$1 = isArray_1,
+	    isMap$1 = isMap_1,
+	    isSet$1 = isSet_1,
+	    isPlainObject$1 = isPlainObject_1,
+	    isString$1 = isString_1;
 
 	/**
 	 *
@@ -3261,14 +3299,14 @@
 	 * console.log(_.size(o));
 	 *
 	 */
-	function size$1(target) {
+	function size(target) {
 	    let len = 0;
 
-	    if (isArray$2(target) || isString$2(target)) {
+	    if (isArray$1(target) || isString$1(target)) {
 	        len = target.length;
-	    } else if (isPlainObject$2(target)) {
+	    } else if (isPlainObject$1(target)) {
 	        len = Object.keys(target).length;
-	    } else if (isMap$2(target) || isSet$2(target)) {
+	    } else if (isMap$1(target) || isSet$1(target)) {
 	        len = Array.from(target.keys()).length;
 	    } else {
 	        return target;
@@ -3277,15 +3315,15 @@
 	    return len;
 	}
 
-	var size_1 = size$1;
+	var size_1 = size;
 
-	const forEach$1 = forEach_1,
-	    random$1 = random_1,
-	    isArray$1 = isArray_1,
-	    isMap$1 = isMap_1,
-	    isSet$1 = isSet_1,
-	    isPlainObject$1 = isPlainObject_1,
-	    isString$1 = isString_1;
+	const forEach$4 = forEach_1,
+	    random = random_1,
+	    isArray = isArray_1,
+	    isMap = isMap_1,
+	    isSet = isSet_1,
+	    isPlainObject = isPlainObject_1,
+	    isString = isString_1;
 
 	/**
 	 *
@@ -3312,29 +3350,29 @@
 	 * console.log(_.shuffle(str));
 	 *
 	 */
-	function shuffle$1(target) {
+	function shuffle(target) {
 	    let cache = null,
 	        result = null,
 	        len = 0;
 
-	    if (isArray$1(target)) {
+	    if (isArray(target)) {
 	        result = [];
 	        cache = target.slice();
 	        len = cache.length;
 
-	        forEach$1(len, () => {
-	            let i = random$1(0, len - 1);
+	        forEach$4(len, () => {
+	            let i = random(0, len - 1);
 	            result.push(cache[i]);
 	            cache.splice(i, 1);
 	            len--;
 	        });
-	    } else if (isPlainObject$1(target)) {
+	    } else if (isPlainObject(target)) {
 	        result = {};
 	        cache = Object.keys(target);
 	        len = cache.length;
 
-	        forEach$1(len, () => {
-	            let i = random$1(0, len - 1),
+	        forEach$4(len, () => {
+	            let i = random(0, len - 1),
 	                key = cache[i],
 	                value = target[key];
 
@@ -3342,13 +3380,13 @@
 	            cache.splice(i, 1);
 	            len--;
 	        });
-	    } else if (isMap$1(target)) {
+	    } else if (isMap(target)) {
 	        result = new Map();
 	        cache = Array.from(target.keys());
 	        len = cache.length;
 
-	        forEach$1(len, () => {
-	            let i = random$1(0, len - 1),
+	        forEach$4(len, () => {
+	            let i = random(0, len - 1),
 	                key = cache[i],
 	                value = target.get(key);
 
@@ -3356,26 +3394,26 @@
 	            cache.splice(i, 1);
 	            len--;
 	        });
-	    } else if (isSet$1(target)) {
+	    } else if (isSet(target)) {
 	        result = new Set();
 	        cache = Array.from(target.keys());
 	        len = cache.length;
 
-	        forEach$1(len, () => {
-	            let i = random$1(0, len - 1),
+	        forEach$4(len, () => {
+	            let i = random(0, len - 1),
 	                value = cache[i];
 
 	            result.add(value);
 	            cache.splice(i, 1);
 	            len--;
 	        });
-	    } else if (isString$1(target)) {
+	    } else if (isString(target)) {
 	        result = '';
 	        cache = target.split('');
 	        len = cache.length;
 
-	        forEach$1(len, () => {
-	            let i = random$1(0, len - 1),
+	        forEach$4(len, () => {
+	            let i = random(0, len - 1),
 	                value = cache[i];
 
 	            result += value;
@@ -3389,7 +3427,38 @@
 	    return result;
 	}
 
-	var shuffle_1 = shuffle$1;
+	var shuffle_1 = shuffle;
+
+	const isWindow$1 = isWindow_1,
+	        isNodeEnv$3 = isNodeEnv_1;
+
+
+	/**
+	 * @private
+	 * @description 获取全局对象
+	 * 
+	 * 若是globalThis存在使用globalThis，否则根据环境使用对应的方式获取全局对象
+	 * 
+	 * @returns {Object} 全局对象
+	 */
+	function _globalThis$3 () {
+	    if ( typeof globalThis !== 'undefined' ) {
+	        return globalThis;
+	    }
+	    if ( isWindow$1() ) {
+	        return window;
+	    }
+	    if ( isNodeEnv$3() ) {
+	        return commonjsGlobal;
+	    }
+	}
+
+
+	var _globalThis_1 = _globalThis$3;
+
+	const _globalThis$2 = _globalThis_1;
+
+
 
 	/**
 	 * 
@@ -3421,7 +3490,7 @@
 	 * button.addEventListener('click', exec);
 	 * 
 	 */
-	function before$1 (fn, count, point=globalThis) {
+	function before (fn, count, point=_globalThis$2()) {
 	    function* generateSequence() {
 	        for (let i = 0; i < count; i++) {
 	            yield fn.call(point);
@@ -3436,7 +3505,10 @@
 	}
 
 
-	var before_1 = before$1;
+	var before_1 = before;
+
+	const _globalThis$1 = _globalThis_1;
+
 
 	/**
 	 * 
@@ -3465,7 +3537,7 @@
 	 * button.addEventListener('click', exec);
 	 * 
 	 */
-	function after$1 (fn, count, point=globalThis) {
+	function after (fn, count, point=_globalThis$1()) {
 	    function* generateSequence() {
 	        for (let i = 0; i < count; i++) {
 	            yield;
@@ -3482,7 +3554,9 @@
 	}
 
 
-	var after_1 = after$1;
+	var after_1 = after;
+
+	const _globalThis = _globalThis_1;
 
 	/**
 	 * 
@@ -3513,16 +3587,16 @@
 	 * let timerId = delay(obj.introduction, 1000, [], obj);
 	 * 
 	 */
-	function delay$1 (fn, wait, args, point=globalThis) {
+	function delay (fn, wait, args, point=_globalThis()) {
 	    return setTimeout(() => {
 	        fn.apply(point, args);
 	    }, wait);
 	}
 
 
-	var delay_1 = delay$1;
+	var delay_1 = delay;
 
-	const checkedType$7 = checkedType_1;
+	const checkedType$6 = checkedType_1;
 
 	/**
 	 * 
@@ -3546,15 +3620,15 @@
 	 * _.isBoolean(false)
 	 * 
 	 */
-	function isBoolean$1 (value) {
-	    return (typeof value === 'boolean') || (checkedType$7(value) === 'Boolean');
+	function isBoolean (value) {
+	    return (typeof value === 'boolean') || (checkedType$6(value) === 'Boolean');
 	}
 
 
-	var isBoolean_1 = isBoolean$1;
+	var isBoolean_1 = isBoolean;
 
-	const checkedType$6 = checkedType_1,
-	        isObjectLike$5 = isObjectLike_1;
+	const checkedType$5 = checkedType_1,
+	        isObjectLike$4 = isObjectLike_1;
 
 
 
@@ -3578,15 +3652,15 @@
 	 * console.log(_.isSymbol(Object(Symbol("foo"))))
 	 * 
 	 */
-	function isSymbol$1 (value) {
+	function isSymbol (value) {
 	    return (typeof value === 'symbol') ||
-	            ( isObjectLike$5(value) && checkedType$6(value) === 'Symbol' );
+	            ( isObjectLike$4(value) && checkedType$5(value) === 'Symbol' );
 	}
 
 
 
 
-	var isSymbol_1 = isSymbol$1;
+	var isSymbol_1 = isSymbol;
 
 	/**
 	 * 
@@ -3609,12 +3683,12 @@
 	 * 
 	 * 
 	 */
-	function isUndefined$3 (value) {
+	function isUndefined$2 (value) {
 	    return typeof value === 'undefined';
 	}
 
 
-	var isUndefined_1 = isUndefined$3;
+	var isUndefined_1 = isUndefined$2;
 
 	/**
 	 * 
@@ -3634,24 +3708,24 @@
 	 * console.log(_.isNull(null));
 	 * 
 	 */
-	function isNull$3 (value) {
+	function isNull$2 (value) {
 	    return value === null;
 	}
 
 
-	var isNull_1 = isNull$3;
+	var isNull_1 = isNull$2;
 
-	const isWindow$1 = isWindow_1,
-	        isNodeEnv$3 = isNodeEnv_1;
+	const isWindow = isWindow_1,
+	        isNodeEnv$2 = isNodeEnv_1;
 
 	function root$1 () {
-	    if (globalThis) {
+	    if (typeof globalThis !== 'undefined') {
 	        return globalThis;
 	    }
-	    if ( isWindow$1() ) {
+	    if ( isWindow() ) {
 	        return window;
 	    }
-	    if ( isNodeEnv$3() ) {
+	    if ( isNodeEnv$2() ) {
 	        return commonjsGlobal;
 	    }
 	}
@@ -3661,10 +3735,12 @@
 
 	const root = _root;
 
-
+	/**
+	 * @private
+	 */
 	var _nativeIsFinite = root.isFinite;
 
-	const isNumber$1 = isNumber_1;
+	const isNumber = isNumber_1;
 	const nativeIsFinite = _nativeIsFinite;
 
 
@@ -3691,14 +3767,14 @@
 	 */
 
 	const _isFinite = function (value) {
-	    return isNumber$1(value) && nativeIsFinite(value);
+	    return isNumber(value) && nativeIsFinite(value);
 	};
 
 
 	var _isFinite_1 = _isFinite;
 
-	const checkedType$5 = checkedType_1,
-	        isObjectLike$4 = isObjectLike_1;
+	const checkedType$4 = checkedType_1,
+	        isObjectLike$3 = isObjectLike_1;
 
 
 
@@ -3729,19 +3805,19 @@
 	 * console.log( isBigInt(bigInt3) );
 	 * 
 	 */
-	function isBigInt$1 (value) {
+	function isBigInt (value) {
 	    return (typeof value === 'bigint') ||
-	            ( isObjectLike$4(value) && checkedType$5(value) === 'BigInt' );
+	            ( isObjectLike$3(value) && checkedType$4(value) === 'BigInt' );
 	}
 
 
 
 
 
-	var isBigInt_1 = isBigInt$1;
+	var isBigInt_1 = isBigInt;
 
-	const checkedType$4 = checkedType_1,
-	        isObject$1 = isObject_1;
+	const checkedType$3 = checkedType_1,
+	        isObject = isObject_1;
 
 	/**
 	 * 
@@ -3762,17 +3838,17 @@
 	 * 
 	 * 
 	 */
-	function isFunction$1 (value) {
+	function isFunction (value) {
 	    return (typeof value === 'function') ||
-	            (isObject$1(value) && checkedType$4(value) === 'Function');
+	            (isObject(value) && checkedType$3(value) === 'Function');
 	}
 
 
 
-	var isFunction_1 = isFunction$1;
+	var isFunction_1 = isFunction;
 
-	const isUndefined$2 = isUndefined_1,
-	    isNull$2 = isNull_1;
+	const isUndefined$1 = isUndefined_1,
+	    isNull$1 = isNull_1;
 
 	/**
 	 *
@@ -3803,17 +3879,17 @@
 	 * console.log(_.isTrueValue('0'));
 	 *
 	 */
-	function isTrueValue$1(value) {
+	function isTrueValue(value) {
 	    return (
-	        !isUndefined$2(value) && !isNull$2(value) && value !== 0 && value !== false
+	        !isUndefined$1(value) && !isNull$1(value) && value !== 0 && value !== false
 	    );
 	}
 
 
-	var isTrueValue_1 = isTrueValue$1;
+	var isTrueValue_1 = isTrueValue;
 
-	const isUndefined$1 = isUndefined_1,
-	        isNull$1 = isNull_1;
+	const isUndefined = isUndefined_1,
+	        isNull = isNull_1;
 
 	/**
 	 * 
@@ -3838,9 +3914,9 @@
 	 * 
 	 * 
 	 */
-	function isFalseValue$1 (value) {
-	    return isUndefined$1(value) ||
-	            isNull$1(value) ||
+	function isFalseValue (value) {
+	    return isUndefined(value) ||
+	            isNull(value) ||
 	            value === 0 ||
 	            value === false;
 	}
@@ -3849,11 +3925,11 @@
 
 
 
-	var isFalseValue_1 = isFalseValue$1;
+	var isFalseValue_1 = isFalseValue;
 
-	const checkedType$3 = checkedType_1,
-	    isNodeEnv$2 = isNodeEnv_1,
-	    isObjectLike$3 = isObjectLike_1,
+	const checkedType$2 = checkedType_1,
+	    isNodeEnv$1 = isNodeEnv_1,
+	    isObjectLike$2 = isObjectLike_1,
 	    nodeUtil$1 = _nodeUtil;
 
 
@@ -3875,18 +3951,18 @@
 	 * console.log(_.isWeakMap(new WeakMap()))
 	 * 
 	 */
-	function isWeakMap$1 (value) {
-	    return isNodeEnv$2() ?
+	function isWeakMap (value) {
+	    return isNodeEnv$1() ?
 	            nodeUtil$1.isWeakMap(value) :
-	            isObjectLike$3(value) && checkedType$3(value) === 'WeakMap';
+	            isObjectLike$2(value) && checkedType$2(value) === 'WeakMap';
 	}
 
 
-	var isWeakMap_1 = isWeakMap$1;
+	var isWeakMap_1 = isWeakMap;
 
-	const checkedType$2 = checkedType_1,
-	    isNodeEnv$1 = isNodeEnv_1,
-	    isObjectLike$2 = isObjectLike_1,
+	const checkedType$1 = checkedType_1,
+	    isNodeEnv = isNodeEnv_1,
+	    isObjectLike$1 = isObjectLike_1,
 	    nodeUtil = _nodeUtil;
 
 	/**
@@ -3906,16 +3982,16 @@
 	 * console.log(_.isWeakSet(new WeakSet()))
 	 *
 	 */
-	function isWeakSet$1(value) {
-	    return isNodeEnv$1()
+	function isWeakSet(value) {
+	    return isNodeEnv()
 	        ? nodeUtil.isWeakSet(value)
-	        : isObjectLike$2(value) && checkedType$2(value) === 'WeakSet';
+	        : isObjectLike$1(value) && checkedType$1(value) === 'WeakSet';
 	}
 
-	var isWeakSet_1 = isWeakSet$1;
+	var isWeakSet_1 = isWeakSet;
 
-	const checkedType$1 = checkedType_1,
-	        isObjectLike$1 = isObjectLike_1;
+	const checkedType = checkedType_1,
+	        isObjectLike = isObjectLike_1;
 
 
 	/**
@@ -3933,137 +4009,611 @@
 	 * console.log(_.isError(new Error()))
 	 * 
 	 */
-	function isError$1 (value) {
-	    return isObjectLike$1(value) && checkedType$1(value) === 'Error';
+	function isError (value) {
+	    return isObjectLike(value) && checkedType(value) === 'Error';
 	}
 
 
-	var isError_1 = isError$1;
+	var isError_1 = isError;
 
-	const checkedType = checkedType_1,
-	    curry = curry_1,
-	    deepClone = deepClone_1,
-	    isInContainer = isInContainer_1,
-	    debounce = debounce_1,
-	    throttle = throttle_1,
-	    random = random_1,
-	    forEach = forEach_1,
-	    forEachRight = forEachRight_1,
-	    filter = filter_1,
-	    map = map_1,
-	    find = find_1,
-	    findRight = findRight_1,
-	    every = every_1,
-	    some = some_1,
-	    reduce = reduce_1,
-	    reduceRight = reduceRight_1,
-	    swapIndex = swapIndex_1,
-	    camelCase = camelCase_1,
-	    toUpper = toUpper_1,
-	    upperFirst = upperFirst_1,
-	    toLower = toLower_1,
-	    pull = pull_1,
-	    unique = unique_1,
-	    remove = remove_1,
-	    toCurrency = toCurrency_1,
-	    compact = compact_1,
-	    withOut = withOut_1,
-	    sample = sample_1,
-	    sampleSize = sampleSize_1,
-	    size = size_1,
-	    shuffle = shuffle_1,
-	    before = before_1,
-	    after = after_1,
-	    delay = delay_1,
-	    isArray = isArray_1,
-	    isObject = isObject_1,
-	    isNaN = _isNaN,
-	    isBoolean = isBoolean_1,
-	    isNumber = isNumber_1,
-	    isObjectLike = isObjectLike_1,
-	    isString = isString_1,
-	    isSymbol = isSymbol_1,
-	    isUndefined = isUndefined_1,
-	    isNull = isNull_1,
-	    isFinite$1 = _isFinite_1,
-	    isBigInt = isBigInt_1,
-	    isFunction = isFunction_1,
-	    isTrueValue = isTrueValue_1,
-	    isFalseValue = isFalseValue_1,
-	    isWindow = isWindow_1,
-	    isNodeEnv = isNodeEnv_1,
-	    isDate = isDate_1,
-	    isPlainObject = isPlainObject_1,
-	    isMap = isMap_1,
-	    isSet = isSet_1,
-	    isWeakMap = isWeakMap_1,
-	    isWeakSet = isWeakSet_1,
-	    isError = isError_1,
-	    isRegExp = isRegExp_1;
+	const reduce$c = reduce_1;
 
 
+	/**
+	 * 
+	 * @module add
+	 * 
+	 * @description 求所有参数的和
+	 * 
+	 * 对于参数列表中的任何类型，都会尝试相加，所以可能会有强制类型转换
+	 * 
+	 * @param  {...any} args 参数   
+	 * @returns {Number}
+	 * 
+	 * @example
+	 * 
+	 * // 'abc'
+	 * console.log(_.add('a', 'b', 'c'))
+	 * 
+	 * // 6
+	 * console.log(_.add(1, 2, 3))
+	 * 
+	 */
+	function add(...args) {
+	    return reduce$c(args, (pre, cur) => pre + cur);
+	}
+
+
+
+	var add_1 = add;
+
+	const reduce$b = reduce_1;
+
+
+	/**
+	 * 
+	 * @module subtract
+	 * 
+	 * @description 集合内所有元素的差
+	 * 
+	 * @param {Array | Object | Map | Set} collection 集合
+	 * @returns {Number}
+	 * 
+	 * 
+	 * @example
+	 * 
+	 * // 0
+	 * console.log（_.subtract([3, 2, 1]))
+	 * 
+	 * 
+	 */
+	function subtract(collection) {
+	    return reduce$b(collection, (pre, cur) => pre - cur);
+	}
+
+
+
+
+
+
+
+
+	var subtract_1 = subtract;
+
+	const reduce$a = reduce_1,
+	        forEach$3 = forEach_1;
+
+
+
+	/**
+	 * 
+	 * @module subtractBy
+	 * 
+	 * @description 集合内元素的差
+	 * 
+	 * 接受一个函数作为第二参数，对集合内每个元素调用，用来决定求值的标准
+	 * 
+	 * 
+	 * @param {Array | Object | Map | Set} collection 集合
+	 * @param {Function} iterator 迭代函数  
+	 * @returns {Number}
+	 * 
+	 * 
+	 * @example
+	 * 
+	 * let obj = {
+	 * name: [1, 2, 3],
+	 * age: [4, 5, 6],
+	 * color: [7, 8, 9]
+	 * };
+	 * 
+	 * let objf = (o) => o[0];
+	 * 
+	 * // -10
+	 * console.log(_.subtractBy(obj, objf));
+	 * 
+	 * 
+	 * 
+	 * let arr = [
+	 * {age: 30},
+	 * {name: 'xxx'},
+	 * {age: 20}
+	 * ];
+	 * 
+	 * let arrf = (o) => o.age;
+	 * 
+	 * 
+	 * // 10
+	 * console.log(_.subtractBy(arr, arrf));
+	 * 
+	 */
+	function subtractBy (collection, iterator) {
+	    let arr = [];
+
+	    forEach$3(collection, (item, index, coll) => {
+	        let temp = iterator(item);
+
+	        if ( temp ) {
+	            arr.push(temp);
+	        }
+	    });
+
+
+	    return reduce$a(arr, (pre, cur) => {
+	        return pre - cur;
+	    });
+	}
+
+
+
+
+
+	var subtractBy_1 = subtractBy;
+
+	const reduce$9 = reduce_1;
+
+
+	/**
+	 * 
+	 * @module sum
+	 * 
+	 * @description 集合内所有值的和
+	 * 
+	 * @param {Array | Object | Map | Set } collection 集合 
+	 * @returns {Number}
+	 * 
+	 * 
+	 * @example
+	 * 
+	 * // 6
+	 * console.log(_.sum([1, 2, 3]))
+	 * 
+	 */
+	function sum (collection) {
+	    return reduce$9(collection, (pre, cur) => pre + cur);
+	}
+
+
+
+	var sum_1 = sum;
+
+	const forEach$2 = forEach_1;
+	const reduce$8 = reduce_1;
+
+
+	/**
+	 * 
+	 * @module sumBy
+	 * 
+	 * @description 集合内元素的和
+	 * 
+	 * 接受一个函数作为第二参数，用来决定求值的标准
+	 * 
+	 * 
+	 * @param {Array | Object | Map | Set} collection 一个集合
+	 * @param {Function} iterator 用来迭代的函数
+	 * @returns {Number}
+	 * 
+	 * 
+	 * @example
+	 * 
+	 * let arr = [
+	 * {age: 30},
+	 * {name: 'xxx'},
+	 * {age: 20}
+	 * ];
+	 * 
+	 * let arrf = (o) => o.age;
+	 * 
+	 * // 50
+	 * console.log(_.sumBy(arr, arrf))
+	 * 
+	 */
+	function sumBy (collection, iterator) {
+	    let arr = [];
+
+	    forEach$2(collection, item => {
+	        let temp = iterator(item);
+
+	        if (temp) {
+	            arr.push(temp);
+	        }
+	    });
+
+	    return reduce$8(arr, (pre, cur) => pre + cur);
+	}
+
+
+	var sumBy_1 = sumBy;
+
+	const reduce$7 = reduce_1;
+
+
+	/**
+	 * 
+	 * @module multiply
+	 * 
+	 * @description 求集合的乘积
+	 * 
+	 * 
+	 * 
+	 * 
+	 * @param {Array | Object | Map | Set} collection 集合
+	 * @returns {Number}
+	 * 
+	 * @example
+	 * 
+	 * // 24
+	 * console.log(_.multiply([2, 3, 4]))
+	 * 
+	 */
+	function multiply (collection) {
+	    return reduce$7(collection, (pre, cur) => pre * cur);
+	}
+
+
+	var multiply_1 = multiply;
+
+	const forEach$1 = forEach_1;
+	const reduce$6 = reduce_1;
+
+
+
+	/**
+	 * 
+	 * @module multiplyBy
+	 * 
+	 * @description 集合的乘积
+	 * 
+	 * 接受一个函数作为第二参数，用来决定求值的标准
+	 * 
+	 * @param {Array | Map | Set | Object} collection 集合
+	 * @param {Function} iterator 迭代函数
+	 * @returns {Number}
+	 * 
+	 * 
+	 * @example
+	 * 
+	 * let arr = [
+	 * {age: 30},
+	 * {name: 'xxx'},
+	 * {age: 20}
+	 * ];
+	 * let arrf = (o) => o.age;
+	 * 
+	 * // 600
+	 * console.log(_.multiplyBy(arr, arrf))
+	 * 
+	 * 
+	 */
+
+	function multiplyBy (collection, iterator) {
+	    let arr = [];
+
+	    forEach$1(collection, item => {
+	        let temp = iterator(item);
+
+	        if (temp) {
+	            arr.push(temp);
+	        }
+	    });
+
+	    return reduce$6(arr, (pre, cur) => pre * cur);
+	}
+
+
+	var multiplyBy_1 = multiplyBy;
+
+	const reduce$5 = reduce_1;
+
+
+	/**
+	 * 
+	 * @module divide
+	 * 
+	 * @description 求商
+	 * 
+	 * 
+	 * 
+	 * @param {Array | Object | Map | Set} collection 集合
+	 * @returns {Boolean}
+	 * 
+	 * 
+	 * @example
+	 * 
+	 * // 2
+	 * console.log(_.divide([4, 2]));
+	 * 
+	 */
+	function divide (collection) {
+	    return reduce$5(collection, (pre, cur) => pre / cur);
+	}
+
+
+
+	var divide_1 = divide;
+
+	const forEach = forEach_1;
+	const reduce$4 = reduce_1;
+
+
+
+	/**
+	 * 
+	 * @module divideBy
+	 * 
+	 * @description 求商
+	 * 
+	 * 接受一个函数作为第二参数，对集合内每个元素调用，用来决定求值的标准
+	 * 
+	 * @param {Array | Object | Map | Set} collection 集合
+	 * @param {Function} iterator 迭代函数
+	 * @returns {Number}
+	 * 
+	 * 
+	 * @example
+	 * 
+	 * let arr = [
+	 * {age: 30},
+	 * {name: 'xxx'},
+	 * {age: 30}
+	 * ];
+	 * 
+	 * let arrf = (o) => o.age;
+	 * 
+	 * 
+	 * // 1
+	 * console.log(_.divideBy(arr , arrf))
+	 * 
+	 */
+	function divideBy (collection, iterator) {
+	    let arr = [];
+
+	    forEach(collection, item => {
+	        let temp = iterator(item);
+
+	        if (temp) {
+	            arr.push(temp);
+	        }
+	    });
+
+	    return reduce$4(arr, (pre, cur) => pre / cur);
+	}
+
+
+	var divideBy_1 = divideBy;
+
+	const reduce$3 = reduce_1;
+
+
+	/**
+	 * 
+	 * @module max
+	 * 
+	 * @description 集合的最大值
+	 * 
+	 * 
+	 * @param {Array | Object | Map | Set} collection 集合
+	 * @returns {Number | String}
+	 * 
+	 * 
+	 * @example
+	 * 
+	 * // 3
+	 * console.log(_.max([1, 2, 3]))
+	 * 
+	 * // c
+	 * console.log(_.max({'a', 'b', 'c'}))
+	 * 
+	 */
+	function max (collection) {
+	    return reduce$3(collection, (pre, cur) => {
+	        return pre > cur ?
+	                pre :
+	                cur;
+	    });
+	}
+
+
+	var max_1 = max;
+
+	const filter$1 = filter_1;
+	const reduce$2 = reduce_1;
+
+
+
+	/**
+	 * 
+	 * @module maxBy
+	 * 
+	 * @description 最大值
+	 * 
+	 * 接受一个函数作为第二参数，用来决定求值的标准
+	 * 
+	 * @param {Array | Object | Map | Set} collection 集合
+	 * @param {Function} iterator 迭代函数
+	 * @returns {any}
+	 * 
+	 * @example
+	 * 
+	 * let arr = [
+	 * {age: 30},
+	 * {name: 'xxx'},
+	 * {age: 20}
+	 * ];
+	 * 
+	 * let arrf = (o) => o.age;
+	 * 
+	 * 
+	 * // {age: 30}
+	 * console.log(_.maxBy(arr, arrf));
+	 * 
+	 */
+	function maxBy (collection, iterator) {
+
+	    let arr = filter$1(collection, item => {
+	        return iterator(item);
+	    });
+
+	    return reduce$2(arr, (pre, cur) => {
+	        return iterator(pre) > iterator(cur) ?
+	                pre :
+	                cur;
+	    }, arr[0]);
+	}
+
+
+
+	var maxBy_1 = maxBy;
+
+	const reduce$1 = reduce_1;
+
+
+	/**
+	 * 
+	 * @module min
+	 * 
+	 * @description 求最小值    
+	 * 
+	 * @param {Array | Map | Set | Object} collection 集合
+	 * @returns {Number | String}
+	 * 
+	 * @example
+	 * 
+	 * 
+	 * // 0
+	 * console.log(_.min([1, 2, 3, 0]))
+	 * 
+	 */
+	function min (collection) {
+	    return reduce$1(collection, (pre, cur) => pre < cur ? pre : cur);
+	}
+
+
+
+	var min_1 = min;
+
+	const filter = filter_1;
+	const reduce = reduce_1;
+
+
+
+	/**
+	 * 
+	 * @module minBy
+	 * 
+	 * @description 最小值
+	 * 
+	 * 接受一个函数作为第二参数，用来决定求值的标准
+	 * 
+	 * @param {Array | Object | Map | Set} collection 集合
+	 * @param {Function} iterator 迭代函数
+	 * @returns {any}
+	 * 
+	 * 
+	 * @example
+	 * 
+	 * let arr = [
+	 * {age: 30},
+	 * {name: 'xxx'},
+	 * {age: 20}
+	 * ];
+	 * 
+	 * let arrf = (o) => o.age;
+	 * 
+	 * // {age: 20}
+	 * console.log(_.minBy(arr, arrf));
+	 * 
+	 */
+	function minBy (collection, iterator) {
+	    let arr = filter(collection, item => {
+	        return iterator(item);
+	    });
+
+	    return reduce(arr, (pre, cur) => {
+	        return iterator(pre) < iterator(cur) ?
+	                pre :
+	                cur;
+	    }, arr[0]);
+	}
+
+
+	var minBy_1 = minBy;
 
 	var src = {
-	    checkedType,
-	    curry,
-	    deepClone,
-	    isInContainer,
-	    debounce,
-	    throttle,
-	    random,
-	    forEach,
-	    filter,
-	    swapIndex,
-	    reduce,
-	    map,
-	    camelCase,
-	    toUpper,
-	    pull,
-	    unique,
-	    remove,
-	    find,
-	    findRight,
-	    every,
-	    some,
-	    reduceRight,
-	    toCurrency,
-	    forEachRight,
-	    upperFirst,
-	    toLower,
-	    compact,
-	    withOut,
-	    sample,
-	    sampleSize,
-	    size,
-	    shuffle,
-	    before,
-	    after,
-	    delay,
-	    isArray,
-	    isObject,
-	    isNaN,
-	    isBoolean,
-	    isNumber,
-	    isObjectLike,
-	    isString,
-	    isSymbol,
-	    isUndefined,
-	    isNull,
-	    isFinite: isFinite$1,
-	    isBigInt,
-	    isFunction,
-	    isTrueValue,
-	    isFalseValue,
-	    isWindow,
-	    isNodeEnv,
-	    isDate,
-	    isPlainObject,
-	    isMap,
-	    isSet,
-	    isWeakMap,
-	    isWeakSet,
-	    isError,
-	    isRegExp
+	    checkedType: checkedType_1,
+	    curry: curry_1,
+	    deepClone: deepClone_1,
+	    isInContainer: isInContainer_1,
+	    debounce: debounce_1,
+	    throttle: throttle_1,
+	    random: random_1,
+	    forEach: forEach_1,
+	    forEachRight: forEachRight_1,
+	    filter: filter_1,
+	    map: map_1,
+	    find: find_1,
+	    findRight: findRight_1,
+	    every: every_1,
+	    some: some_1,
+	    reduce: reduce_1,
+	    reduceRight: reduceRight_1,
+	    swapIndex: swapIndex_1,
+	    camelCase: camelCase_1,
+	    toUpper: toUpper_1,
+	    upperFirst: upperFirst_1,
+	    toLower: toLower_1,
+	    pull: pull_1,
+	    unique: unique_1,
+	    remove: remove_1,
+	    toCurrency: toCurrency_1,
+	    compact: compact_1,
+	    withOut: withOut_1,
+	    sample: sample_1,
+	    sampleSize: sampleSize_1,
+	    size: size_1,
+	    shuffle: shuffle_1,
+	    before: before_1,
+	    after: after_1,
+	    delay: delay_1,
+	    isArray: isArray_1,
+	    isObject: isObject_1,
+	    isNaN: _isNaN,
+	    isBoolean: isBoolean_1,
+	    isNumber: isNumber_1,
+	    isObjectLike: isObjectLike_1,
+	    isString: isString_1,
+	    isSymbol: isSymbol_1,
+	    isUndefined: isUndefined_1,
+	    isNull: isNull_1,
+	    isFinite: _isFinite_1,
+	    isBigInt: isBigInt_1,
+	    isFunction: isFunction_1,
+	    isTrueValue: isTrueValue_1,
+	    isFalseValue: isFalseValue_1,
+	    isWindow: isWindow_1,
+	    isNodeEnv: isNodeEnv_1,
+	    isDate: isDate_1,
+	    isPlainObject: isPlainObject_1,
+	    isMap: isMap_1,
+	    isSet: isSet_1,
+	    isWeakMap: isWeakMap_1,
+	    isWeakSet: isWeakSet_1,
+	    isError: isError_1,
+	    isRegExp: isRegExp_1,
+	    add: add_1,
+	    subtract: subtract_1,
+	    subtractBy: subtractBy_1,
+	    sum: sum_1,
+	    sumBy: sumBy_1,
+	    multiply: multiply_1,
+	    multiplyBy: multiplyBy_1,
+	    divide: divide_1,
+	    divideBy: divideBy_1,
+	    max: max_1,
+	    maxBy: maxBy_1,
+	    min: min_1,
+	    minBy: minBy_1,
 	};
 
 	return src;

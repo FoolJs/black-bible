@@ -1,6 +1,6 @@
 
 /**
- * 
+ * @private
  * @param {String} str string
  * @param {Function} fn func
  * @param {any} accumulator 

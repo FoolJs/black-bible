@@ -1,6 +1,8 @@
 
 /**
- * 删除数组中所有等于item的元素，该方法在原数组修改
+ * 
+ * @private
+ * @description 删除数组中所有等于item的元素，该方法在原数组修改
  * 
  * @param {Array} arr array
  * @param {any} item item

@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @description 数字版filter
  * @param {Number} num number
  * @param {Function} cb 调用tnum次cb

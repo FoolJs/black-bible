@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @description 数组版map迭代方法
  * @param {Array} arr 数组
  * @param {Function} fn func

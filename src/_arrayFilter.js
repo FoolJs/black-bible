@@ -1,5 +1,8 @@
 
 /**
+ * 
+ * @private
+ * 
  * @description 数组版filter
  * @param {Array} arr array
  * @param {Function} cb 对每个元素调用的函数

@@ -16,7 +16,7 @@ function isWindow () {
         return false;
     }
 
-    if (globalThis) {
+    if (typeof globalThis !== 'undefined') {
         return globalThis === window;
     }
 

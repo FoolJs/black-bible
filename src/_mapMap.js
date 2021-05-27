@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @description map版map
  * @param {Map} map map
  * @param {Function} fn func

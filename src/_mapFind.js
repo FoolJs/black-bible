@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Map} map map
  * @param {Function} predicate 断言函数
  * @param {Number} fromIndex 

@@ -2,7 +2,7 @@
 
 
 /**
- *  
+ *  @private
  * @param {Map} map map
  * @param {Function} predicate 断言
  */

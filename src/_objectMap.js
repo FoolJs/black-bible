@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Object} obj 
  * @param {Function} fn 
  * @returns {Array}

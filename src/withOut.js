@@ -6,7 +6,7 @@ const filter = require('./filter');
  * 
  * @module withOut
  * 
- * @description 移除所有等于calue的值
+ * @description 不改变原数组，返回一个去除给定值的新数组
  * 
  * 返回一个新数组，其中包含所有不等于value的值
  * 

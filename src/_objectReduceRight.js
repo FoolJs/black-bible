@@ -2,7 +2,7 @@
 
 
 /**
- * 
+ * @private
  * @param {{}} obj obj
  * @param {Function} fn func
  * @param {any} accumulator 初始值

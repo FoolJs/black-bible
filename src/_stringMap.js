@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @param {String} str 
  * @param {Function} fn 
  * @returns {Array}

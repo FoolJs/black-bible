@@ -2,6 +2,7 @@ const stringFilter = require('./_stringFilter'),
         swapElem = require('./_swapElem');
 
 /**
+ * @private
  * @description 交换字符串两个字符的位置，返回新字符串
  * @param {String} str String
  * @param {Number} i 索引

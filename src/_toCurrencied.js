@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Number} num number
  * @returns {String}
  */

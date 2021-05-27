@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Array} arr array
  * @param {Function} predicate 断言
  * @returns {Boolean}

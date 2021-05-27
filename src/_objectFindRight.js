@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Object} obj object
  * @param {Function} fn 断言函数
  * @param {Number} fromIndex 索引

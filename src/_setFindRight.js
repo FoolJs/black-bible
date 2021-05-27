@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Set} set set
  * @param {Function} fn 断言
  * @param {Number} fromIndex 索引

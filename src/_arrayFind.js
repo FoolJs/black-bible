@@ -2,6 +2,8 @@
 
 /**
  * 
+ * @private
+ * 
  * @param {Array} arr array
  * @param {Function} predicate 断言函数
  * @param {Number} fromIndex 起始索引

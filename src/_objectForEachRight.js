@@ -2,7 +2,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Object} obj obj
  * @param {Function} fn func
  * @returns {Object}

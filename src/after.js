@@ -1,4 +1,4 @@
-
+const _globalThis = require('./_globalThis');
 
 
 /**
@@ -28,7 +28,7 @@
  * button.addEventListener('click', exec);
  * 
  */
-function after (fn, count, point=globalThis) {
+function after (fn, count, point=_globalThis()) {
     function* generateSequence() {
         for (let i = 0; i < count; i++) {
             yield;

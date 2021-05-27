@@ -1,4 +1,4 @@
-
+const _globalThis = require('./_globalThis');
 
 /**
  * 
@@ -29,7 +29,7 @@
  * let timerId = delay(obj.introduction, 1000, [], obj);
  * 
  */
-function delay (fn, wait, args, point=globalThis) {
+function delay (fn, wait, args, point=_globalThis()) {
     return setTimeout(() => {
         fn.apply(point, args);
     }, wait);

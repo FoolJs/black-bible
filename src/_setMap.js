@@ -1,6 +1,6 @@
 
 /**
- * 
+ * @private
  * @param {Set} set 
  * @param {Function} fn 
  * @returns {Array}

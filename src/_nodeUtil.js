@@ -1,12 +1,13 @@
 const isNodeEnv = require('./isNodeEnv');
 
-try {
-    const util = isNodeEnv() ? require('util').types : {};
-} catch (error) {}
 
 
-
-
+/**
+ * @private
+ * @description Node的util模块
+ * 
+ * @returns {Object}
+ */
 function f() {
     try {
             return isNodeEnv() ? require('util').types : {};

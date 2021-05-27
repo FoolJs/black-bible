@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @description 字符串版filter
  * @param {String} str String
  * @param {Function} cb 对每个元素调用的函数

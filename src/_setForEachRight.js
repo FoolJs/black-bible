@@ -2,7 +2,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Set} set set
  * @param {Function} fn func
  * @returns {Set}

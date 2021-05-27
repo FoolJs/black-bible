@@ -1,6 +1,7 @@
 
 
 /**
+ * @private
  * @description 交换数组i和j位置的元素
  * @param {Array} arr 数组
  * @param {Number} i 索引

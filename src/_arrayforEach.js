@@ -1,5 +1,7 @@
 
 /**
+ * 
+ * @private
  * @description 数组版本的forEach，可以通过返回false停止执行
  * @param {Array} target 数组
  * @param {Function} cb 对数组每个元素调用的函数

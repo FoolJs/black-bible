@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @description Number版Foreach
  * @param {Number} target number
  * @param {Function} cb 调用target次cb

@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @description Set版forEach
  * @param {Set} target set
  * @param {Function} cb 对set每个元素调用的函数

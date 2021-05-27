@@ -28,7 +28,7 @@ _.curry(f, 1)(2)(3); // 6
 使用ES6模块：
 
 ```javascript
-import * as _ from 'black-bible';
+import _ from 'black-bible';
 
 function f (a, b,c) {
     return a + b + c;
@@ -52,9 +52,14 @@ _.curry(f, 1)(2)(3); // 6
 ```
 
 
+
 ## Modules
 
 <dl>
+<dt><a href="#module_add">add</a> ⇒ <code>Number</code></dt>
+<dd><p>求所有参数的和</p>
+<p>对于参数列表中的任何类型，都会尝试相加，所以可能会有强制类型转换</p>
+</dd>
 <dt><a href="#module_after">after</a> ⇒ <code>function</code></dt>
 <dd><p>函数在count次后执行</p>
 <p>限制函数在触发多少次后执行</p>
@@ -76,7 +81,7 @@ _.curry(f, 1)(2)(3); // 6
 </dd>
 <dt><a href="#module_compact">compact</a> ⇒ <code>Array</code></dt>
 <dd><p>获取真值数组</p>
-<p>返回一个新数组，包含原数组只呢个的所有真值，
+<p>返回一个新数组，包含原数组的所有真值，
 假值为：undefined, NaN, 0, false, null</p>
 </dd>
 <dt><a href="#module_curry">curry</a> ⇒ <code>function</code></dt>
@@ -99,6 +104,13 @@ Symbol属性，但是对于Symbol属性，仍然传递的是Symbol的引用</p>
 <dt><a href="#module_delay">delay</a> ⇒ <code>Object</code></dt>
 <dd><p>延时函数</p>
 <p>延时函数fn的执行wait毫秒，会返回一个定时器ID</p>
+</dd>
+<dt><a href="#module_divide">divide</a> ⇒ <code>Boolean</code></dt>
+<dd><p>求商</p>
+</dd>
+<dt><a href="#module_divideBy">divideBy</a> ⇒ <code>Number</code></dt>
+<dd><p>求商</p>
+<p>接受一个函数作为第二参数，对集合内每个元素调用，用来决定求值的标准</p>
 </dd>
 <dt><a href="#module_every">every</a> ⇒ <code>Boolean</code></dt>
 <dd><p>every迭代函数</p>
@@ -224,6 +236,27 @@ fromIndex为迭代的起点，对于数组来说，是其索引，对于对象Ma
 <p>适用于各种类型的map迭代函数，对集合的每一项调用函数fn，返回函数
 的返回值组成的数组</p>
 </dd>
+<dt><a href="#module_max">max</a> ⇒ <code>Number</code> | <code>String</code></dt>
+<dd><p>集合的最大值</p>
+</dd>
+<dt><a href="#module_maxBy">maxBy</a> ⇒ <code>any</code></dt>
+<dd><p>最大值</p>
+<p>接受一个函数作为第二参数，用来决定求值的标准</p>
+</dd>
+<dt><a href="#module_min">min</a> ⇒ <code>Number</code> | <code>String</code></dt>
+<dd><p>求最小值</p>
+</dd>
+<dt><a href="#module_minBy">minBy</a> ⇒ <code>any</code></dt>
+<dd><p>最小值</p>
+<p>接受一个函数作为第二参数，用来决定求值的标准</p>
+</dd>
+<dt><a href="#module_multiply">multiply</a> ⇒ <code>Number</code></dt>
+<dd><p>求集合的乘积</p>
+</dd>
+<dt><a href="#module_multiplyBy">multiplyBy</a> ⇒ <code>Number</code></dt>
+<dd><p>集合的乘积</p>
+<p>接受一个函数作为第二参数，用来决定求值的标准</p>
+</dd>
 <dt><a href="#module_pull">pull</a> ⇒ <code>Array</code></dt>
 <dd><p>移除数组元素</p>
 <p>删除数组中所有与给定值相等的元素，给定值可以有多个，该方法会在原数组修改，
@@ -275,6 +308,20 @@ Key，而不是Value</p>
 <p>适用于多种类型的Some函数，对对象的每一项调用函数，若是有一项使函数返回True，
 则返回True，否则返回false</p>
 </dd>
+<dt><a href="#module_subtract">subtract</a> ⇒ <code>Number</code></dt>
+<dd><p>集合内所有元素的差</p>
+</dd>
+<dt><a href="#module_subtractBy">subtractBy</a> ⇒ <code>Number</code></dt>
+<dd><p>集合内元素的差</p>
+<p>接受一个函数作为第二参数，对集合内每个元素调用，用来决定求值的标准</p>
+</dd>
+<dt><a href="#module_sum">sum</a> ⇒ <code>Number</code></dt>
+<dd><p>集合内所有值的和</p>
+</dd>
+<dt><a href="#module_sumBy">sumBy</a> ⇒ <code>Number</code></dt>
+<dd><p>集合内元素的和</p>
+<p>接受一个函数作为第二参数，用来决定求值的标准</p>
+</dd>
 <dt><a href="#module_swapIndex">swapIndex</a> ⇒ <code>Array</code> | <code>String</code></dt>
 <dd><p>交换元素位置</p>
 <p>交换数组或字符串元素的位置，对于数组，在数组本身修改，对于字符串，会返回新的字符串</p>
@@ -302,11 +349,25 @@ Key，而不是Value</p>
 <p>该方法会递归一个集合的所有深度，将集合的所有字符串转化为首字母大写形式</p>
 </dd>
 <dt><a href="#module_withOut">withOut</a> ⇒ <code>Array</code></dt>
-<dd><p>移除所有等于calue的值</p>
+<dd><p>不改变原数组，返回一个去除给定值的新数组</p>
 <p>返回一个新数组，其中包含所有不等于value的值</p>
 </dd>
 </dl>
 
+<a name="module_add"></a>
+
+## add ⇒ <code>Number</code>
+求所有参数的和对于参数列表中的任何类型，都会尝试相加，所以可能会有强制类型转换
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ...args | <code>any</code> | 参数 |
+
+**Example**  
+```js
+// 'abc'console.log(_.add('a', 'b', 'c'))// 6console.log(_.add(1, 2, 3))
+```
 <a name="module_after"></a>
 
 ## after ⇒ <code>function</code>
@@ -376,7 +437,7 @@ _.checkedType({}); //  "Object" _.checkedType([]); // "Array" _.checkedType(tr
 <a name="module_compact"></a>
 
 ## compact ⇒ <code>Array</code>
-获取真值数组返回一个新数组，包含原数组只呢个的所有真值，假值为：undefined, NaN, 0, false, null
+获取真值数组返回一个新数组，包含原数组的所有真值，假值为：undefined, NaN, 0, false, null
 
 **Returns**: <code>Array</code> - 数组中的真值元素组成的数组  
 
@@ -457,6 +518,35 @@ let obj = {     name: 'Jack',     age: 30};let o2 = _.deepClone(obj);
 **Example**  
 ```js
 let obj = {     name: 'Sun XiaoChuan',     age: 6,     introduction() {     console.log(`My name is ${this.name} I'm ${this.age} years old`)     }}// My name is sun Xiaochuan. I'm 6 years oldlet timerId = delay(obj.introduction, 1000, [], obj);
+```
+<a name="module_divide"></a>
+
+## divide ⇒ <code>Boolean</code>
+求商
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 集合 |
+
+**Example**  
+```js
+// 2console.log(_.divide([4, 2]));
+```
+<a name="module_divideBy"></a>
+
+## divideBy ⇒ <code>Number</code>
+求商接受一个函数作为第二参数，对集合内每个元素调用，用来决定求值的标准
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 集合 |
+| iterator | <code>function</code> | 迭代函数 |
+
+**Example**  
+```js
+let arr = [{age: 30},{name: 'xxx'},{age: 30}];let arrf = (o) => o.age;// 1console.log(_.divideBy(arr , arrf))
 ```
 <a name="module_every"></a>
 
@@ -769,12 +859,15 @@ let bigInt1 = 123n,     bigInt2 = BigInt(456),     bigInt3 = Object(789n);//
 ## isPlainObject ⇒ <code>Boolean</code>
 检查值是否为普通对象一个普通对象为直接通过Object构造函数或对象字面量创建的对象,一个对象若是继承了其他对象也算是普通对象
 
-**Returns**: <code>Boolean</code> - let o1 = {},     o2 = {};Object.setPrototypeOf(o1, o2);// trueconsole.log(_.isPlainObject(o1))// trueconsole.log(_.isPlainObject(o2))  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | value | <code>\*</code> | 需要检查的值 |
 
+**Example**  
+```js
+let o1 = {},     o2 = {};Object.setPrototypeOf(o1, o2);// trueconsole.log(_.isPlainObject(o1))// trueconsole.log(_.isPlainObject(o2))
+```
 <a name="module_isRegExp"></a>
 
 ## isRegExp ⇒ <code>Boolean</code>
@@ -907,6 +1000,93 @@ map迭代函数适用于各种类型的map迭代函数，对集合的每一项
 **Example**  
 ```js
 _.map(5, item => item + '号'); // [ '0号', '1号', '2号', '3号', '4号' ]_.map([1, 2, 3, 4, 5], (item, index) => index + '号'); // [ '0号', '1号', '2号', '3号', '4号' ]
+```
+<a name="module_max"></a>
+
+## max ⇒ <code>Number</code> \| <code>String</code>
+集合的最大值
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 集合 |
+
+**Example**  
+```js
+// 3console.log(_.max([1, 2, 3]))// cconsole.log(_.max({'a', 'b', 'c'}))
+```
+<a name="module_maxBy"></a>
+
+## maxBy ⇒ <code>any</code>
+最大值接受一个函数作为第二参数，用来决定求值的标准
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 集合 |
+| iterator | <code>function</code> | 迭代函数 |
+
+**Example**  
+```js
+let arr = [{age: 30},{name: 'xxx'},{age: 20}];let arrf = (o) => o.age;// {age: 30}console.log(_.maxBy(arr, arrf));
+```
+<a name="module_min"></a>
+
+## min ⇒ <code>Number</code> \| <code>String</code>
+求最小值
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Map</code> \| <code>Set</code> \| <code>Object</code> | 集合 |
+
+**Example**  
+```js
+// 0console.log(_.min([1, 2, 3, 0]))
+```
+<a name="module_minBy"></a>
+
+## minBy ⇒ <code>any</code>
+最小值接受一个函数作为第二参数，用来决定求值的标准
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 集合 |
+| iterator | <code>function</code> | 迭代函数 |
+
+**Example**  
+```js
+let arr = [{age: 30},{name: 'xxx'},{age: 20}];let arrf = (o) => o.age;// {age: 20}console.log(_.minBy(arr, arrf));
+```
+<a name="module_multiply"></a>
+
+## multiply ⇒ <code>Number</code>
+求集合的乘积
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 集合 |
+
+**Example**  
+```js
+// 24console.log(_.multiply([2, 3, 4]))
+```
+<a name="module_multiplyBy"></a>
+
+## multiplyBy ⇒ <code>Number</code>
+集合的乘积接受一个函数作为第二参数，用来决定求值的标准
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Map</code> \| <code>Set</code> \| <code>Object</code> | 集合 |
+| iterator | <code>function</code> | 迭代函数 |
+
+**Example**  
+```js
+let arr = [{age: 30},{name: 'xxx'},{age: 20}];let arrf = (o) => o.age;// 600console.log(_.multiplyBy(arr, arrf))
 ```
 <a name="module_pull"></a>
 
@@ -1067,6 +1247,64 @@ some迭代函数适用于多种类型的Some函数，对对象的每一项调�
 ```js
 let arr = [1, 2, 3, 4];console.log( _.some(arr, item => item > 3) );  // true
 ```
+<a name="module_subtract"></a>
+
+## subtract ⇒ <code>Number</code>
+集合内所有元素的差
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 集合 |
+
+**Example**  
+```js
+// 0console.log（_.subtract([3, 2, 1]))
+```
+<a name="module_subtractBy"></a>
+
+## subtractBy ⇒ <code>Number</code>
+集合内元素的差接受一个函数作为第二参数，对集合内每个元素调用，用来决定求值的标准
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 集合 |
+| iterator | <code>function</code> | 迭代函数 |
+
+**Example**  
+```js
+let obj = {name: [1, 2, 3],age: [4, 5, 6],color: [7, 8, 9]};let objf = (o) => o[0];// -10console.log(_.subtractBy(obj, objf));let arr = [{age: 30},{name: 'xxx'},{age: 20}];let arrf = (o) => o.age;// 10console.log(_.subtractBy(arr, arrf));
+```
+<a name="module_sum"></a>
+
+## sum ⇒ <code>Number</code>
+集合内所有值的和
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 集合 |
+
+**Example**  
+```js
+// 6console.log(_.sum([1, 2, 3]))
+```
+<a name="module_sumBy"></a>
+
+## sumBy ⇒ <code>Number</code>
+集合内元素的和接受一个函数作为第二参数，用来决定求值的标准
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| collection | <code>Array</code> \| <code>Object</code> \| <code>Map</code> \| <code>Set</code> | 一个集合 |
+| iterator | <code>function</code> | 用来迭代的函数 |
+
+**Example**  
+```js
+let arr = [{age: 30},{name: 'xxx'},{age: 20}];let arrf = (o) => o.age;// 50console.log(_.sumBy(arr, arrf))
+```
 <a name="module_swapIndex"></a>
 
 ## swapIndex ⇒ <code>Array</code> \| <code>String</code>
@@ -1177,7 +1415,7 @@ let arr = ['aaa', {name: 'davi'}, 20];// ['Aaa', {name: 'Davi'}, 20];console.
 <a name="module_withOut"></a>
 
 ## withOut ⇒ <code>Array</code>
-移除所有等于calue的值返回一个新数组，其中包含所有不等于value的值
+不改变原数组，返回一个去除给定值的新数组返回一个新数组，其中包含所有不等于value的值
 
 
 | Param | Type | Description |

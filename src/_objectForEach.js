@@ -1,4 +1,6 @@
 /**
+ * 
+ * @private
  * @description 对象版本的forEach
  * @param {Object} target  对象
  * @param {Function} cb 对对象每个属性调用的回调函数

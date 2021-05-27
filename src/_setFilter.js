@@ -1,4 +1,5 @@
 /**
+ * @private
  * @description set版filter
  * @param {Set} arr Set
  * @param {Function} cb 对每个元素调用的函数

@@ -1,5 +1,6 @@
 
 /**
+ * @private
  * @description map版forEach
  * @param {Map} target map
  * @param {Function} cb 对map的每个元素调用的函数

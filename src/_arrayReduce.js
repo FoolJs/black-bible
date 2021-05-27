@@ -1,6 +1,6 @@
 
 /**
- * 
+ * @private
  * @param {Array} arr arr
  * @param {Function} fn func
  * @param {any} accumulator 初始值 

@@ -2,7 +2,7 @@
 
 
 /**
- * 
+ * @private
  * @param {{}} obj object
  * @param {Function} predicate 断言函数
  * @param {Number} fromIndex 索引

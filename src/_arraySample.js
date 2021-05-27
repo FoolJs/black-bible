@@ -2,7 +2,7 @@
 const random = require('./random');
 
 /**
- * 
+ * @private
  * @param {Array} arr array
  * @returns {any}
  */

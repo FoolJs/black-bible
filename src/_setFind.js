@@ -1,6 +1,6 @@
 
 /**
- * 
+ * @private
  * @param {Set} set set
  * @param {Function} predicate 断言
  * @param {Number} fromIndex 

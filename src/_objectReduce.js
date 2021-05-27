@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Object} obj obj
  * @param {Function} fn func
  * @param {any} accumulator 

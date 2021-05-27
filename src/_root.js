@@ -2,7 +2,7 @@ const isWindow = require('./isWindow'),
         isNodeEnv = require('./isNodeEnv');
 
 function root () {
-    if (globalThis) {
+    if (typeof globalThis !== 'undefined') {
         return globalThis;
     }
     if ( isWindow() ) {

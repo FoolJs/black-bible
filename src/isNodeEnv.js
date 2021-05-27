@@ -17,7 +17,7 @@ function isNodeEnv () {
     if (isWindow()) {
         return false;
     }
-    if (globalThis) {
+    if (typeof globalThis !== 'undefined') {
         return isObjectLike(globalThis) && checkedType(globalThis) === 'global';
     }
     return isObjectLike(global) && checkedType(global) === 'global';

@@ -1,7 +1,7 @@
 
 
 /**
- * 
+ * @private
  * @param {Map} map map
  * @param {Function} fn func
  * @returns {Map}
