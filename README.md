@@ -51,8 +51,6 @@ _.curry(f, 1)(2)(3); // 6
 </script>
 ```
 
-
-
 ## Modules
 
 <dl>

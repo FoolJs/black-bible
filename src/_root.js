@@ -1,7 +1,7 @@
 const isWindow = require('./isWindow'),
         isNodeEnv = require('./isNodeEnv');
 
-function root () {
+function rooted () {
     if (typeof globalThis !== 'undefined') {
         return globalThis;
     }
@@ -14,4 +14,6 @@ function root () {
 }
 
 
-module.exports = root();
+const root = rooted();
+
+module.exports = root;

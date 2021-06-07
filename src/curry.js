@@ -1,5 +1,3 @@
-const forEach = require('./forEach');
-
 /**
  *
  * @module curry
@@ -32,24 +30,14 @@ const forEach = require('./forEach');
  *
  *
  */
-function curry (fn, ...args) {
-    if (args.length >= fn.length) {
-        return function () {
-            return fn.apply(this, args);
-        };
-    }
-    let cache = [...args];
-
+function curry(fn, ...args) {
     return function curried(...args2) {
-        forEach(args2, item => {
-            cache.push(item);
-        });
-
-        if (cache.length >= fn.length) {
-            return fn.apply(this, cache);
+        if (args.length + args2.length >= fn.length) {
+            return fn.apply(this, args.concat(args2));
         }
+
         return function (...args3) {
-            return curried.apply(this, args3);
+            return curried.apply(this, args2.concat(args3));
         };
     };
 }
